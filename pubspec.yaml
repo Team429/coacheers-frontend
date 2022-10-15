@@ -1,6 +1,11 @@
 name: coacheers
 description: A new Flutter project.
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/Coacheers.png"
+
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -32,6 +37,9 @@ dependencies:
   flutter:
     sdk: flutter
   table_calendar: ^3.0.7
+  syncfusion_flutter_datepicker: ^20.3.49
+  syncfusion_flutter_calendar: ^20.3.49
+  logger: ^1.1.0
   #kakao_flutter_sdk_user: ^1.3.0-beta.4 # 카카오 로그인
   #kakao_flutter_sdk_talk: ^1.3.0-beta.4 # 카카오톡(소셜, 메시지)
   #kakao_flutter_sdk_story: ^1.3.0-beta.4 # 카카오스토리
@@ -53,6 +61,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.10.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

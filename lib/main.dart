@@ -1,12 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'dart:math';
-
+import 'package:logger/logger.dart';
 
 int _selectedIndex = 3;
+var logger = Logger();
+
+List<Meeting> _getDataSource() {
+  final List<Meeting> meetings = <Meeting>[];
+  final DateTime today = DateTime.now();
+  final DateTime startTime =
+  DateTime(today.year, today.month, today.day, 9, 0, 0);
+  final DateTime endTime = startTime.add(const Duration(hours: 2));
+  final DateTime startTime2 =
+  DateTime(today.year, today.month, today.day - 8, 9, 0, 0);
+  final DateTime endTime2 = startTime2.add(const Duration(hours: 2));
+  final DateTime startTime3 =
+  DateTime(today.year, today.month, today.day - 14, 9, 0, 0);
+  final DateTime endTime3 = startTime3.add(const Duration(hours: 2));
+  final DateTime startTime4 =
+  DateTime(today.year, today.month, today.day - 10, 9, 0, 0);
+  final DateTime endTime4 = startTime4.add(const Duration(hours: 2));
+  final DateTime startTime5 =
+  DateTime(today.year, today.month, today.day - 4, 9, 0, 0);
+  final DateTime endTime5 = startTime5.add(const Duration(hours: 2));
+
+  meetings.add(Meeting(
+      'Conference', startTime, endTime, const Color(0xFF1ABC9C), false));
+  meetings.add(Meeting(
+      'Conference', startTime2, endTime2, const Color(0xFF1ABC9C), false));
+  meetings.add(Meeting(
+      'Conference', startTime3, endTime3, const Color(0xFF1ABC9C), false));
+  meetings.add(Meeting(
+      'Conference', startTime4, endTime4, const Color(0xFF1ABC9C), false));
+  meetings.add(Meeting(
+      'Conference', startTime5, endTime5, const Color(0xFF1ABC9C), false));
+  return meetings;
+}
 
 void main() {
   runApp(const MyApp());
+}
+
+void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+// TODO: implement your code here
 }
 
 class MyApp extends StatelessWidget {
@@ -481,9 +520,14 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -633,7 +677,7 @@ class Home extends StatelessWidget {
           ),
           Container(
             width: 200,
-            height: 385,
+            height: 360,
             margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(5),
             child: Column(
@@ -664,24 +708,36 @@ class Home extends StatelessWidget {
                   //       color: Colors.red,
                   //       width: 5,
                   //     )),
-                  child: TableCalendar(
-                    firstDay: DateTime.utc(2010, 10, 16),
-                    lastDay: DateTime.utc(2030, 3, 14),
-                    focusedDay: DateTime.now(),
-                    headerVisible: false,
-
-                    calendarBuilders:
-                    CalendarBuilders(markerBuilder: (context, date, dynamic event) {
-                      if (event.isNotEmpty) {
-                        return Container(
-                          width: 35,
-                          decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.2),
-                              shape: BoxShape.circle),
-                        );
-                      }
-                    }),
+                  child: SfCalendar(
+                    view: CalendarView.month,
+                    todayHighlightColor: Color(0xff4F98FF),
+                    cellBorderColor: Colors.white,
+                    headerHeight: 0,
+                    dataSource: MeetingDataSource(_getDataSource()),
+                    monthViewSettings: MonthViewSettings(
+                        //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+                        //showAgenda: true,
+                      appointmentDisplayCount: 1,
+                    ),
                   ),
+                  // child: TableCalendar(
+                  //   firstDay: DateTime.utc(2010, 10, 16),
+                  //   lastDay: DateTime.utc(2030, 3, 14),
+                  //   focusedDay: DateTime.now(),
+                  //   headerVisible: false,
+                  //
+                  //   calendarBuilders:
+                  //   CalendarBuilders(markerBuilder: (context, date, dynamic event) {
+                  //     if (event.isNotEmpty) {
+                  //       return Container(
+                  //         width: 35,
+                  //         decoration: BoxDecoration(
+                  //             color: Colors.blue.withOpacity(0.2),
+                  //             shape: BoxShape.circle),
+                  //       );
+                  //     }
+                  //   }),
+                  // ),
                 ),
               ],
             ),
@@ -907,32 +963,28 @@ class _MyModalPageState extends State<RecordPage> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
             child: Container(
-              constraints: BoxConstraints(maxHeight: 420),
+              constraints: BoxConstraints(maxHeight: 340),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TableCalendar(
-                      firstDay: DateTime.utc(2010, 10, 16),
-                      lastDay: DateTime.utc(2030, 3, 14),
-                      focusedDay: DateTime.now(),
-                      headerStyle: HeaderStyle(
-                        formatButtonVisible: false,
-                        titleCentered: true,
+                    Container(
+                    child: SfDateRangePicker(
+                      selectionMode: DateRangePickerSelectionMode.range,
+                      headerStyle: DateRangePickerHeaderStyle(
+                        textAlign: TextAlign.center,
                       ),
-                      calendarBuilders:
-                      CalendarBuilders(markerBuilder: (context, date, dynamic event) {
-                        if (event.isNotEmpty) {
-                          return Container(
-                            width: 35,
-                            decoration: BoxDecoration(
-                                color: Colors.blue.withOpacity(0.2),
-                                shape: BoxShape.circle),
-                          );
-                        }
-                      }),
+                      onSelectionChanged: _onSelectionChanged,
+                      showActionButtons: true,
+                      onSubmit: (date) {
+                        Navigator.pop(context);
+                      },
+                      onCancel: () {
+                        Navigator.pop(context);
+                      },
                     ),
+                    )
                   ],
                 ),
               ),
@@ -969,7 +1021,7 @@ class _MyModalPageState extends State<RecordPage> {
                   Row(
                     mainAxisAlignment : MainAxisAlignment.start,
                     children: [
-                      Text("2022.09.20 - 2020.09.26 ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                      Text("기록", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
                       IconButton(
                         icon : Image.asset('assets/calendar.png'),
                         iconSize: 24,
@@ -1094,6 +1146,48 @@ class PieChart extends CustomPainter {
   bool shouldRepaint(PieChart old) {
     return old.percentage != percentage;
   }
+}
+
+class MeetingDataSource extends CalendarDataSource {
+  MeetingDataSource(List<Meeting> source) {
+    appointments = source;
+  }
+
+  @override
+  DateTime getStartTime(int index) {
+    return appointments![index].from;
+  }
+
+  @override
+  DateTime getEndTime(int index) {
+    return appointments![index].to;
+  }
+
+  @override
+  String getSubject(int index) {
+    return appointments![index].eventName;
+  }
+
+  @override
+  Color getColor(int index) {
+    return appointments![index].background;
+  }
+
+  @override
+  bool isAllDay(int index) {
+    return appointments![index].isAllDay;
+  }
+}
+
+class Meeting {
+  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
+
+  String eventName;
+  DateTime from;
+  DateTime to;
+  Color background;
+  bool isAllDay;
+
 }
 
 // class ChartPage extends StatelessWidget {
