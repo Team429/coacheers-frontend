@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+
+String _nickname = "";
+String _profileURL = "";
+
+void _get_user_info() async {
+  try {
+    User user = await UserApi.instance.me();
+    print('사용자 정보 요청 성공'
+        '\n회원번호: ${user.id}'
+        '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
+    _nickname = (user.kakaoAccount?.profile?.nickname).toString();
+    _profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
+  } catch (error) {
+    print('사용자 정보 요청 실패 $error');
+  }
+}
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    _get_user_info();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -26,13 +44,18 @@ class Profile extends StatelessWidget {
                     ),
                     CircleAvatar(
                       radius: 50.0,
-                      backgroundImage: AssetImage('assets/user.jpg'),
+                      child: Container(
+                        decoration: new BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: new DecorationImage(
+                                image: new NetworkImage("$_profileURL"))),
+                      ),
                       backgroundColor: Colors.white,
                     ),
                     SizedBox(
                       height: 10.0,
                     ),
-                    Text('사용자',
+                    Text('$_nickname',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,

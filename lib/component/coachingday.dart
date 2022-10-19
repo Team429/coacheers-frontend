@@ -18,7 +18,7 @@ List<Meeting> _getDataSource() {
   DateTime(today.year, today.month, today.day - 10, 9, 0, 0);
   final DateTime endTime4 = startTime4.add(const Duration(hours: 2));
   final DateTime startTime5 =
-  DateTime(today.year, today.month, today.day - 4, 9, 0, 0);
+      DateTime(today.year, today.month, today.day - 4, 9, 0, 0);
   final DateTime endTime5 = startTime5.add(const Duration(hours: 2));
 
   meetings.add(Meeting(

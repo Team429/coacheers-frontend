@@ -1,5 +1,9 @@
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+
+import '../component/kakaoLogin.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -24,7 +28,7 @@ class LoginPage extends StatelessWidget {
                     Text(
                       "Coacheers",
                       style:
-                      TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -70,10 +74,10 @@ class LoginPage extends StatelessWidget {
                                   Color(0xff569BF5),
                                 ),
                                 shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                        RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(30.0),
+                                            BorderRadius.circular(30.0),
                                         side: BorderSide(
                                             color: Color(0xff569BF5))))),
                           ),
@@ -84,12 +88,15 @@ class LoginPage extends StatelessWidget {
                         child: SizedBox(
                           height: 60,
                           child: ElevatedButton(
+                            // onPressed: () {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => const MainFrame()),
+                            //   );
+                            // },
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MainFrame()),
-                              );
+                              KakaoLogin(context);
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -113,10 +120,10 @@ class LoginPage extends StatelessWidget {
                                 backgroundColor: MaterialStateProperty.all(
                                     Color(0xffFEE500)),
                                 shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                        RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(30.0),
+                                            BorderRadius.circular(30.0),
                                         side: BorderSide(
                                             color: Color(0xffFEE500))))),
                           ),
@@ -152,9 +159,9 @@ class LoginPage extends StatelessWidget {
                           ),
                           style: ButtonStyle(
                               backgroundColor:
-                              MaterialStateProperty.all(Color(0xffF7F7F7)),
+                                  MaterialStateProperty.all(Color(0xffF7F7F7)),
                               shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
+                                      RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30.0),
                                       side: BorderSide(

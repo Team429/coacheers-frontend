@@ -18,7 +18,7 @@ class _MainFrameWidget extends State<MainFrame> {
 // 탭을 이동할 때 쓸 변수!
 
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 40, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 40, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     RecordPage(),
     CoachingPage(),

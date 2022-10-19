@@ -9,8 +9,8 @@ class PieChart extends CustomPainter {
 
   PieChart(
       {required this.percentage,
-        required this.textScaleFactor,
-        required this.textColor});
+      required this.textScaleFactor,
+      required this.textColor});
 
   @override
   void paint(Canvas canvas, Size size) {

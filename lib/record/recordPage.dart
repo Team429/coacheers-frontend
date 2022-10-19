@@ -1,35 +1,50 @@
+import 'package:coacheers/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:logger/logger.dart';
 
 class RecordPage extends StatefulWidget {
   const RecordPage({Key? key}) : super(key: key);
 
   @override
-  _MyModalPageState createState() => _MyModalPageState();
+  _RecordPageState createState() => _RecordPageState();
 }
 
-class _MyModalPageState extends State<RecordPage> {
+class _RecordPageState extends State<RecordPage> {
   @override
   final DateRangePickerController _controller = DateRangePickerController();
-
-  String _Rangestart =
-  DateFormat('dd, MMMM yyyy').format(DateTime.now()).toString();
-  String _Rangeend =
-  DateFormat('dd, MMMM yyyy').format(DateTime.now()).toString();
-
-  String _startDate = '', _endDate = '';
+  late String _startDate, _endDate;
 
   void initState() {
+    final DateTime today = DateTime.now();
+    _startDate = DateFormat('yyyy. MM. dd')
+        .format(today.subtract(Duration(days: 4)))
+        .toString();
+    _endDate = DateFormat('yyyy. MM. dd')
+        .format(today.add(Duration(days: 3)))
+        .toString();
+    _controller.selectedRange = PickerDateRange(
+        today.subtract(Duration(days: 4)), today.add(Duration(days: 3)));
     super.initState();
   }
 
+  void selectionChanged(DateRangePickerSelectionChangedArgs args) {
+    setState(() {
+      _startDate =
+          DateFormat('yyyy. MM. dd').format(args.value.startDate).toString();
+      _endDate = DateFormat('yyyy. MM. dd')
+          .format(args.value.endDate ?? args.value.startDate)
+          .toString();
+    });
+  }
+
   void viewChanged(DateRangePickerViewChangedArgs args) {
-    _startDate = DateFormat('dd, MMMM yyyy')
+    _startDate = DateFormat('yyyy. MM. dd')
         .format(args.visibleDateRange.startDate!)
         .toString();
-    _endDate = DateFormat('dd, MMMM yyyy')
+    _endDate = DateFormat('yyyy. MM. dd')
         .format(args.visibleDateRange.endDate!)
         .toString();
     SchedulerBinding.instance!.addPostFrameCallback((duration) {
@@ -53,7 +68,11 @@ class _MyModalPageState extends State<RecordPage> {
                   children: [
                     Container(
                       child: SfDateRangePicker(
+                        onSelectionChanged: selectionChanged,
                         selectionMode: DateRangePickerSelectionMode.range,
+                        initialSelectedRange: PickerDateRange(
+                            DateTime.now().subtract(Duration(days: 4)),
+                            DateTime.now().add(Duration(days: 3))),
                         headerStyle: DateRangePickerHeaderStyle(
                           textAlign: TextAlign.center,
                         ),
@@ -68,12 +87,13 @@ class _MyModalPageState extends State<RecordPage> {
                           ));
                           Navigator.of(context).pop();
                         },
+
                         onCancel: () {
                           Navigator.of(context).pop();
                         },
                         controller: _controller,
                         view: DateRangePickerView.month,
-                        onViewChanged: viewChanged,
+                        //onViewChanged: viewChanged,
                       ),
                     )
                   ],
