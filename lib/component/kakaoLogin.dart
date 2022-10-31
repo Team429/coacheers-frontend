@@ -21,6 +21,7 @@ void KakaoLogin(context) async {
   if (await isKakaoTalkInstalled()) {
     try {
       await UserApi.instance.loginWithKakaoTalk();
+      //카카오 로그인 화면 호출 -> 사용자가 토큰 가져오는 것 까지
       print('카카오톡으로 로그인 성공');
       _get_user_info();
       Navigator.push(

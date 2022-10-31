@@ -1,11 +1,12 @@
 import 'package:coacheers/component/coachingday.dart';
-import 'package:coacheers/component/piechart.dart';
+import 'package:coacheers/graph/piechart.dart';
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
   @override
   State<Home> createState() => _HomeState();
 }
@@ -13,6 +14,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    print("메인 페이지 - 홈 페이지\n");
     return Scaffold(
       backgroundColor: Colors.white,
       // body: ListView.builder(
@@ -86,15 +88,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  child: CustomPaint(
-                                    // CustomPaint를 그리고 이 안에 차트를 그려줍니다..
-                                    size: Size(100, 100),
-                                    // CustomPaint의 크기는 가로 세로 150, 150으로 합니다.
-                                    painter: PieChart(
-                                        percentage: 68,
-                                        textScaleFactor: 0.5,
-                                        textColor: Colors.black),
-                                  ),
+                                  child : Donut(75),
                                 ),
                               ),
                               Text(
@@ -112,15 +106,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  child: CustomPaint(
-                                    // CustomPaint를 그리고 이 안에 차트를 그려줍니다..
-                                    size: Size(100, 100),
-                                    // CustomPaint의 크기는 가로 세로 150, 150으로 합니다.
-                                    painter: PieChart(
-                                        percentage: 75,
-                                        textScaleFactor: 0.5,
-                                        textColor: Colors.black),
-                                  ),
+                                  child: Donut(68),
                                 ),
                               ),
                               Text(
@@ -138,15 +124,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  child: CustomPaint(
-                                    // CustomPaint를 그리고 이 안에 차트를 그려줍니다..
-                                    size: Size(100, 100),
-                                    // CustomPaint의 크기는 가로 세로 150, 150으로 합니다.
-                                    painter: PieChart(
-                                        percentage: 56,
-                                        textScaleFactor: 0.5,
-                                        textColor: Colors.black),
-                                  ),
+                                  child: Donut(82),
                                 ),
                               ),
                               Text(

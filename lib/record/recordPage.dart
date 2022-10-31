@@ -81,7 +81,7 @@ class _RecordPageState extends State<RecordPage> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             content: Text(
-                              'Selection Confirmed',
+                              '기간이 설정되었습니다.',
                             ),
                             duration: Duration(milliseconds: 500),
                           ));
@@ -106,6 +106,7 @@ class _RecordPageState extends State<RecordPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("메인 페이지 - 기록 페이지\n");
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(

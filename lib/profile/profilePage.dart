@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
-String _nickname = "";
-String _profileURL = "";
+String nickname = "";
+String profileURL = "";
 
-void _get_user_info() async {
-  try {
-    User user = await UserApi.instance.me();
-    print('사용자 정보 요청 성공'
-        '\n회원번호: ${user.id}'
-        '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
-    _nickname = (user.kakaoAccount?.profile?.nickname).toString();
-    _profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
-  } catch (error) {
-    print('사용자 정보 요청 실패 $error');
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({Key? key}) : super(key: key);
+
+  void _get_user_info() async {
+    try {
+      User user = await UserApi.instance.me();
+      print('사용자 정보 요청 성공'
+          '\n회원번호: ${user.id}'
+          '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
+      nickname = (user.kakaoAccount?.profile?.nickname).toString();
+      profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
+    } catch (error) {
+      print('사용자 정보 요청 실패 $error');
+    }
   }
-}
-
-class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print("메인 페이지 - 프로필 페이지\n");
     _get_user_info();
     return Scaffold(
       backgroundColor: Colors.white,
@@ -48,14 +49,14 @@ class Profile extends StatelessWidget {
                         decoration: new BoxDecoration(
                             shape: BoxShape.circle,
                             image: new DecorationImage(
-                                image: new NetworkImage("$_profileURL"))),
+                                image: new NetworkImage("$profileURL"))),
                       ),
                       backgroundColor: Colors.white,
                     ),
                     SizedBox(
                       height: 10.0,
                     ),
-                    Text('$_nickname',
+                    Text('$nickname',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,

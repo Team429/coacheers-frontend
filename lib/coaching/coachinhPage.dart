@@ -5,6 +5,7 @@ class CoachingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("메인 페이지 - 코칭 페이지\n");
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(),
