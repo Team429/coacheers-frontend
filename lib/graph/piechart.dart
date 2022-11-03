@@ -1,64 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-const TWO_PI = 3.14 * 2;
 
-
-class Donut extends StatelessWidget {
+class Donutchart extends StatelessWidget {
 
   final double Percent;
 
-  Donut(this.Percent);
+  Donutchart(this.Percent);
 
   @override
   Widget build(BuildContext context) {
+    final List<ChartData> chartData = [
+      ChartData('David', Percent, Color(0xff4F98FF)),
+      ChartData('Steve', 100-Percent, Color(0xffD8D8D8)),
+    ];
+    String percentage = Percent.toString();
     final size = 100.0;
-    return TweenAnimationBuilder(
-      tween: Tween(begin: 0.0, end: Percent / 100),
-      duration: Duration(seconds: 1),
-      builder: (context, value, child) {
-        int percentage = (value * 100).ceil();
-        return Container(
-          width: size,
-          height: size,
-          // color: Color(0xff7fb1f8),
-          child: Stack(
-            children: [
-              ShaderMask(
-                shaderCallback: (rect) {
-                  return SweepGradient(
-                      startAngle: 0.0,
-                      endAngle: TWO_PI,
-                      stops: [value, value],
-                      // 0.0 , 0.5 , 0.5 , 1.0
-                      center: Alignment.center,
-                      colors: [Colors.white, Colors.grey.withAlpha(55)]
-                  ).createShader(rect);
-                },
-                child: Container(
-                  width: size,
-                  height: size,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xff4F98FF),
-                  ),
-                ),
-              ),
-              Center(
-                child: Container(
-                  width: size - 20,
-                  height: size - 20,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle
-                  ),
-                  child: Center(child: Text("$percentage%",
-                    style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
-                ),
-              )
+    return Container(
+        width: size,
+        height: size,
+        child: SfCircularChart(
+            annotations: <CircularChartAnnotation>[
+              CircularChartAnnotation(
+                  widget: Container(
+                    child: Text('$percentage%',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15),
+                    ),))
             ],
-          ),
-        );
-      },
+            series: <CircularSeries>[
+              // Renders doughnut chart
+              DoughnutSeries<ChartData, String>(
+                  dataSource: chartData,
+                  pointColorMapper:(ChartData data,  _) => data.color,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y,
+                  radius: '125%',
+                  innerRadius: '75%',
+                  animationDuration: 1000
+              )
+            ]
+        )
     );
   }
+
+}
+class ChartData {
+  ChartData(this.x, this.y, this.color);
+
+  final String x;
+  final double y;
+  final Color color;
 }

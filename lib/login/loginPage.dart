@@ -2,7 +2,6 @@ import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-
 import '../component/kakaoLogin.dart';
 
 class LoginPage extends StatelessWidget {
@@ -48,7 +47,7 @@ class LoginPage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const MainFrame()),
+                                    builder: (context) => MainFrame()),
                               );
                             },
                             child: Padding(

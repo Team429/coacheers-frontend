@@ -1,4 +1,5 @@
 import 'package:coacheers/component/coachingday.dart';
+import 'package:coacheers/graph/barchart.dart';
 import 'package:coacheers/graph/piechart.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -88,7 +89,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  child : Donut(75),
+                                  child : Donutchart(75),
                                 ),
                               ),
                               Text(
@@ -106,7 +107,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  child: Donut(68),
+                                  child: Donutchart(68),
                                 ),
                               ),
                               Text(
@@ -124,7 +125,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  child: Donut(82),
+                                  child: Donutchart(82),
                                 ),
                               ),
                               Text(
@@ -241,16 +242,44 @@ class _HomeState extends State<Home> {
           ),
           Container(
             width: 200,
-            height: 200,
+            height: 360,
             margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(5),
-            child: Text('일간 기록'),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 5,
-                )),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 20),
+                  child: Row(
+                    children: [
+                      Image(
+                          image: AssetImage('assets/chart.png'), width: 24),
+                      Container(
+                        // decoration: BoxDecoration(
+                        //     color: Colors.white,
+                        //     border: Border.all(
+                        //       color: Colors.red,
+                        //       width: 5,
+                        //     )),
+                        child: Text(
+                          "일간 기록",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Barchart(),
+              ],
+            ),
+            // Text('일간 기록'),
+            // decoration: BoxDecoration(
+            //     color: Colors.white,
+            //     border: Border.all(
+            //       color: Colors.blue,
+            //       width: 5,
+            //     )),
             // child:  Image(
             // image: AssetImage('assets/Group 3004.png'), width: 300),
           ),
@@ -267,7 +296,8 @@ class _HomeState extends State<Home> {
             height: 200,
             margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(5),
-            child: Text('주간 간단 피드백'),
+            child:
+            Text('주간 간단 피드백'),
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
