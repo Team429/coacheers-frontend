@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Container(
               width: 200,
               height: 200,
@@ -52,20 +52,14 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 20),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
                     child: Row(
                       children: [
                         Image(
                             image: AssetImage('assets/recent.png'), width: 24),
                         Container(
-                          // decoration: BoxDecoration(
-                          //     color: Colors.white,
-                          //     border: Border.all(
-                          //       color: Colors.red,
-                          //       width: 5,
-                          //     )),
                           child: Text(
-                            "최근 코치 기록",
+                            " 최근 코치 기록",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
                           ),
@@ -163,7 +157,7 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 20),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
                   child: Row(
                     children: [
                       Image(
@@ -176,7 +170,7 @@ class _HomeState extends State<Home> {
                         //       width: 5,
                         //     )),
                         child: Text(
-                          "이번달 출석부",
+                          " 이번달 출석부",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15),
                         ),
@@ -250,7 +244,7 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 20),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
                   child: Row(
                     children: [
                       Image(
@@ -263,7 +257,7 @@ class _HomeState extends State<Home> {
                         //       width: 5,
                         //     )),
                         child: Text(
-                          "일간 기록",
+                          " 일간 기록",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15),
                         ),
@@ -298,7 +292,7 @@ class _HomeState extends State<Home> {
             margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(5),
             child:
-            Text('주간 간단 피드백'),
+            Text(' 주간 간단 피드백'),
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(

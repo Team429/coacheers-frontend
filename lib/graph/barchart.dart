@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../component/coachingDater.dart';
@@ -25,7 +26,7 @@ class _BarchartState extends State<Barchart> {
         series: <CartesianSeries>[
           ColumnSeries<BarChartData, String>(
             dataSource: chartData,
-            xValueMapper: (BarChartData data, _) => data.date,
+            xValueMapper: (BarChartData data, _) => DateFormat('MM.dd').format(data.date),
             yValueMapper: (BarChartData data, _) => data.total,
             animationDuration: 1000,
               width: 0.8,
@@ -34,7 +35,7 @@ class _BarchartState extends State<Barchart> {
           ),
           ColumnSeries<BarChartData, String>(
             dataSource: chartData,
-            xValueMapper: (BarChartData data, _) => data.date,
+            xValueMapper: (BarChartData data, _) => DateFormat('MM.dd').format(data.date),
             yValueMapper: (BarChartData data, _) => data.face,
             animationDuration: 1000,
               width: 0.8,
@@ -43,7 +44,7 @@ class _BarchartState extends State<Barchart> {
           ),
           ColumnSeries<BarChartData, String>(
             dataSource: chartData,
-            xValueMapper: (BarChartData data, _) => data.date,
+            xValueMapper: (BarChartData data, _) => DateFormat('MM.dd').format(data.date),
             yValueMapper: (BarChartData data, _) => data.voice,
             animationDuration: 1000,
               width: 0.8,

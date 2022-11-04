@@ -1,3 +1,4 @@
+import 'package:coacheers/component/coachingDater.dart';
 import 'package:coacheers/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -120,44 +121,54 @@ class _RecordPageState extends State<RecordPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Container(
               width: 200,
-              height: 100,
+              height: 90,
               margin: EdgeInsets.all(10),
               padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    color: Colors.blue,
-                    width: 5,
-                  )),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "기간별 기록",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10,0,0,0),
+                    child: Row(
+                      children: [
+                        Image(
+                            image: AssetImage('assets/Vector.png'), width: 24),
+                        Container(
+                          child: Text(
+                            " 기간별 기록",
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text('$_startDate' ' - ',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15)),
-                      Text('$_endDate',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15)),
-                      // Text('$RangeStart' ' - ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                      // Text('$RangeEnd', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                      IconButton(
-                        icon: Image.asset('assets/calendar.png'),
-                        iconSize: 24,
-                        onPressed: () {
-                          _showSimpleModalDialog(context);
-                        },
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10,0,0,0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text('$_startDate' ' - ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15)),
+                          Text('$_endDate',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15)),
+                          // Text('$RangeStart' ' - ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                          // Text('$RangeEnd', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                          IconButton(
+                            icon: Image.asset('assets/calendar.png'),
+                            iconSize: 24,
+                            onPressed: () {
+                              _showSimpleModalDialog(context);
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   )
                 ],
               ),
@@ -193,7 +204,29 @@ class _RecordPageState extends State<RecordPage> {
             height: 500,
             margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(5),
-            child: Text("검색 결과"),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 20),
+                  child: Row(
+                    children: [
+                      Container(
+                          child: Text(
+                              "검색 결과",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          )
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                    children: [
+                      Text("검색 결과 들어감")
+                    ]
+                ),
+              ],
+            ),
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
@@ -207,4 +240,12 @@ class _RecordPageState extends State<RecordPage> {
       ),
     );
   }
+}
+
+_getBody() {
+  return productMap.map((e) => Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+    Text(e["numOfDay"].toString()),
+    Text(e["amount"].toString()),
+    Text(e["amount"].toString()),
+  ]));
 }
