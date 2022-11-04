@@ -1,9 +1,10 @@
-import 'package:coacheers/component/coachingday.dart';
 import 'package:coacheers/graph/barchart.dart';
-import 'package:coacheers/graph/piechart.dart';
 import 'package:flutter/material.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import '../component/coachingDater.dart';
+import '../graph/FaceDonut.dart';
+import '../graph/VoiceDonut.dart';
+import '../graph/TotalDonut.dart';
 
 
 class Home extends StatefulWidget {
@@ -89,7 +90,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  child : Donutchart(75),
+                                  child : TotalDonutchart(),
                                 ),
                               ),
                               Text(
@@ -107,7 +108,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  child: Donutchart(68),
+                                  child: FaceDonutchart(),
                                 ),
                               ),
                               Text(
@@ -125,7 +126,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  child: Donutchart(82),
+                                  child: VoiceDonutchart(),
                                 ),
                               ),
                               Text(
@@ -195,7 +196,7 @@ class _HomeState extends State<Home> {
                     todayHighlightColor: Color(0xff4F98FF),
                     cellBorderColor: Colors.white,
                     headerHeight: 0,
-                    dataSource: MeetingDataSource.test(),
+                    dataSource: CoachingDataSource.test(),
                     monthViewSettings: MonthViewSettings(
                       //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
                       //showAgenda: true,

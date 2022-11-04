@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../component/coachingDater.dart';
 
-class Donutchart extends StatelessWidget {
 
-  final double Percent;
-
-  Donutchart(this.Percent);
-
+class FaceDonutchart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData('David', Percent, Color(0xff4F98FF)),
-      ChartData('Steve', 100-Percent, Color(0xffD8D8D8)),
-    ];
-    String percentage = Percent.toString();
+    String percent = FacechartData[TotalchartData.length-2].score.toString();
     final size = 100.0;
     return Container(
         width: size,
@@ -23,18 +16,18 @@ class Donutchart extends StatelessWidget {
             annotations: <CircularChartAnnotation>[
               CircularChartAnnotation(
                   widget: Container(
-                    child: Text('$percentage%',
+                    child: Text('$percent%',
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 15),
                     ),))
             ],
             series: <CircularSeries>[
               // Renders doughnut chart
-              DoughnutSeries<ChartData, String>(
-                  dataSource: chartData,
-                  pointColorMapper:(ChartData data,  _) => data.color,
-                  xValueMapper: (ChartData data, _) => data.x,
-                  yValueMapper: (ChartData data, _) => data.y,
+              DoughnutSeries<DonutChartData, String>(
+                  dataSource: FacechartData,
+                  pointColorMapper:(DonutChartData data,  _) => data.color,
+                  xValueMapper: (DonutChartData data, _) => data.scoreName,
+                  yValueMapper: (DonutChartData data, _) => data.score,
                   radius: '125%',
                   innerRadius: '75%',
                   animationDuration: 1000
@@ -43,12 +36,4 @@ class Donutchart extends StatelessWidget {
         )
     );
   }
-
-}
-class ChartData {
-  ChartData(this.x, this.y, this.color);
-
-  final String x;
-  final double y;
-  final Color color;
 }

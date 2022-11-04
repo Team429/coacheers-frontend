@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../component/coachingDater.dart';
+
 
 class Barchart extends StatefulWidget {
 
@@ -12,13 +14,8 @@ class Barchart extends StatefulWidget {
 class _BarchartState extends State<Barchart> {
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = <ChartData>[
-      ChartData('Today', 50, 75, 25),
-      ChartData('10.31', 62, 83, 41),
-      ChartData('10.27', 71, 78, 64),
-    ];
-
-    return SfCartesianChart(
+    return
+      SfCartesianChart(
         primaryXAxis: CategoryAxis(),
         palette: <Color>[
           Color(0xff2980B9),
@@ -26,28 +23,28 @@ class _BarchartState extends State<Barchart> {
           Color(0xff1ABC9C)
         ],
         series: <CartesianSeries>[
-          ColumnSeries<ChartData, String>(
+          ColumnSeries<BarChartData, String>(
             dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y,
+            xValueMapper: (BarChartData data, _) => data.date,
+            yValueMapper: (BarChartData data, _) => data.total,
             animationDuration: 1000,
               width: 0.8,
               // Spacing between the bars
               spacing: 0.3
           ),
-          ColumnSeries<ChartData, String>(
+          ColumnSeries<BarChartData, String>(
             dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y1,
+            xValueMapper: (BarChartData data, _) => data.date,
+            yValueMapper: (BarChartData data, _) => data.face,
             animationDuration: 1000,
               width: 0.8,
               // Spacing between the bars
               spacing: 0.3
           ),
-          ColumnSeries<ChartData, String>(
+          ColumnSeries<BarChartData, String>(
             dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y2,
+            xValueMapper: (BarChartData data, _) => data.date,
+            yValueMapper: (BarChartData data, _) => data.voice,
             animationDuration: 1000,
               width: 0.8,
               // Spacing between the bars
@@ -56,12 +53,4 @@ class _BarchartState extends State<Barchart> {
         ]
     );
   }
-}
-
-class ChartData {
-  ChartData(this.x, this.y, this.y1, this.y2);
-  final String x;
-  final double? y;
-  final double? y1;
-  final double? y2;
 }
