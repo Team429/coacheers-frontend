@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'dart:ui';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+final List<DateTime> searchDateList = <DateTime>[];
+final List<String> searchCompanyList = <String>[];
+final List<String> searchScoreList = <String>[];
+final List<double> searchFaceScoreList = <double>[];
+final List<double> searchVoiceScoreList = <double>[];
 
 class CoachingData {
   //calander
@@ -13,14 +20,24 @@ class CoachingData {
   bool isAllDay;
   double face_point;
   double voice_point;
+
+  @override
+  String toString() {
+    return '${DateFormat('yyyy. MM. dd').format(from)} ${companyName} ${(face_point+voice_point) / 2}';
+  }
 }
 
 List<CoachingData> _getDataSource() {
-  final List<CoachingData> coachings = <CoachingData>[];
+
+  searchDateList.clear();
+  searchCompanyList.clear();
+  searchScoreList.clear();
+
+  late List<CoachingData> coachings = <CoachingData>[];
   final DateTime today = DateTime.now();
-  final DateTime startTime =
+  final DateTime startTime1 =
   DateTime(today.year, today.month, today.day - 10, 9, 0, 0);
-  final DateTime endTime = startTime.add(const Duration(hours: 2));
+  final DateTime endTime1 = startTime1.add(const Duration(hours: 2));
   final DateTime startTime2 =
   DateTime(today.year, today.month, today.day - 9, 9, 0, 0);
   final DateTime endTime2 = startTime2.add(const Duration(hours: 2));
@@ -50,25 +67,51 @@ List<CoachingData> _getDataSource() {
   final DateTime endTime10 = startTime5.add(const Duration(hours: 2));
 
   coachings.add(CoachingData(
-      '넥슨', startTime, endTime, const Color(0xFF1ABC9C), false, 75, 25));
+      '넥슨', startTime1, endTime1, const Color(0xFF1ABC9C), false, 75, 25));
+  searchDateList.add(startTime1);
+
   coachings.add(CoachingData(
       'SK하이닉스', startTime2, endTime2, const Color(0xFF1ABC9C), false, 83, 41));
+  searchDateList.add(startTime2);
+
   coachings.add(CoachingData(
       '농심', startTime3, endTime3, const Color(0xFF1ABC9C), false, 78, 64));
+  searchDateList.add(startTime3);
+
   coachings.add(CoachingData(
       '구글', startTime4, endTime4, const Color(0xFF1ABC9C), false, 72, 70));
+  searchDateList.add(startTime4);
+
   coachings.add(CoachingData(
       '삼성', startTime5, endTime5, const Color(0xFF1ABC9C), false, 79, 81));
+  searchDateList.add(startTime5);
+
   coachings.add(CoachingData(
       '쿠팡', startTime6, endTime6, const Color(0xFF1ABC9C), false, 53, 75));
+  searchDateList.add(startTime6);
+
   coachings.add(CoachingData(
       '네이버', startTime7, endTime7, const Color(0xFF1ABC9C), false, 48, 73));
+  searchDateList.add(startTime7);
+
   coachings.add(CoachingData(
       '라인', startTime8, endTime8, const Color(0xFF1ABC9C), false, 60, 77));
+  searchDateList.add(startTime8);
+
   coachings.add(CoachingData(
       '배달의 민족', startTime9, endTime9, const Color(0xFF1ABC9C), false, 58, 81));
+  searchDateList.add(startTime9);
+
   coachings.add(CoachingData(
       '직방', startTime10, endTime10, const Color(0xFF1ABC9C), false, 65, 87));
+  searchDateList.add(startTime10);
+
+  for(int i = 0; i < coachings.length; i++){
+    searchCompanyList.add(coachings[i].companyName);
+    searchScoreList.add(((coachings[i].voice_point+ coachings[i].face_point)/2).toString());
+    searchFaceScoreList.add(coachings[i].face_point);
+    searchVoiceScoreList.add(coachings[i].voice_point);
+  }
 
   return coachings;
 }
@@ -169,31 +212,4 @@ List<DonutChartData> VoicechartData = [
       ),
   DonutChartData('Scorename_empty',100-_getDataSource()[_getDataSource().length - 1].voice_point,
       Color(0xffD8D8D8),),
-];
-
-// class RecordData {
-//   RecordData(this.date, this.companyName, this.score, this.color);
-//   final DateTime date;
-//   final String companyName;
-//   final double score;
-//   final Color color;
-// }
-//
-// List<RecordData> recordData = [
-//
-// ];
-List <dynamic> productMap = [
-  {"numOfDay": 0, "amount": 814.75},
-  {"numOfDay": 1, "amount": 0.00},
-  {"numOfDay": 2, "amount": 0.00},
-  {"numOfDay": 3, "amount": 0.00},
-  {"numOfDay": 4, "amount": 0.00},
-  {"numOfDay": 5, "amount": 0.00},
-  {"numOfDay": 6, "amount": 0.00},
-  {"numOfDay": 7, "amount": 0.00},
-  {"numOfDay": 8, "amount": 0.00},
-  {"numOfDay": 9, "amount": 0.00},
-  {"numOfDay": 10, "amount": 0.00},
-  {"numOfDay": 11, "amount": 0.00},
-  {"numOfDay": 12, "amount": 0.00}
 ];

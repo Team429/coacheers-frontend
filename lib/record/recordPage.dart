@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:coacheers/component/coachingDater.dart';
 import 'package:coacheers/main.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,10 @@ class _RecordPageState extends State<RecordPage> {
   @override
   final DateRangePickerController _controller = DateRangePickerController();
   late String _startDate, _endDate;
+  var dateitems = <String>[];
+  var companyitems = <String>[];
+  var scoreitems = <String>[];
+
 
   void initState() {
     final DateTime today = DateTime.now();
@@ -28,6 +34,9 @@ class _RecordPageState extends State<RecordPage> {
         .toString();
     _controller.selectedRange = PickerDateRange(
         today.subtract(Duration(days: 4)), today.add(Duration(days: 3)));
+
+    filterSearchResults(today.subtract(Duration(days: 4)),today.add(Duration(days: 3)));
+
     super.initState();
   }
 
@@ -38,6 +47,7 @@ class _RecordPageState extends State<RecordPage> {
       _endDate = DateFormat('yyyy. MM. dd')
           .format(args.value.endDate ?? args.value.startDate)
           .toString();
+      filterSearchResults(args.value.startDate, args.value.endDate ?? args.value.startDate);
     });
   }
 
@@ -105,9 +115,62 @@ class _RecordPageState extends State<RecordPage> {
         });
   }
 
+  void filterSearchResults(DateTime startDate, DateTime endDate) {
+    var index = 0;
+    List<DateTime> dummyDateSearchList = <DateTime>[];
+    List<String> dummyCompanySearchList = <String>[];
+    List<String> dummyScoreSearchList = <String>[];
+    dummyDateSearchList.addAll(searchDateList);
+    dummyCompanySearchList.addAll(searchCompanyList);
+    dummyScoreSearchList.addAll(searchScoreList);
+    // if(query.isNotEmpty) {
+    //   List<String> dummyListData = <String>[];
+    //   dummySearchList.forEach((item) {
+    //     if(item.contains(query)) {
+    //       dummyListData.add(item.toString());
+    //     }
+    //   });
+    //   setState(() {
+    //     items.clear();
+    //     items.addAll(dummyListData);
+    //   });
+    //   return;
+    // } else {
+    //   setState(() {
+    //     items.clear();
+    //     items.addAll(duplicateItems);
+    //   });
+    // }
+    List<String> dummyDateListData = <String>[];
+    List<String> dummyCompanyListData = <String>[];
+    List<String> dummyScoreListData = <String>[];
+    dummyDateSearchList.forEach((item) {
+      print(item);
+      print(startDate);
+      print(endDate);
+      if(item.compareTo(startDate) >= 0 && item.compareTo(endDate) <=  0){
+        dummyDateListData.add(DateFormat('yyyy. MM. dd').format(item).toString());
+        dummyCompanyListData.add(dummyCompanySearchList[index]);
+        dummyScoreListData.add(dummyScoreSearchList[index]);
+      }
+      index++;
+    });
+      setState(() {
+        dateitems.clear();
+        dateitems.addAll(dummyDateListData);
+
+        companyitems.clear();
+        companyitems.addAll(dummyCompanyListData);
+
+        scoreitems.clear();
+        scoreitems.addAll(dummyScoreListData);
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 기록 페이지\n");
+    //print(searchlist.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -172,8 +235,6 @@ class _RecordPageState extends State<RecordPage> {
                   )
                 ],
               ),
-              //   child:  Image(
-              //       image: AssetImage('assets/Group 3002.png')),
             ),
           ),
           Container(
@@ -212,7 +273,7 @@ class _RecordPageState extends State<RecordPage> {
                     children: [
                       Container(
                           child: Text(
-                              "검색 결과",
+                              "${dateitems.length}건의 검색 결과",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 12),
                           )
@@ -220,19 +281,33 @@ class _RecordPageState extends State<RecordPage> {
                     ],
                   ),
                 ),
-                Column(
-                    children: [
-                      Text("검색 결과 들어감")
-                    ]
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: dateitems.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                          title: Text('${companyitems[index]}',
+                              style: TextStyle(fontWeight: FontWeight.bold,
+                                  fontSize: 17)),
+                          subtitle: Text('${dateitems[index]}',
+                              style: TextStyle(color: Color(0xff0066FF),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12)),
+                          trailing: ElevatedButton(
+                              onPressed: (){}, child: Text("${scoreitems[index]}점"),)
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 5,
-                )),
+            // decoration: BoxDecoration(
+            //     color: Colors.white,
+            //     border: Border.all(
+            //       color: Colors.blue,
+            //       width: 5,
+            //     )),
             //   child:  Image(
             //       image: AssetImage('assets/Group 3002.png')),
           ),
@@ -242,10 +317,3 @@ class _RecordPageState extends State<RecordPage> {
   }
 }
 
-_getBody() {
-  return productMap.map((e) => Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-    Text(e["numOfDay"].toString()),
-    Text(e["amount"].toString()),
-    Text(e["amount"].toString()),
-  ]));
-}
