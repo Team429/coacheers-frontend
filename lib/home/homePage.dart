@@ -6,9 +6,9 @@ import '../graph/FaceDonut.dart';
 import '../graph/VoiceDonut.dart';
 import '../graph/TotalDonut.dart';
 
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  child : TotalDonutchart(),
+                                  child: TotalDonutchart(),
                                 ),
                               ),
                               Text(
@@ -247,8 +247,7 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
                   child: Row(
                     children: [
-                      Image(
-                          image: AssetImage('assets/chart.png'), width: 24),
+                      Image(image: AssetImage('assets/chart.png'), width: 24),
                       Container(
                         // decoration: BoxDecoration(
                         //     color: Colors.white,
@@ -291,8 +290,7 @@ class _HomeState extends State<Home> {
             height: 200,
             margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(5),
-            child:
-            Text(' 주간 간단 피드백'),
+            child: Text(' 주간 간단 피드백'),
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(

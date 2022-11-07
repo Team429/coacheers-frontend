@@ -21,15 +21,15 @@ class _RecordPageState extends State<RecordPage> {
   @override
   final DateRangePickerController _controller = DateRangePickerController();
   late String _startDate, _endDate;
-  late DateTime _start,_end;
+  late DateTime _start, _end;
 
   var dateitems = <String>[];
   var companyitems = <String>[];
   var scoreitems = <String>[];
 
   late double Totalsum = 0.0;
-  late  double Facesum = 0.0;
-  late  double Voicesum = 0.0;
+  late double Facesum = 0.0;
+  late double Voicesum = 0.0;
 
   void initState() {
     final DateTime today = DateTime.now();
@@ -42,7 +42,8 @@ class _RecordPageState extends State<RecordPage> {
     _controller.selectedRange = PickerDateRange(
         today.subtract(Duration(days: 4)), today.add(Duration(days: 3)));
 
-    filterSearchResults(today.subtract(Duration(days: 4)),today.add(Duration(days: 3)));
+    filterSearchResults(
+        today.subtract(Duration(days: 4)), today.add(Duration(days: 3)));
 
     super.initState();
   }
@@ -106,7 +107,7 @@ class _RecordPageState extends State<RecordPage> {
                             ),
                             duration: Duration(milliseconds: 500),
                           ));
-                          filterSearchResults(_start,_end);
+                          filterSearchResults(_start, _end);
                           Navigator.of(context).pop();
                         },
 
@@ -128,7 +129,6 @@ class _RecordPageState extends State<RecordPage> {
 
   void filterSearchResults(DateTime startDate, DateTime endDate) {
     var index = 0;
-
 
     List<DateTime> dummyDateSearchList = <DateTime>[];
     List<String> dummyCompanySearchList = <String>[];
@@ -153,8 +153,9 @@ class _RecordPageState extends State<RecordPage> {
     List<double> dummyVoiceScoreListData = <double>[];
 
     dummyDateSearchList.forEach((item) {
-      if(item.compareTo(startDate) >= 0 && item.compareTo(endDate) <=  0){
-        dummyDateListData.add(DateFormat('yyyy. MM. dd').format(item).toString());
+      if (item.compareTo(startDate) >= 0 && item.compareTo(endDate) <= 0) {
+        dummyDateListData
+            .add(DateFormat('yyyy. MM. dd').format(item).toString());
         dummyCompanyListData.add(dummyCompanySearchList[index]);
         dummyScoreListData.add(dummyScoreSearchList[index]);
         dummyFaceScoreListData.add(dummyFaceScoreSearchList[index]);
@@ -165,11 +166,11 @@ class _RecordPageState extends State<RecordPage> {
 
     print(dummyCompanyListData.length);
 
-    double sum1 = dummyFaceScoreListData.fold(0, (vTotal, value){
+    double sum1 = dummyFaceScoreListData.fold(0, (vTotal, value) {
       return vTotal + value;
     });
 
-    double sum2 = dummyVoiceScoreListData.fold(0, (vTotal, value){
+    double sum2 = dummyVoiceScoreListData.fold(0, (vTotal, value) {
       return vTotal + value;
     });
 
@@ -193,17 +194,16 @@ class _RecordPageState extends State<RecordPage> {
     //30 40  35
     //20 30  25
 
-      setState(() {
-        dateitems.clear();
-        dateitems.addAll(dummyDateListData);
+    setState(() {
+      dateitems.clear();
+      dateitems.addAll(dummyDateListData);
 
-        companyitems.clear();
-        companyitems.addAll(dummyCompanyListData);
+      companyitems.clear();
+      companyitems.addAll(dummyCompanyListData);
 
-        scoreitems.clear();
-        scoreitems.addAll(dummyScoreListData);
-
-      });
+      scoreitems.clear();
+      scoreitems.addAll(dummyScoreListData);
+    });
   }
 
   @override
@@ -233,7 +233,7 @@ class _RecordPageState extends State<RecordPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10,0,0,0),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     child: Row(
                       children: [
                         Image(
@@ -241,7 +241,8 @@ class _RecordPageState extends State<RecordPage> {
                         Container(
                           child: Text(
                             " 기간별 기록",
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15),
                           ),
                         ),
                       ],
@@ -249,7 +250,7 @@ class _RecordPageState extends State<RecordPage> {
                   ),
                   Container(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10,0,0,0),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -277,7 +278,7 @@ class _RecordPageState extends State<RecordPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0,0,0,0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Container(
               width: 200,
               height: 200,
@@ -315,11 +316,10 @@ class _RecordPageState extends State<RecordPage> {
                     children: [
                       Container(
                           child: Text(
-                              "${dateitems.length}건의 검색 결과",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          )
-                      ),
+                        "${dateitems.length}건의 검색 결과",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 12),
+                      )),
                     ],
                   ),
                 ),
@@ -330,15 +330,17 @@ class _RecordPageState extends State<RecordPage> {
                     itemBuilder: (context, index) {
                       return ListTile(
                           title: Text('${companyitems[index]}',
-                              style: TextStyle(fontWeight: FontWeight.bold,
-                                  fontSize: 17)),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 17)),
                           subtitle: Text('${dateitems[index]}',
-                              style: TextStyle(color: Color(0xff0066FF),
+                              style: TextStyle(
+                                  color: Color(0xff0066FF),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12)),
                           trailing: ElevatedButton(
-                              onPressed: (){}, child: Text("${scoreitems[index]}점"),)
-                      );
+                            onPressed: () {},
+                            child: Text("${scoreitems[index]}점"),
+                          ));
                     },
                   ),
                 ),
@@ -358,4 +360,3 @@ class _RecordPageState extends State<RecordPage> {
     );
   }
 }
-

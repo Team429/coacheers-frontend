@@ -8,6 +8,7 @@ import '../record/recordPage.dart';
 
 class MainFrame extends StatefulWidget {
   const MainFrame({Key? key}) : super(key: key);
+
   @override
   State<MainFrame> createState() => _MainFrameWidget();
 }
@@ -31,7 +32,6 @@ class _MainFrameWidget extends State<MainFrame> {
     ProfilePage(),
     Home(),
   ];
-
 
   @override
   Widget build(BuildContext context) {
