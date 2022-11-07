@@ -55,6 +55,7 @@ class _RecordPageState extends State<RecordPage> {
           DateFormat('yyyy. MM. dd').format(args.value.startDate).toString();
 
       _end = args.value.endDate ?? args.value.startDate;
+      _end = new DateTime(_end.year,_end.month,_end.day + 1,_end.hour,_end.minute,_end.second - 1);
       _endDate = DateFormat('yyyy. MM. dd')
           .format(args.value.endDate ?? args.value.startDate)
           .toString();
@@ -152,8 +153,13 @@ class _RecordPageState extends State<RecordPage> {
     List<double> dummyFaceScoreListData = <double>[];
     List<double> dummyVoiceScoreListData = <double>[];
 
+    //print("start : ${startDate}");
+    //print("end : ${endDate}");
+
     dummyDateSearchList.forEach((item) {
-      if (item.compareTo(startDate) >= 0 && item.compareTo(endDate) <= 0) {
+
+      //print("item : ${item}");
+      if (item.compareTo(startDate) > 0 && item.compareTo(endDate) <= 0) {
         dummyDateListData
             .add(DateFormat('yyyy. MM. dd').format(item).toString());
         dummyCompanyListData.add(dummyCompanySearchList[index]);
