@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:logger/logger.dart';
 
+import '../graph/recordbarchart.dart';
+
 class RecordPage extends StatefulWidget {
   const RecordPage({Key? key}) : super(key: key);
 
@@ -19,10 +21,15 @@ class _RecordPageState extends State<RecordPage> {
   @override
   final DateRangePickerController _controller = DateRangePickerController();
   late String _startDate, _endDate;
+  late DateTime _start,_end;
+
   var dateitems = <String>[];
   var companyitems = <String>[];
   var scoreitems = <String>[];
 
+  late double Totalsum = 0.0;
+  late  double Facesum = 0.0;
+  late  double Voicesum = 0.0;
 
   void initState() {
     final DateTime today = DateTime.now();
@@ -42,13 +49,16 @@ class _RecordPageState extends State<RecordPage> {
 
   void selectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
+      _start = args.value.startDate;
       _startDate =
           DateFormat('yyyy. MM. dd').format(args.value.startDate).toString();
+
+      _end = args.value.endDate ?? args.value.startDate;
       _endDate = DateFormat('yyyy. MM. dd')
           .format(args.value.endDate ?? args.value.startDate)
           .toString();
-      filterSearchResults(args.value.startDate, args.value.endDate ?? args.value.startDate);
     });
+    //filterSearchResults(args.value.startDate, args.value.endDate ?? args.value.startDate);
   }
 
   void viewChanged(DateRangePickerViewChangedArgs args) {
@@ -96,6 +106,7 @@ class _RecordPageState extends State<RecordPage> {
                             ),
                             duration: Duration(milliseconds: 500),
                           ));
+                          filterSearchResults(_start,_end);
                           Navigator.of(context).pop();
                         },
 
@@ -117,44 +128,71 @@ class _RecordPageState extends State<RecordPage> {
 
   void filterSearchResults(DateTime startDate, DateTime endDate) {
     var index = 0;
+
+
     List<DateTime> dummyDateSearchList = <DateTime>[];
     List<String> dummyCompanySearchList = <String>[];
     List<String> dummyScoreSearchList = <String>[];
+    List<double> dummyFaceScoreSearchList = <double>[];
+    List<double> dummyVoiceScoreSearchList = <double>[];
+
     dummyDateSearchList.addAll(searchDateList);
     dummyCompanySearchList.addAll(searchCompanyList);
     dummyScoreSearchList.addAll(searchScoreList);
-    // if(query.isNotEmpty) {
-    //   List<String> dummyListData = <String>[];
-    //   dummySearchList.forEach((item) {
-    //     if(item.contains(query)) {
-    //       dummyListData.add(item.toString());
-    //     }
-    //   });
-    //   setState(() {
-    //     items.clear();
-    //     items.addAll(dummyListData);
-    //   });
-    //   return;
-    // } else {
-    //   setState(() {
-    //     items.clear();
-    //     items.addAll(duplicateItems);
-    //   });
+    dummyFaceScoreSearchList.addAll(searchFaceScoreList);
+    dummyVoiceScoreSearchList.addAll(searchVoiceScoreList);
+
+    // for(int i = 0; i< searchVoiceScoreList.length; i++){
+    //   print("회사이름${searchCompanyList[i]}표정점수${searchFaceScoreList[i]}목소리점수${searchVoiceScoreList[i]}");
     // }
+
     List<String> dummyDateListData = <String>[];
     List<String> dummyCompanyListData = <String>[];
     List<String> dummyScoreListData = <String>[];
+    List<double> dummyFaceScoreListData = <double>[];
+    List<double> dummyVoiceScoreListData = <double>[];
+
     dummyDateSearchList.forEach((item) {
-      print(item);
-      print(startDate);
-      print(endDate);
       if(item.compareTo(startDate) >= 0 && item.compareTo(endDate) <=  0){
         dummyDateListData.add(DateFormat('yyyy. MM. dd').format(item).toString());
         dummyCompanyListData.add(dummyCompanySearchList[index]);
         dummyScoreListData.add(dummyScoreSearchList[index]);
+        dummyFaceScoreListData.add(dummyFaceScoreSearchList[index]);
+        dummyVoiceScoreListData.add(dummyVoiceScoreSearchList[index]);
       }
       index++;
     });
+
+    print(dummyCompanyListData.length);
+
+    double sum1 = dummyFaceScoreListData.fold(0, (vTotal, value){
+      return vTotal + value;
+    });
+
+    double sum2 = dummyVoiceScoreListData.fold(0, (vTotal, value){
+      return vTotal + value;
+    });
+
+    print(sum1);
+    print(sum2);
+
+    Facesum = sum1 / dummyFaceScoreListData.length;
+    Voicesum = sum1 / dummyVoiceScoreListData.length;
+    Totalsum = (Facesum + Voicesum) / 2;
+
+    // List<RecordBarChartData> recordchartData = [
+    // RecordBarChartData("Total",((sum1 / ( dummyCompanyListData.length)) + (sum2 / (dummyCompanyListData.length)))/2,Color(0xff2980B9)),
+    // RecordBarChartData("표정", sum1 / ( dummyCompanyListData.length),Color(0xff2980B9)),
+    // RecordBarChartData("목소리", sum2 / (dummyCompanyListData.length),Color(0xff3498DB)),
+    // ];
+
+    // print("레코드 데이타 길이 ${recordchartData.length}");
+
+    //10 20  15
+    //20 30  25
+    //30 40  35
+    //20 30  25
+
       setState(() {
         dateitems.clear();
         dateitems.addAll(dummyDateListData);
@@ -164,6 +202,7 @@ class _RecordPageState extends State<RecordPage> {
 
         scoreitems.clear();
         scoreitems.addAll(dummyScoreListData);
+
       });
   }
 
@@ -237,20 +276,23 @@ class _RecordPageState extends State<RecordPage> {
               ),
             ),
           ),
-          Container(
-            width: 200,
-            height: 200,
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(5),
-            child: Text("그래프"),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 5,
-                )),
-            //   child:  Image(
-            //       image: AssetImage('assets/Group 3002.png')),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0,0,0,0),
+            child: Container(
+              width: 200,
+              height: 200,
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(5),
+              child: RecordBarchart(Totalsum, Facesum, Voicesum),
+              // decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     border: Border.all(
+              //       color: Colors.blue,
+              //       width: 5,
+              //     )),
+              //   child:  Image(
+              //       image: AssetImage('assets/Group 3002.png')),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),

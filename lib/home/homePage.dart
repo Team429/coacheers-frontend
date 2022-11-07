@@ -1,4 +1,4 @@
-import 'package:coacheers/graph/barchart.dart';
+import 'package:coacheers/graph/homebarchart.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../component/coachingDater.dart';
@@ -265,7 +265,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                Barchart(),
+                HomeBarchart(),
               ],
             ),
             // Text('일간 기록'),

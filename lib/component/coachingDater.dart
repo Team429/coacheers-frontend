@@ -151,26 +151,33 @@ class CoachingDataSource extends CalendarDataSource {
   }
 }
 
-class BarChartData {
-  BarChartData(this.date, this.total, this.face, this.voice);
+class HomeBarChartData {
+  HomeBarChartData(this.date, this.total, this.face, this.voice);
   final DateTime date;
   final double? total;
   final double? face;
   final double? voice;
 }
 
-List<BarChartData> chartData = [
-  BarChartData(_getDataSource()[_getDataSource().length - 1].from,
+class RecordBarChartData {
+  RecordBarChartData(this.title, this.score, this.color);
+  final String title;
+  final double? score;
+  final Color color;
+}
+
+List<HomeBarChartData> homechartData = [
+  HomeBarChartData(_getDataSource()[_getDataSource().length - 1].from,
       (_getDataSource()[_getDataSource().length - 1].face_point +
       _getDataSource()[_getDataSource().length - 1].voice_point)/2,
       _getDataSource()[_getDataSource().length - 1].face_point,
       _getDataSource()[_getDataSource().length - 1].voice_point),
-  BarChartData(_getDataSource()[_getDataSource().length - 2].from,
+  HomeBarChartData(_getDataSource()[_getDataSource().length - 2].from,
       (_getDataSource()[_getDataSource().length -2].face_point +
           _getDataSource()[_getDataSource().length - 2].voice_point)/2,
       _getDataSource()[_getDataSource().length - 2].face_point,
       _getDataSource()[_getDataSource().length - 2].voice_point),
-  BarChartData(_getDataSource()[_getDataSource().length - 3].from,
+  HomeBarChartData(_getDataSource()[_getDataSource().length - 3].from,
       (_getDataSource()[_getDataSource().length - 3].face_point +
           _getDataSource()[_getDataSource().length - 3].voice_point)/2,
       _getDataSource()[_getDataSource().length - 3].face_point,
