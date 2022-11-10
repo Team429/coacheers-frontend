@@ -9,6 +9,10 @@
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+    <string>Can I use the camera please?</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Can I use the mic please?</string>
 	<key>KAKAO_APP_KEY</key>
 	<string>2b589948139859bf81d448bd9c18ea11</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -65,5 +69,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSAppTransportSecurity</key>
+        <dict>
+          <key>NSAllowsArbitraryLoads</key>
+          <true/>
+        </dict>
 </dict>
 </plist>

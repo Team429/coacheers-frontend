@@ -1,7 +1,7 @@
+import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import '../frame/mainFrame.dart';
 
 void _get_user_info() async {
   try {

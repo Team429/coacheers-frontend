@@ -7,19 +7,6 @@ String profileURL = "";
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
-  void _get_user_info() async {
-    try {
-      User user = await UserApi.instance.me();
-      print('사용자 정보 요청 성공'
-          '\n회원번호: ${user.id}'
-          '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
-      nickname = (user.kakaoAccount?.profile?.nickname).toString();
-      profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
-    } catch (error) {
-      print('사용자 정보 요청 실패 $error');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 프로필 페이지\n");
@@ -149,5 +136,18 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _get_user_info() async {
+    try {
+      User user = await UserApi.instance.me();
+      print('사용자 정보 요청 성공'
+          '\n회원번호: ${user.id}'
+          '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
+      nickname = (user.kakaoAccount?.profile?.nickname).toString();
+      profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
+    } catch (error) {
+      print('사용자 정보 요청 실패 $error');
+    }
   }
 }

@@ -1,9 +1,10 @@
+import 'package:coacheers/component/coachingDater.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../component/coachingDater.dart';
 
 class FaceDonutchart extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     String percent = FacechartData[TotalchartData.length - 2].score.toString();
@@ -31,4 +32,5 @@ class FaceDonutchart extends StatelessWidget {
               animationDuration: 1000)
         ]));
   }
+
 }

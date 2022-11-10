@@ -1,14 +1,10 @@
-import 'dart:developer';
-
 import 'package:coacheers/component/coachingDater.dart';
-import 'package:coacheers/main.dart';
+import 'package:coacheers/component/graph/recordbarchart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:logger/logger.dart';
 
-import '../graph/recordbarchart.dart';
 
 class RecordPage extends StatefulWidget {
   const RecordPage({Key? key}) : super(key: key);
@@ -34,18 +30,173 @@ class _RecordPageState extends State<RecordPage> {
   void initState() {
     final DateTime today = DateTime.now();
     _startDate = DateFormat('yyyy. MM. dd')
-        .format(today.subtract(Duration(days: 4)))
+        .format(today.subtract(Duration(days: 7)))
         .toString();
     _endDate = DateFormat('yyyy. MM. dd')
-        .format(today.add(Duration(days: 3)))
+        .format(today)
         .toString();
     _controller.selectedRange = PickerDateRange(
-        today.subtract(Duration(days: 4)), today.add(Duration(days: 3)));
+        today.subtract(Duration(days: 7)), today);
 
     filterSearchResults(
         today.subtract(Duration(days: 4)), today.add(Duration(days: 3)));
 
     super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print("메인 페이지 - 기록 페이지\n");
+    //print(searchlist.toString());
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: ListView(
+        children: [
+          underline(),
+          daterange(),
+          searchbargraph(),
+          underline(),
+          searchresult(),
+        ],
+      ),
+    );
+  }
+
+  Widget underline() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+      child: Container(
+        height: 1.0,
+        width: 300.0,
+        color: Colors.grey,
+      ),
+    );
+  }
+
+  Widget searchbargraph() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: Container(
+        width: 200,
+        height: 200,
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
+        child: RecordBarchart(Totalsum, Facesum, Voicesum),
+      ),
+    );
+  }
+
+  Widget daterange(){
+    return  Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: Container(
+        width: 200,
+        height: 90,
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child: Row(
+                children: [
+                  Image(
+                      image: AssetImage('assets/Vector.png'), width: 24),
+                  Container(
+                    child: Text(
+                      " 기간별 기록",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('$_startDate' ' - ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15)),
+                    Text('$_endDate',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15)),
+                    // Text('$RangeStart' ' - ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                    // Text('$RangeEnd', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                    IconButton(
+                      icon: Image.asset('assets/calendar.png'),
+                      iconSize: 24,
+                      onPressed: () {
+                        _showSimpleModalDialog(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget searchresult(){
+    return Container(
+      width: 200,
+      height: 500,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 0, 20),
+            child: Row(
+              children: [
+                Container(
+                    child: Text(
+                      "${dateitems.length}건의 검색 결과",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 12),
+                    )),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: dateitems.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                    title: Text('${companyitems[index]}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17)),
+                    subtitle: Text('${dateitems[index]}',
+                        style: TextStyle(
+                            color: Color(0xff0066FF),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12)),
+                    trailing: ElevatedButton(
+                      onPressed: () {},
+                      child: Text("${scoreitems[index]}점"),
+                    ));
+              },
+            ),
+          ),
+        ],
+      ),
+      // decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     border: Border.all(
+      //       color: Colors.blue,
+      //       width: 5,
+      //     )),
+      //   child:  Image(
+      //       image: AssetImage('assets/Group 3002.png')),
+    );
   }
 
   void selectionChanged(DateRangePickerSelectionChangedArgs args) {
@@ -211,158 +362,5 @@ class _RecordPageState extends State<RecordPage> {
       scoreitems.addAll(dummyScoreListData);
     });
   }
-
-  @override
-  Widget build(BuildContext context) {
-    print("메인 페이지 - 기록 페이지\n");
-    //print(searchlist.toString());
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Container(
-              height: 1.0,
-              width: 300.0,
-              color: Colors.grey,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: Container(
-              width: 200,
-              height: 90,
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    child: Row(
-                      children: [
-                        Image(
-                            image: AssetImage('assets/Vector.png'), width: 24),
-                        Container(
-                          child: Text(
-                            " 기간별 기록",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text('$_startDate' ' - ',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15)),
-                          Text('$_endDate',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15)),
-                          // Text('$RangeStart' ' - ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                          // Text('$RangeEnd', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                          IconButton(
-                            icon: Image.asset('assets/calendar.png'),
-                            iconSize: 24,
-                            onPressed: () {
-                              _showSimpleModalDialog(context);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: Container(
-              width: 200,
-              height: 200,
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(5),
-              child: RecordBarchart(Totalsum, Facesum, Voicesum),
-              // decoration: BoxDecoration(
-              //     color: Colors.white,
-              //     border: Border.all(
-              //       color: Colors.blue,
-              //       width: 5,
-              //     )),
-              //   child:  Image(
-              //       image: AssetImage('assets/Group 3002.png')),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Container(
-              height: 1.0,
-              width: 300.0,
-              color: Colors.grey,
-            ),
-          ),
-          Container(
-            width: 200,
-            height: 500,
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(5),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 20),
-                  child: Row(
-                    children: [
-                      Container(
-                          child: Text(
-                        "${dateitems.length}건의 검색 결과",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12),
-                      )),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: dateitems.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                          title: Text('${companyitems[index]}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 17)),
-                          subtitle: Text('${dateitems[index]}',
-                              style: TextStyle(
-                                  color: Color(0xff0066FF),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12)),
-                          trailing: ElevatedButton(
-                            onPressed: () {},
-                            child: Text("${scoreitems[index]}점"),
-                          ));
-                    },
-                  ),
-                ),
-              ],
-            ),
-            // decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     border: Border.all(
-            //       color: Colors.blue,
-            //       width: 5,
-            //     )),
-            //   child:  Image(
-            //       image: AssetImage('assets/Group 3002.png')),
-          ),
-        ],
-      ),
-    );
-  }
 }
+

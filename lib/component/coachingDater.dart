@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'dart:ui';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 final List<DateTime> searchDateList = <DateTime>[];
 final List<String> searchCompanyList = <String>[];

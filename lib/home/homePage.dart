@@ -1,10 +1,11 @@
-import 'package:coacheers/graph/homebarchart.dart';
+import 'package:coacheers/component/coachingDater.dart';
+import 'package:coacheers/component/graph/FaceDonut.dart';
+import 'package:coacheers/component/graph/TotalDonut.dart';
+import 'package:coacheers/component/graph/VoiceDonut.dart';
+import 'package:coacheers/component/graph/homebarchart.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import '../component/coachingDater.dart';
-import '../graph/FaceDonut.dart';
-import '../graph/VoiceDonut.dart';
-import '../graph/TotalDonut.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -19,289 +20,214 @@ class _HomeState extends State<Home> {
     print("메인 페이지 - 홈 페이지\n");
     return Scaffold(
       backgroundColor: Colors.white,
-      // body: ListView.builder(
-      //     padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 48),
-      //     itemCount: 23,
-      //     itemBuilder: (context, index) => ListTile(
-      //       trailing: Text('$index'),
-      //     )),
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Container(
-              height: 1.0,
-              width: 300.0,
-              color: Colors.grey,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: Container(
-              width: 200,
-              height: 200,
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(5),
-              // decoration: BoxDecoration(
-              //     color: Colors.white,
-              //     border: Border.all(
-              //       color: Colors.black,
-              //       width: 5,
-              //     )),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          underline(),
+          daydonutgraph(),
+          underline(),
+          calander(),
+          underline(),
+          threedaysbarchart(),
+          underline(),
+          feedback(),
+        ],
+      ),
+    );
+  }
+
+  Widget underline(){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+      child: Container(
+        height: 1.0,
+        width: 300.0,
+        color: Colors.grey,
+      ),
+    );
+  }
+
+  Widget daydonutgraph(){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: Container(
+        width: 200,
+        height: 200,
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+              child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
-                    child: Row(
+                  Image(
+                      image: AssetImage('assets/recent.png'), width: 24),
+                  Container(
+                    child: Text(
+                      " 최근 코치 기록",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Column(
                       children: [
-                        Image(
-                            image: AssetImage('assets/recent.png'), width: 24),
-                        Container(
-                          child: Text(
-                            " 최근 코치 기록",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            child: TotalDonutchart(),
                           ),
+                        ),
+                        Text(
+                          "Total",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
                         ),
                       ],
                     ),
                   ),
-                  Container(
-                    // decoration: BoxDecoration(
-                    //     color: Colors.white,
-                    //     border: Border.all(
-                    //       color: Colors.blue,
-                    //       width: 5,
-                    //     )),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  Expanded(
+                    flex: 1,
+                    child: Column(
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  child: TotalDonutchart(),
-                                ),
-                              ),
-                              Text(
-                                "Total",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                            ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            child: FaceDonutchart(),
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  child: FaceDonutchart(),
-                                ),
-                              ),
-                              Text(
-                                "표정",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                            ],
+                        Text(
+                          "표정",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            child: VoiceDonutchart(),
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  child: VoiceDonutchart(),
-                                ),
-                              ),
-                              Text(
-                                "목소리",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          "목소리",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              //   child:  Image(
-              //       image: AssetImage('assets/Group 3002.png')),
             ),
-          ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget calander(){
+    return Container(
+      width: 200,
+      height: 360,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Container(
-              height: 1.0,
-              width: 300.0,
-              color: Colors.grey,
-            ),
-          ),
-          Container(
-            width: 200,
-            height: 360,
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+            child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
-                  child: Row(
-                    children: [
-                      Image(
-                          image: AssetImage('assets/calendar.png'), width: 24),
-                      Container(
-                        // decoration: BoxDecoration(
-                        //     color: Colors.white,
-                        //     border: Border.all(
-                        //       color: Colors.red,
-                        //       width: 5,
-                        //     )),
-                        child: Text(
-                          " 이번달 출석부",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                Image(
+                    image: AssetImage('assets/calendar.png'), width: 24),
                 Container(
-                  // decoration: BoxDecoration(
-                  //     color: Colors.white,
-                  //     border: Border.all(
-                  //       color: Colors.red,
-                  //       width: 5,
-                  //     )),
-                  child: SfCalendar(
-                    view: CalendarView.month,
-                    todayHighlightColor: Color(0xff4F98FF),
-                    cellBorderColor: Colors.white,
-                    headerHeight: 0,
-                    dataSource: CoachingDataSource.test(),
-                    monthViewSettings: MonthViewSettings(
-                      //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-                      //showAgenda: true,
-                      appointmentDisplayCount: 1,
-                    ),
+                  child: Text(
+                    " 이번달 출석부",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 15),
                   ),
-                  // child: TableCalendar(
-                  //   firstDay: DateTime.utc(2010, 10, 16),
-                  //   lastDay: DateTime.utc(2030, 3, 14),
-                  //   focusedDay: DateTime.now(),
-                  //   headerVisible: false,
-                  //
-                  //   calendarBuilders:
-                  //   CalendarBuilders(markerBuilder: (context, date, dynamic event) {
-                  //     if (event.isNotEmpty) {
-                  //       return Container(
-                  //         width: 35,
-                  //         decoration: BoxDecoration(
-                  //             color: Colors.blue.withOpacity(0.2),
-                  //             shape: BoxShape.circle),
-                  //       );
-                  //     }
-                  //   }),
-                  // ),
                 ),
               ],
             ),
-            // decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     border: Border.all(
-            //       color: Colors.blue,
-            //       width: 5,
-            //     )),
-            // // child:  Image(
-            // //     image: AssetImage('assets/Group 3003.png'), width: 300),)
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Container(
-              height: 1.0,
-              width: 300.0,
-              color: Colors.grey,
-            ),
           ),
           Container(
-            width: 200,
-            height: 360,
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
-                  child: Row(
-                    children: [
-                      Image(image: AssetImage('assets/chart.png'), width: 24),
-                      Container(
-                        // decoration: BoxDecoration(
-                        //     color: Colors.white,
-                        //     border: Border.all(
-                        //       color: Colors.red,
-                        //       width: 5,
-                        //     )),
-                        child: Text(
-                          " 일간 기록",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                HomeBarchart(),
-              ],
+            child: SfCalendar(
+              view: CalendarView.month,
+              todayHighlightColor: Color(0xff4F98FF),
+              cellBorderColor: Colors.white,
+              headerHeight: 0,
+              dataSource: CoachingDataSource.test(),
+              monthViewSettings: MonthViewSettings(
+                //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+                //showAgenda: true,
+                appointmentDisplayCount: 1,
+              ),
             ),
-            // Text('일간 기록'),
-            // decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     border: Border.all(
-            //       color: Colors.blue,
-            //       width: 5,
-            //     )),
-            // child:  Image(
-            // image: AssetImage('assets/Group 3004.png'), width: 300),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Container(
-              height: 1.0,
-              width: 300.0,
-              color: Colors.grey,
-            ),
-          ),
-          Container(
-            width: 200,
-            height: 200,
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(5),
-            child: Text(' 주간 간단 피드백'),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 5,
-                )),
-            // child:  Image(
-            // image: AssetImage('assets/Group 3005.png'), width: 300),
           ),
         ],
       ),
     );
   }
+
+  Widget threedaysbarchart(){
+    return Container(
+      width: 200,
+      height: 360,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+            child: Row(
+              children: [
+                Image(image: AssetImage('assets/chart.png'), width: 24),
+                Container(
+                  child: Text(
+                    " 일간 기록",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          HomeBarchart(),
+        ],
+      ),
+    );
+  }
+
+  Widget feedback(){
+    return Container(
+      width: 200,
+      height: 200,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Text(' 주간 간단 피드백'),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.blue,
+            width: 5,
+          )),
+    );
+  }
+
 }

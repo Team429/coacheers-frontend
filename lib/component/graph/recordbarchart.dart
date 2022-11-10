@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-import '../component/coachingDater.dart';
+import 'package:coacheers/component/coachingDater.dart';
 
 class RecordBarchart extends StatelessWidget {
   double totalsum;

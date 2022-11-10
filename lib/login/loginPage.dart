@@ -1,9 +1,7 @@
+import 'package:coacheers/component/kakaoLogin.dart';
 import 'package:coacheers/frame/mainFrame.dart';
-import 'package:coacheers/onwillpop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import '../component/kakaoLogin.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);

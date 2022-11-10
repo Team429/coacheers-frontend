@@ -1,10 +1,10 @@
 import 'package:coacheers/coaching/coachinhPage.dart';
 import 'package:coacheers/home/homePage.dart';
 import 'package:coacheers/profile/profilePage.dart';
+import 'package:coacheers/record/recordPage.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
-import '../record/recordPage.dart';
 
 class MainFrame extends StatefulWidget {
   const MainFrame({Key? key}) : super(key: key);
@@ -15,17 +15,11 @@ class MainFrame extends StatefulWidget {
 
 class _MainFrameWidget extends State<MainFrame> {
 // 탭을 이동할 때 쓸 변수!
+
+  @override
   bool shouldPop = false;
   int _selectedIndex = 3;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 40, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     RecordPage(),
     CoachingPage(),
@@ -36,7 +30,6 @@ class _MainFrameWidget extends State<MainFrame> {
   @override
   Widget build(BuildContext context) {
     print("메인 페이지\n");
-
     return WillPopScope(
       onWillPop: () async {
         return shouldPop;
@@ -152,4 +145,11 @@ class _MainFrameWidget extends State<MainFrame> {
       ),
     );
   }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
 }

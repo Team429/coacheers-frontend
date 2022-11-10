@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-import '../component/coachingDater.dart';
+import 'package:coacheers/component/coachingDater.dart';
 
 class VoiceDonutchart extends StatelessWidget {
   @override
