@@ -13,40 +13,45 @@ class CamerademoPage extends StatefulWidget {
 
 class _CamerademoPageState extends State<CamerademoPage> {
   bool _isRecording = false;
-
+  bool shouldPop = false;
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 5,
-                )),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Container(),
+    return WillPopScope(
+      onWillPop: () async {
+        return shouldPop;
+      },
+        child : Center(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: Colors.blue,
+                      width: 5,
+                    )),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Container(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(50),
+                child: FloatingActionButton(
+                  backgroundColor: Colors.red,
+                  child: Icon(_isRecording ? Icons.stop : Icons.circle),
+                  onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CoachingEnd(filePath: "www")),
+                    )
+                  },
+                ),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(50),
-            child: FloatingActionButton(
-              backgroundColor: Colors.red,
-              child: Icon(_isRecording ? Icons.stop : Icons.circle),
-              onPressed: () => {
-                Navigator.push(
-              context,
-              MaterialPageRoute(
-              builder: (context) => CoachingEnd()),
-              )
-              },
-            ),
-          ),
-        ],
-      ),
+        )
     );
   }
 }

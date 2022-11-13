@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:coacheers/coaching/camera/video.dart';
+import 'package:coacheers/coaching/coachingEndPage.dart';
 import 'package:flutter/material.dart';
 
 class CameraPage extends StatefulWidget {
@@ -10,6 +11,7 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
+  bool shouldPop = false;
   bool _isLoading = true;
   bool _isRecording = false;
   late CameraController _cameraController;
@@ -28,7 +30,8 @@ class _CameraPageState extends State<CameraPage> {
 
   _initCamera() async {
     final cameras = await availableCameras();
-    final front = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.front);
+    final front = cameras.firstWhere(
+        (camera) => camera.lensDirection == CameraLensDirection.front);
     _cameraController = CameraController(front, ResolutionPreset.max);
     await _cameraController.initialize();
     setState(() => _isLoading = false);
@@ -41,7 +44,9 @@ class _CameraPageState extends State<CameraPage> {
       print(file.path);
       final route = MaterialPageRoute(
         fullscreenDialog: true,
-        builder: (_) => VideoPage(filePath: file.path),
+        builder: (_) =>
+            // VideoPage(filePath: file.path),
+        CoachingEnd(filePath: file.path),
       );
       Navigator.push(context, route);
     } else {
@@ -54,31 +59,40 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return Container(
-        color: Colors.white,
-        child: const Center(
-          child: CircularProgressIndicator(),
+      return WillPopScope(
+        onWillPop: () async {
+          return shouldPop;
+        },
+        child: Container(
+          color: Colors.white,
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
       );
     } else {
-      return Center(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: CameraPreview(_cameraController)
-            ),
-            Padding(
-              padding: const EdgeInsets.all(25),
-              child: FloatingActionButton(
-                backgroundColor: Colors.red,
-                child: Icon(_isRecording ? Icons.stop : Icons.circle),
-                onPressed: () => _recordVideo(),
+      return WillPopScope(
+        onWillPop: () async {
+          return shouldPop;
+        },
+        child: Center(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: CameraPreview(_cameraController)),
+              Padding(
+                padding: const EdgeInsets.all(25),
+                child: FloatingActionButton(
+                  backgroundColor: Colors.red,
+                  child: Icon(_isRecording ? Icons.stop : Icons.circle),
+                  onPressed: () => _recordVideo(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     }

@@ -1,10 +1,35 @@
+import 'dart:io';
+
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:video_player/video_player.dart';
 
-class CoachingEnd extends StatelessWidget {
-  const CoachingEnd({Key? key}) : super(key: key);
+class CoachingEnd extends StatefulWidget {
+  final String filePath;
 
+  const CoachingEnd({Key? key, required this.filePath}) : super(key: key);
+
+  @override
+  State<CoachingEnd> createState() => _CoachingEndState();
+}
+
+class _CoachingEndState extends State<CoachingEnd> {
+
+  late VideoPlayerController _videoPlayerController;
+
+  @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    super.dispose();
+  }
+
+  Future _initVideoPlayer() async {
+    _videoPlayerController = VideoPlayerController.file(File(widget.filePath));
+    await _videoPlayerController.initialize();
+    await _videoPlayerController.setLooping(true);
+    await _videoPlayerController.play();
+  }
   @override
   Widget build(BuildContext context) {
     bool shouldPop = false;
@@ -39,14 +64,14 @@ class CoachingEnd extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-          Padding(
-          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-          child: Container(
-            height: 1.0,
-            width: 300.0,
-            color: Colors.grey,
-          ),
-        ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: Container(
+                  height: 1.0,
+                  width: 300.0,
+                  color: Colors.grey,
+                ),
+              ),
               SizedBox(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0,40,0,0),
@@ -159,7 +184,7 @@ class CoachingEnd extends StatelessWidget {
                         child: FloatingActionButton(
                           heroTag: "record",
                           onPressed: () {
-
+                            CoachingButtonDialog(context);
                           },
                           child: Icon(
                             Icons.history,
@@ -187,7 +212,7 @@ class CoachingEnd extends StatelessWidget {
                     heroTag: "coaching start",
                     label: Text("모의 면접 코칭 시작"),
                     onPressed: () {
-
+                      CoachingButtonDialog(context);
                       //_onItemTapped(1);
                     },
                   ),
@@ -202,7 +227,7 @@ class CoachingEnd extends StatelessWidget {
                         child: FloatingActionButton(
                           heroTag: "my",
                           onPressed: () {
-
+                            CoachingButtonDialog(context);
                           },
                           child: Icon(
                             Icons.person,
@@ -249,9 +274,9 @@ class CoachingEnd extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Text(
-                    "홈으로 돌아가게 될시 면접이 저장이 되지 않을 수도 있습니다. 그래도 돌아가시겠습니까?"
-                ,
-                style: TextStyle(fontSize: 15),),
+                  "홈으로 돌아가게 될시 면접이 저장이 되지 않을 수도 있습니다. 그래도 돌아가시겠습니까?"
+                  ,
+                  style: TextStyle(fontSize: 15),),
               ],
             ),
             actions: <Widget>[
@@ -276,5 +301,5 @@ class CoachingEnd extends StatelessWidget {
           );
         });
   }
-
 }
+
