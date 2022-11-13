@@ -1,9 +1,10 @@
-import 'package:coacheers/coaching/coachinhPage.dart';
+import 'package:coacheers/coaching/camera/camera.dart';
+import 'package:coacheers/coaching/camera/camerademo.dart';
+import 'package:coacheers/coaching/coachingPage.dart';
 import 'package:coacheers/home/homePage.dart';
 import 'package:coacheers/profile/profilePage.dart';
 import 'package:coacheers/record/recordPage.dart';
 import 'package:flutter/material.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 
 class MainFrame extends StatefulWidget {
@@ -18,11 +19,11 @@ class _MainFrameWidget extends State<MainFrame> {
 
   @override
   bool shouldPop = false;
-  int _selectedIndex = 3;
+  int _selectedIndex = 2;
 
   static const List<Widget> _widgetOptions = <Widget>[
     RecordPage(),
-    CoachingPage(),
+    //CoachingPage(),
     ProfilePage(),
     Home(),
   ];
@@ -50,7 +51,7 @@ class _MainFrameWidget extends State<MainFrame> {
                 size: 24,
               ),
               onPressed: () {
-                _onItemTapped(3);
+                _onItemTapped(2);
                 // Navigator.push(
                 //   context,
                 //   MaterialPageRoute(builder: (context) => Home()),
@@ -108,7 +109,8 @@ class _MainFrameWidget extends State<MainFrame> {
                     heroTag: "coaching start",
                     label: Text("모의 면접 코칭 시작"),
                     onPressed: () {
-                      _onItemTapped(1);
+                      CoachingButtonDialog(context);
+                      //_onItemTapped(1);
                     },
                   ),
                 ),
@@ -122,7 +124,7 @@ class _MainFrameWidget extends State<MainFrame> {
                         child: FloatingActionButton(
                           heroTag: "my",
                           onPressed: () {
-                            _onItemTapped(2);
+                            _onItemTapped(1);
                           },
                           child: Icon(
                             Icons.person,
@@ -152,4 +154,55 @@ class _MainFrameWidget extends State<MainFrame> {
     });
   }
 
+  CoachingButtonDialog(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            //Dialog Main Title
+            title: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Text("코칭 영상 선택"),
+              ],
+            ),
+            //
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new TextButton(
+                  child: new Text("앨범에서 영상 선택"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                new TextButton(
+                  child: new Text("영상 녹화 시작"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CamerademoPage()),
+                    );
+                  },
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              new TextButton(
+                child: new Text("취소"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
 }

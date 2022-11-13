@@ -1,4 +1,5 @@
 import 'package:coacheers/coaching/camera/camera.dart';
+import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ class _CoachingPageState extends State<CoachingPage> {
   Widget build(BuildContext context) {
     print("메인 페이지 - 코칭 페이지\n");
     // debugShowCheckedModeBanner: false,
+    //return CamerademoPage();
     return CameraPage();
     //return Scaffold();
   }

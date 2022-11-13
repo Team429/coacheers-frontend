@@ -66,8 +66,8 @@ class _CameraPageState extends State<CameraPage> {
           alignment: Alignment.bottomCenter,
           children: [
             Container(
-              width: 300,
-                height: 400,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 child: CameraPreview(_cameraController)
             ),
             Padding(
