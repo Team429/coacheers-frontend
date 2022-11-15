@@ -18,6 +18,7 @@ class CoachingEnd extends StatefulWidget {
 class _CoachingEndState extends State<CoachingEnd> {
 
   late VideoPlayerController _videoPlayerController;
+  //late TextEditingController _commentController;
   @override
   void dispose() {
     _videoPlayerController.dispose();
@@ -114,6 +115,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                         padding: const EdgeInsets.fromLTRB(50,10,50,0),
                         child: TextField(
                           obscureText: true,
+                          //controller: _commentController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: '메모할 내용을 적어주세요.',
@@ -158,7 +160,13 @@ class _CoachingEndState extends State<CoachingEnd> {
                           heroTag: "Save",
                           label: Text("저장하기"),
                           onPressed: () {
-                            VideoPage(filePath: widget.filePath);
+                            print(widget.filePath);
+                            Navigator.push(context,MaterialPageRoute(
+                              fullscreenDialog: true,
+                              builder: (_) => //VideoPage(filePath: file.path),
+                              VideoPage(filePath: widget.filePath),
+                            )
+                            );
                             //CoachingButtonDialog(context);
                           },
                         ),

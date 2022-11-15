@@ -192,7 +192,7 @@ class _MainFrameWidget extends State<MainFrame> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CamerademoPage()),
+                          builder: (context) => CameraPage()),
                     );
                   },
                 ),

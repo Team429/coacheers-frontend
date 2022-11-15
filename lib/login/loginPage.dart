@@ -1,10 +1,17 @@
 import 'package:coacheers/component/kakaoLogin.dart';
 import 'package:coacheers/frame/mainFrame.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,7 @@ class LoginPage extends StatelessWidget {
                     Text(
                       "Coacheers",
                       style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -72,10 +79,10 @@ class LoginPage extends StatelessWidget {
                                   Color(0xff569BF5),
                                 ),
                                 shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(30.0),
+                                        BorderRadius.circular(30.0),
                                         side: BorderSide(
                                             color: Color(0xff569BF5))))),
                           ),
@@ -118,10 +125,10 @@ class LoginPage extends StatelessWidget {
                                 backgroundColor: MaterialStateProperty.all(
                                     Color(0xffFEE500)),
                                 shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(30.0),
+                                        BorderRadius.circular(30.0),
                                         side: BorderSide(
                                             color: Color(0xffFEE500))))),
                           ),
@@ -157,9 +164,9 @@ class LoginPage extends StatelessWidget {
                           ),
                           style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(Color(0xffF7F7F7)),
+                              MaterialStateProperty.all(Color(0xffF7F7F7)),
                               shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30.0),
                                       side: BorderSide(
