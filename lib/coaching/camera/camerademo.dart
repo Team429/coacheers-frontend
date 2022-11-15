@@ -32,7 +32,7 @@ class _CamerademoPageState extends State<CamerademoPage> {
                       width: 5,
                     )),
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height-200,
                 child: Container(),
               ),
               Padding(

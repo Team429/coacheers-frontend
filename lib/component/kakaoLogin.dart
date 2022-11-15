@@ -1,17 +1,40 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
+String user_code = "";
+String profileURL = "";
+
 void _get_user_info() async {
   try {
     User user = await UserApi.instance.me();
-    print('사용자 정보 요청 성공'
-        '\n회원번호: ${user.id}'
-        '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
+    user_code = user.id.toString();
+    //print("user_code${user_code}");
+    _post_user_info(user_code);
+    // print('사용자 정보 요청 성공'
+    //     '\n회원번호: ${user.id}'
+    //     '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
   } catch (error) {
     print('사용자 정보 요청 실패 $error');
   }
+}
+
+void _post_user_info(String string) async {
+  String url = 'http://localhost:8000/users/';
+  var jsonEncode2 = jsonEncode({ "email": string,});
+  http.Response response = await http.post(
+      Uri.parse(url),
+      headers: <String,String> {
+        "content-type" : "application/json"
+      },
+      body: jsonEncode2
+  );
+  var decode = utf8.decode(response.bodyBytes);
+  print("Response : ${response.statusCode} ${decode}");
+  print(response.headers);
 }
 
 void KakaoLogin(context) async {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:coacheers/coaching/camera/camera.dart';
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/coaching/coachingPage.dart';
@@ -32,6 +34,7 @@ class _MainFrameWidget extends State<MainFrame> {
   @override
   Widget build(BuildContext context) {
     print("메인 페이지\n");
+    //get();
     return WillPopScope(
       onWillPop: () async {
         return shouldPop;
@@ -206,4 +209,20 @@ class _MainFrameWidget extends State<MainFrame> {
           );
         });
   }
+
+  // void get() async{
+  //   String url = "http://localhost:8000/users";
+  //   var response = await http.get(Uri.parse(url));
+  //   var statusCode = response.statusCode;
+  //   var responseHeaders = response.headers;
+  //   var responseBody = utf8.decode(response.bodyBytes);
+  //
+  //   Map<String, dynamic> user = jsonDecode(responseBody);
+  //
+  //   print(user);
+  //
+  //   print("statusCode: ${statusCode}");
+  //   print("responseHeader: ${responseHeaders}");
+  //   print("responseBody: ${responseBody}");
+  // }
 }

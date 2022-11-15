@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:coacheers/coaching/camera/video.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +18,6 @@ class CoachingEnd extends StatefulWidget {
 class _CoachingEndState extends State<CoachingEnd> {
 
   late VideoPlayerController _videoPlayerController;
-
   @override
   void dispose() {
     _videoPlayerController.dispose();
@@ -30,6 +30,7 @@ class _CoachingEndState extends State<CoachingEnd> {
     await _videoPlayerController.setLooping(true);
     await _videoPlayerController.play();
   }
+
   @override
   Widget build(BuildContext context) {
     bool shouldPop = false;
@@ -157,6 +158,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                           heroTag: "Save",
                           label: Text("저장하기"),
                           onPressed: () {
+                            VideoPage(filePath: widget.filePath);
                             //CoachingButtonDialog(context);
                           },
                         ),

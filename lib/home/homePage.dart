@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:coacheers/component/kakaoLogin.dart';
+import 'package:http/http.dart' as http;
 import 'package:coacheers/component/coachingDater.dart';
 import 'package:coacheers/component/graph/FaceDonut.dart';
 import 'package:coacheers/component/graph/TotalDonut.dart';
@@ -15,9 +18,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 홈 페이지\n");
+    get();
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -230,4 +235,19 @@ class _HomeState extends State<Home> {
     );
   }
 
+  void get() async{
+    String url = 'http://localhost:8000/users';
+    var response = await http.get(Uri.parse(url));
+    var statusCode = response.statusCode;
+    var responseHeaders = response.headers;
+    var responseBody = utf8.decode(response.bodyBytes);
+
+    Map<String, dynamic> user = jsonDecode(responseBody);
+
+    // print("statusCode: ${statusCode}");
+    // print("responseHeader: ${responseHeaders}");
+    //print("responseBody: ${responseBody}");
+
+    print(user);
+  }
 }

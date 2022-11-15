@@ -44,8 +44,7 @@ class _CameraPageState extends State<CameraPage> {
       print(file.path);
       final route = MaterialPageRoute(
         fullscreenDialog: true,
-        builder: (_) =>
-            // VideoPage(filePath: file.path),
+        builder: (_) => //VideoPage(filePath: file.path),
         CoachingEnd(filePath: file.path),
       );
       Navigator.push(context, route);
@@ -81,7 +80,7 @@ class _CameraPageState extends State<CameraPage> {
             children: [
               Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
+                  height: MediaQuery.of(context).size.height-200,
                   child: CameraPreview(_cameraController)),
               Padding(
                 padding: const EdgeInsets.all(25),

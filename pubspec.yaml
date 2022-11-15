@@ -54,6 +54,7 @@ dependencies:
   path_provider: ^2.0.11
   path: ^1.8.2
   flash: ^2.0.5
+  http: ^0.13.5
 
 
   # The following adds the Cupertino Icons font to your application.
