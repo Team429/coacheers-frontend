@@ -14,7 +14,6 @@ class _CoachingPageState extends State<CoachingPage> {
   @override
   bool shouldPop = false;
 
-
   Widget build(BuildContext context) {
     print("메인 페이지 - 코칭 페이지\n");
     // debugShowCheckedModeBanner: false,
@@ -23,4 +22,3 @@ class _CoachingPageState extends State<CoachingPage> {
     //return Scaffold();
   }
 }
-

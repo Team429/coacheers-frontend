@@ -9,7 +9,6 @@ import 'package:coacheers/component/graph/homebarchart.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -18,7 +17,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 홈 페이지\n");
@@ -40,7 +38,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget underline(){
+  Widget underline() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
       child: Container(
@@ -51,7 +49,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget daydonutgraph(){
+  Widget daydonutgraph() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Container(
@@ -66,13 +64,12 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
               child: Row(
                 children: [
-                  Image(
-                      image: AssetImage('assets/recent.png'), width: 24),
+                  Image(image: AssetImage('assets/recent.png'), width: 24),
                   Container(
                     child: Text(
                       " 최근 코치 기록",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
                 ],
@@ -145,7 +142,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget calander(){
+  Widget calander() {
     return Container(
       width: 200,
       height: 360,
@@ -158,13 +155,11 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
             child: Row(
               children: [
-                Image(
-                    image: AssetImage('assets/calendar.png'), width: 24),
+                Image(image: AssetImage('assets/calendar.png'), width: 24),
                 Container(
                   child: Text(
                     " 이번달 출석부",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 15),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
               ],
@@ -189,7 +184,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget threedaysbarchart(){
+  Widget threedaysbarchart() {
     return Container(
       width: 200,
       height: 360,
@@ -206,8 +201,7 @@ class _HomeState extends State<Home> {
                 Container(
                   child: Text(
                     " 일간 기록",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 15),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
               ],
@@ -219,7 +213,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget feedback(){
+  Widget feedback() {
     return Container(
       width: 200,
       height: 200,
@@ -235,7 +229,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void get() async{
+  void get() async {
     String url = 'http://localhost:8000/users';
     var response = await http.get(Uri.parse(url));
     var statusCode = response.statusCode;

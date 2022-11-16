@@ -5,7 +5,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-
 class RecordPage extends StatefulWidget {
   const RecordPage({Key? key}) : super(key: key);
 
@@ -32,11 +31,9 @@ class _RecordPageState extends State<RecordPage> {
     _startDate = DateFormat('yyyy. MM. dd')
         .format(today.subtract(Duration(days: 7)))
         .toString();
-    _endDate = DateFormat('yyyy. MM. dd')
-        .format(today)
-        .toString();
-    _controller.selectedRange = PickerDateRange(
-        today.subtract(Duration(days: 7)), today);
+    _endDate = DateFormat('yyyy. MM. dd').format(today).toString();
+    _controller.selectedRange =
+        PickerDateRange(today.subtract(Duration(days: 7)), today);
 
     filterSearchResults(
         today.subtract(Duration(days: 4)), today.add(Duration(days: 3)));
@@ -86,8 +83,8 @@ class _RecordPageState extends State<RecordPage> {
     );
   }
 
-  Widget daterange(){
-    return  Padding(
+  Widget daterange() {
+    return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Container(
         width: 200,
@@ -101,13 +98,12 @@ class _RecordPageState extends State<RecordPage> {
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
               child: Row(
                 children: [
-                  Image(
-                      image: AssetImage('assets/Vector.png'), width: 24),
+                  Image(image: AssetImage('assets/Vector.png'), width: 24),
                   Container(
                     child: Text(
                       " 기간별 기록",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
                 ],
@@ -144,7 +140,7 @@ class _RecordPageState extends State<RecordPage> {
     );
   }
 
-  Widget searchresult(){
+  Widget searchresult() {
     return Container(
       width: 200,
       height: 500,
@@ -158,10 +154,9 @@ class _RecordPageState extends State<RecordPage> {
               children: [
                 Container(
                     child: Text(
-                      "${dateitems.length}건의 검색 결과",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 12),
-                    )),
+                  "${dateitems.length}건의 검색 결과",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                )),
               ],
             ),
           ),
@@ -206,7 +201,8 @@ class _RecordPageState extends State<RecordPage> {
           DateFormat('yyyy. MM. dd').format(args.value.startDate).toString();
 
       _end = args.value.endDate ?? args.value.startDate;
-      _end = new DateTime(_end.year,_end.month,_end.day + 1,_end.hour,_end.minute,_end.second - 1);
+      _end = new DateTime(_end.year, _end.month, _end.day + 1, _end.hour,
+          _end.minute, _end.second - 1);
       _endDate = DateFormat('yyyy. MM. dd')
           .format(args.value.endDate ?? args.value.startDate)
           .toString();
@@ -308,7 +304,6 @@ class _RecordPageState extends State<RecordPage> {
     //print("end : ${endDate}");
 
     dummyDateSearchList.forEach((item) {
-
       //print("item : ${item}");
       if (item.compareTo(startDate) > 0 && item.compareTo(endDate) <= 0) {
         dummyDateListData
@@ -363,4 +358,3 @@ class _RecordPageState extends State<RecordPage> {
     });
   }
 }
-

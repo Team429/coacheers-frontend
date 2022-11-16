@@ -13,14 +13,11 @@ class VideoPage extends StatefulWidget {
 }
 
 class _VideoPageState extends State<VideoPage> {
-
-
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
 
   @override
   void initState() {
-
     _controller = VideoPlayerController.file(File(widget.filePath));
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
@@ -30,11 +27,9 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   void dispose() {
-
     _controller.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
                     Text(
                       "Coacheers",
                       style:
-                      TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -79,10 +78,10 @@ class _LoginPageState extends State<LoginPage> {
                                   Color(0xff569BF5),
                                 ),
                                 shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                        RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(30.0),
+                                            BorderRadius.circular(30.0),
                                         side: BorderSide(
                                             color: Color(0xff569BF5))))),
                           ),
@@ -125,10 +124,10 @@ class _LoginPageState extends State<LoginPage> {
                                 backgroundColor: MaterialStateProperty.all(
                                     Color(0xffFEE500)),
                                 shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                        RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(30.0),
+                                            BorderRadius.circular(30.0),
                                         side: BorderSide(
                                             color: Color(0xffFEE500))))),
                           ),
@@ -164,9 +163,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           style: ButtonStyle(
                               backgroundColor:
-                              MaterialStateProperty.all(Color(0xffF7F7F7)),
+                                  MaterialStateProperty.all(Color(0xffF7F7F7)),
                               shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
+                                      RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30.0),
                                       side: BorderSide(

@@ -16,8 +16,8 @@ class CoachingEnd extends StatefulWidget {
 }
 
 class _CoachingEndState extends State<CoachingEnd> {
-
   late VideoPlayerController _videoPlayerController;
+
   //late TextEditingController _commentController;
   @override
   void dispose() {
@@ -76,26 +76,27 @@ class _CoachingEndState extends State<CoachingEnd> {
               ),
               SizedBox(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0,40,0,0),
+                  padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                   child: Column(
                     children: [
                       Text(
                         "모의 면접이 종료 되었습니다!",
-                        style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         "수고하셨습니다!",
-                        style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0,10,0,0),
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                         child: Image(
-                            image: AssetImage('assets/Coacheers.png'), width: 250),
+                            image: AssetImage('assets/Coacheers.png'),
+                            width: 250),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(50,20,0,0),
+                        padding: const EdgeInsets.fromLTRB(50, 20, 0, 0),
                         child: Row(
                           children: [
                             Image(
@@ -109,10 +110,9 @@ class _CoachingEndState extends State<CoachingEnd> {
                             ),
                           ],
                         ),
-
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(50,10,50,0),
+                        padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
                         child: TextField(
                           obscureText: true,
                           //controller: _commentController,
@@ -123,11 +123,12 @@ class _CoachingEndState extends State<CoachingEnd> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(50,20,0,0),
+                        padding: const EdgeInsets.fromLTRB(50, 20, 0, 0),
                         child: Row(
                           children: [
                             Image(
-                                image: AssetImage('assets/time.png'), width: 24),
+                                image: AssetImage('assets/time.png'),
+                                width: 24),
                             Container(
                               child: Text(
                                 " 날짜 ",
@@ -139,11 +140,11 @@ class _CoachingEndState extends State<CoachingEnd> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0,10,80,0),
+                        padding: const EdgeInsets.fromLTRB(0, 10, 80, 0),
                         child: Text(
                           getToday(),
-                          style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(
@@ -151,8 +152,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                         child: FloatingActionButton.extended(
                           backgroundColor: Color(0xff1ABC9C),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)
-                          ),
+                              borderRadius: BorderRadius.circular(10.0)),
                           elevation: 4.0,
                           icon: const Icon(
                             Icons.save,
@@ -161,12 +161,14 @@ class _CoachingEndState extends State<CoachingEnd> {
                           label: Text("저장하기"),
                           onPressed: () {
                             print(widget.filePath);
-                            Navigator.push(context,MaterialPageRoute(
-                              fullscreenDialog: true,
-                              builder: (_) => //VideoPage(filePath: file.path),
-                              VideoPage(filePath: widget.filePath),
-                            )
-                            );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  fullscreenDialog: true,
+                                  builder:
+                                      (_) => //VideoPage(filePath: file.path),
+                                          VideoPage(filePath: widget.filePath),
+                                ));
                             //CoachingButtonDialog(context);
                           },
                         ),
@@ -284,9 +286,9 @@ class _CoachingEndState extends State<CoachingEnd> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Text(
-                  "홈으로 돌아가게 될시 면접이 저장이 되지 않을 수도 있습니다. 그래도 돌아가시겠습니까?"
-                  ,
-                  style: TextStyle(fontSize: 15),),
+                  "홈으로 돌아가게 될시 면접이 저장이 되지 않을 수도 있습니다. 그래도 돌아가시겠습니까?",
+                  style: TextStyle(fontSize: 15),
+                ),
               ],
             ),
             actions: <Widget>[
@@ -296,8 +298,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => MainFrame()),
+                    MaterialPageRoute(builder: (context) => MainFrame()),
                   );
                 },
               ),
@@ -312,4 +313,3 @@ class _CoachingEndState extends State<CoachingEnd> {
         });
   }
 }
-

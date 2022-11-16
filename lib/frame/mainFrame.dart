@@ -8,11 +8,9 @@ import 'package:coacheers/profile/profilePage.dart';
 import 'package:coacheers/record/recordPage.dart';
 import 'package:flutter/material.dart';
 
-
 class MainFrame extends StatefulWidget {
-
-
   const MainFrame({Key? key}) : super(key: key);
+
   @override
   State<MainFrame> createState() => _MainFrameWidget();
 }
@@ -191,8 +189,7 @@ class _MainFrameWidget extends State<MainFrame> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => CameraPage()),
+                      MaterialPageRoute(builder: (context) => CameraPage()),
                     );
                   },
                 ),
@@ -210,19 +207,19 @@ class _MainFrameWidget extends State<MainFrame> {
         });
   }
 
-  // void get() async{
-  //   String url = "http://localhost:8000/users";
-  //   var response = await http.get(Uri.parse(url));
-  //   var statusCode = response.statusCode;
-  //   var responseHeaders = response.headers;
-  //   var responseBody = utf8.decode(response.bodyBytes);
-  //
-  //   Map<String, dynamic> user = jsonDecode(responseBody);
-  //
-  //   print(user);
-  //
-  //   print("statusCode: ${statusCode}");
-  //   print("responseHeader: ${responseHeaders}");
-  //   print("responseBody: ${responseBody}");
-  // }
+// void get() async{
+//   String url = "http://localhost:8000/users";
+//   var response = await http.get(Uri.parse(url));
+//   var statusCode = response.statusCode;
+//   var responseHeaders = response.headers;
+//   var responseBody = utf8.decode(response.bodyBytes);
+//
+//   Map<String, dynamic> user = jsonDecode(responseBody);
+//
+//   print(user);
+//
+//   print("statusCode: ${statusCode}");
+//   print("responseHeader: ${responseHeaders}");
+//   print("responseBody: ${responseBody}");
+// }
 }

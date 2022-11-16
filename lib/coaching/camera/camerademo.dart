@@ -14,13 +14,14 @@ class CamerademoPage extends StatefulWidget {
 class _CamerademoPageState extends State<CamerademoPage> {
   bool _isRecording = false;
   bool shouldPop = false;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        return shouldPop;
-      },
-        child : Center(
+        onWillPop: () async {
+          return shouldPop;
+        },
+        child: Center(
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
@@ -32,7 +33,7 @@ class _CamerademoPageState extends State<CamerademoPage> {
                       width: 5,
                     )),
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-200,
+                height: MediaQuery.of(context).size.height - 200,
                 child: Container(),
               ),
               Padding(
@@ -51,7 +52,6 @@ class _CamerademoPageState extends State<CamerademoPage> {
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 }

@@ -24,14 +24,12 @@ void _get_user_info() async {
 
 void _post_user_info(String string) async {
   String url = 'http://localhost:8000/users/';
-  var jsonEncode2 = jsonEncode({ "email": string,});
-  http.Response response = await http.post(
-      Uri.parse(url),
-      headers: <String,String> {
-        "content-type" : "application/json"
-      },
-      body: jsonEncode2
-  );
+  var jsonEncode2 = jsonEncode({
+    "email": string,
+  });
+  http.Response response = await http.post(Uri.parse(url),
+      headers: <String, String>{"content-type": "application/json"},
+      body: jsonEncode2);
   var decode = utf8.decode(response.bodyBytes);
   print("Response : ${response.statusCode} ${decode}");
   print(response.headers);
