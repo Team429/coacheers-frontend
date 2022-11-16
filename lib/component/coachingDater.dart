@@ -9,6 +9,20 @@ final List<String> searchScoreList = <String>[];
 final List<double> searchFaceScoreList = <double>[];
 final List<double> searchVoiceScoreList = <double>[];
 
+class UserData {
+  UserData(this.companyName,this.from,this.VideoURL,this.face_point,this.voice_point,this.total_point);
+
+  String companyName;  //회사명
+  DateTime from;
+  String VideoURL;
+  double face_point;
+  double voice_point;
+  double total_point;
+
+}
+
+List<UserData> userData = [];
+
 class CoachingData {
   //calander
   CoachingData(this.companyName, this.from, this.to, this.background,

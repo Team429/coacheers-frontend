@@ -9,6 +9,7 @@ import 'package:coacheers/component/graph/homebarchart.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -17,6 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var list = [];
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 홈 페이지\n");
@@ -243,5 +245,12 @@ class _HomeState extends State<Home> {
     //print("responseBody: ${responseBody}");
 
     print(user);
+    print(user['1']);
+
+    Map<String, dynamic> user_info = jsonDecode(user['1']);
+    print(user_info['name']);
   }
+
 }
+
+

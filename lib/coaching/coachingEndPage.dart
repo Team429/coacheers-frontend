@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:coacheers/coaching/camera/video.dart';
+import 'package:coacheers/component/coachingDater.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,12 +18,19 @@ class CoachingEnd extends StatefulWidget {
 
 class _CoachingEndState extends State<CoachingEnd> {
   late VideoPlayerController _videoPlayerController;
+  late TextEditingController _commentController;
 
-  //late TextEditingController _commentController;
   @override
   void dispose() {
     _videoPlayerController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _commentController = TextEditingController();
+
   }
 
   Future _initVideoPlayer() async {
@@ -35,11 +43,13 @@ class _CoachingEndState extends State<CoachingEnd> {
   @override
   Widget build(BuildContext context) {
     bool shouldPop = false;
+
     return WillPopScope(
       onWillPop: () async {
         return shouldPop;
       },
       child: Scaffold(
+        resizeToAvoidBottomInset : false,
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
@@ -114,8 +124,8 @@ class _CoachingEndState extends State<CoachingEnd> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
                         child: TextField(
-                          obscureText: true,
-                          //controller: _commentController,
+                          // obscureText: true,
+                          controller: _commentController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: '메모할 내용을 적어주세요.',
@@ -161,13 +171,16 @@ class _CoachingEndState extends State<CoachingEnd> {
                           label: Text("저장하기"),
                           onPressed: () {
                             print(widget.filePath);
+                            userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
+                            print(userData[0].companyName);
+                            print(userData.length);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   fullscreenDialog: true,
                                   builder:
                                       (_) => //VideoPage(filePath: file.path),
-                                          VideoPage(filePath: widget.filePath),
+                                          VideoPage(filePath: widget.filePath, name: _commentController.text),
                                 ));
                             //CoachingButtonDialog(context);
                           },

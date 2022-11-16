@@ -5,8 +5,9 @@ import 'package:video_player/video_player.dart';
 
 class VideoPage extends StatefulWidget {
   final String filePath;
+  final String name;
 
-  const VideoPage({Key? key, required this.filePath}) : super(key: key);
+  const VideoPage({Key? key, required this.filePath, required this.name}) : super(key: key);
 
   @override
   _VideoPageState createState() => _VideoPageState();
@@ -35,7 +36,7 @@ class _VideoPageState extends State<VideoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Preview'),
+        title: Text(widget.name),
         elevation: 0,
         backgroundColor: Colors.black26,
         actions: [
