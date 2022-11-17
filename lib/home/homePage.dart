@@ -7,6 +7,7 @@ import 'package:coacheers/component/graph/TotalDonut.dart';
 import 'package:coacheers/component/graph/VoiceDonut.dart';
 import 'package:coacheers/component/graph/homebarchart.dart';
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 
@@ -22,7 +23,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 홈 페이지\n");
-    get();
+    //get();
+    _get_user_info();
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -251,6 +253,19 @@ class _HomeState extends State<Home> {
     print(user_info['name']);
   }
 
+  void _get_user_info() async {
+    try {
+      User user = await UserApi.instance.me();
+      user_code = user.id.toString();
+      print("user_code${user_code}");
+      print('사용자 정보 요청 성공'
+          '\n회원번호: ${user.id}'
+          '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
+          '\n프로필사진링크 : ${user.kakaoAccount?.profile?.thumbnailImageUrl}');
+    } catch (error) {
+      print('사용자 정보 요청 실패 $error');
+    }
+  }
 }
 
 

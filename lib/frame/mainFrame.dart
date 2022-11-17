@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:coacheers/component/kakaoLogin.dart';
 import 'package:http/http.dart' as http;
 import 'package:coacheers/coaching/camera/camera.dart';
 import 'package:coacheers/coaching/camera/camerademo.dart';
@@ -7,9 +8,13 @@ import 'package:coacheers/home/homePage.dart';
 import 'package:coacheers/profile/profilePage.dart';
 import 'package:coacheers/record/recordPage.dart';
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class MainFrame extends StatefulWidget {
-  const MainFrame({Key? key}) : super(key: key);
+  final String name;
+  final String profileURL;
+
+  const MainFrame({Key? key, required this.name, required this.profileURL}) : super(key: key);
 
   @override
   State<MainFrame> createState() => _MainFrameWidget();
@@ -22,17 +27,20 @@ class _MainFrameWidget extends State<MainFrame> {
   bool shouldPop = false;
   int _selectedIndex = 2;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  List<Widget> _widgetOptions() => [
     RecordPage(),
     //CoachingPage(),
-    ProfilePage(),
+    ProfilePage(nickname : widget.name, profileURL : widget.profileURL),
     Home(),
   ];
 
   @override
   Widget build(BuildContext context) {
     print("메인 페이지\n");
+    print(widget.name);
+    print(widget.profileURL);
     //get();
+    final List<Widget> widgetOptions = _widgetOptions();
     return WillPopScope(
       onWillPop: () async {
         return shouldPop;
@@ -65,7 +73,7 @@ class _MainFrameWidget extends State<MainFrame> {
           elevation: 0.0,
         ),
         body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
+          child: widgetOptions[_selectedIndex],
         ),
         bottomNavigationBar: Container(
             color: Color(0xff1877F2),
@@ -148,6 +156,19 @@ class _MainFrameWidget extends State<MainFrame> {
             )),
       ),
     );
+  }
+
+  void _get_user_info() async {
+    try {
+      User user = await UserApi.instance.me();
+      print('사용자 정보 요청 성공'
+          '\n회원번호: ${user.id}'
+          '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
+          '\n프로필사진링크 : ${user.kakaoAccount?.profile?.thumbnailImageUrl}');
+      profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
+    } catch (error) {
+      print('사용자 정보 요청 실패 $error');
+    }
   }
 
   void _onItemTapped(int index) {

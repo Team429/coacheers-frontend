@@ -6,12 +6,15 @@ import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 String user_code = "";
+String name = "";
 String profileURL = "";
 
 void _get_user_info() async {
   try {
     User user = await UserApi.instance.me();
     user_code = user.id.toString();
+    name = (user.kakaoAccount?.profile?.nickname).toString();
+    profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
     //print("user_code${user_code}");
     _post_user_info(user_code);
     // print('사용자 정보 요청 성공'
@@ -44,10 +47,12 @@ void KakaoLogin(context) async {
       await UserApi.instance.loginWithKakaoTalk();
       //카카오 로그인 화면 호출 -> 사용자가 토큰 가져오는 것 까지
       print('카카오톡으로 로그인 성공');
-      _get_user_info();
+      User user = await UserApi.instance.me();
+      name = (user.kakaoAccount?.profile?.nickname).toString();
+      profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const MainFrame()),
+        MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL,)),
       );
     } catch (error) {
       print('카카오톡으로 로그인 실패 $error');
@@ -65,10 +70,12 @@ void KakaoLogin(context) async {
       try {
         await UserApi.instance.loginWithKakaoAccount();
         print('카카오계정으로 로그인 성공');
-        _get_user_info();
+        User user = await UserApi.instance.me();
+        name = (user.kakaoAccount?.profile?.nickname).toString();
+        profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const MainFrame()),
+          MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL,)),
         );
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
@@ -79,10 +86,12 @@ void KakaoLogin(context) async {
     try {
       await UserApi.instance.loginWithKakaoAccount();
       print('카카오계정으로 로그인 성공');
-      _get_user_info();
+      User user = await UserApi.instance.me();
+      name = (user.kakaoAccount?.profile?.nickname).toString();
+      profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const MainFrame()),
+        MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL,)),
       );
     } catch (error) {
       print('카카오계정으로 로그인 실패 $error');

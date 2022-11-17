@@ -311,7 +311,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainFrame()),
+                    MaterialPageRoute(builder: (context) => MainFrame(name : "", profileURL: "")),
                   );
                 },
               ),
