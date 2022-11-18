@@ -1,12 +1,16 @@
 import 'package:coacheers/component/coachingDater.dart';
 import 'package:coacheers/component/graph/recordbarchart.dart';
+import 'package:coacheers/record/result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class RecordPage extends StatefulWidget {
-  const RecordPage({Key? key}) : super(key: key);
+  final String nickname;
+  final String profileURL;
+
+  const RecordPage({Key? key, required this.nickname, required this.profileURL}) : super(key: key);
 
   @override
   _RecordPageState createState() => _RecordPageState();
@@ -174,7 +178,12 @@ class _RecordPageState extends State<RecordPage> {
                             fontWeight: FontWeight.bold,
                             fontSize: 12)),
                     trailing: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => recordResultPage(name: widget.nickname, profileURL: widget.profileURL,)),
+                        );
+                      },
                       child: Text("${searchitems[index].totalscore}점"),
                     ));
               },

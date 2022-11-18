@@ -29,7 +29,7 @@ class _MainFrameWidget extends State<MainFrame> {
   int _selectedIndex = 2;
 
   List<Widget> _widgetOptions() => [
-    RecordPage(),
+    RecordPage(nickname : widget.name, profileURL : widget.profileURL),
     //CoachingPage(),
     ProfilePage(nickname : widget.name, profileURL : widget.profileURL),
     Home(),
