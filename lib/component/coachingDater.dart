@@ -3,26 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'dart:ui';
 
-final List<DateTime> searchDateList = <DateTime>[];
-final List<String> searchCompanyList = <String>[];
-final List<String> searchScoreList = <String>[];
-final List<double> searchFaceScoreList = <double>[];
-final List<double> searchVoiceScoreList = <double>[];
-
-class UserData {
-  UserData(this.companyName,this.from,this.VideoURL,this.face_point,this.voice_point,this.total_point);
-
-  String companyName;  //회사명
-  DateTime from;
-  String VideoURL;
-  double face_point;
-  double voice_point;
-  double total_point;
-
-}
-
-List<UserData> userData = [];
-
 class CoachingData {
   //calander
   CoachingData(this.companyName, this.from, this.to, this.background,
@@ -42,12 +22,9 @@ class CoachingData {
   }
 }
 
-List<CoachingData> _getDataSource() {
-  searchDateList.clear();
-  searchCompanyList.clear();
-  searchScoreList.clear();
+List<CoachingData> getDataSource() {
 
-  late List<CoachingData> coachings = <CoachingData>[];
+  late List<CoachingData> coachings = [];
   final DateTime today = DateTime.now();
   final DateTime startTime1 =
       DateTime(today.year, today.month, today.day - 10, 9, 0, 0);
@@ -82,58 +59,40 @@ List<CoachingData> _getDataSource() {
 
   coachings.add(CoachingData(
       '넥슨', startTime1, endTime1, const Color(0xFF1ABC9C), false, 75, 25));
-  searchDateList.add(startTime1);
 
   coachings.add(CoachingData(
       'SK하이닉스', startTime2, endTime2, const Color(0xFF1ABC9C), false, 83, 41));
-  searchDateList.add(startTime2);
 
   coachings.add(CoachingData(
       '농심', startTime3, endTime3, const Color(0xFF1ABC9C), false, 78, 64));
-  searchDateList.add(startTime3);
 
   coachings.add(CoachingData(
       '구글', startTime4, endTime4, const Color(0xFF1ABC9C), false, 72, 70));
-  searchDateList.add(startTime4);
 
   coachings.add(CoachingData(
       '삼성', startTime5, endTime5, const Color(0xFF1ABC9C), false, 79, 81));
-  searchDateList.add(startTime5);
 
   coachings.add(CoachingData(
       '쿠팡', startTime6, endTime6, const Color(0xFF1ABC9C), false, 53, 75));
-  searchDateList.add(startTime6);
 
   coachings.add(CoachingData(
       '네이버', startTime7, endTime7, const Color(0xFF1ABC9C), false, 48, 73));
-  searchDateList.add(startTime7);
 
   coachings.add(CoachingData(
       '라인', startTime8, endTime8, const Color(0xFF1ABC9C), false, 60, 77));
-  searchDateList.add(startTime8);
 
   coachings.add(CoachingData(
       '배달의 민족', startTime9, endTime9, const Color(0xFF1ABC9C), false, 58, 81));
-  searchDateList.add(startTime9);
 
   coachings.add(CoachingData(
       '직방', startTime10, endTime10, const Color(0xFF1ABC9C), false, 65, 87));
-  searchDateList.add(startTime10);
-
-  for (int i = 0; i < coachings.length; i++) {
-    searchCompanyList.add(coachings[i].companyName);
-    searchScoreList.add(
-        ((coachings[i].voice_point + coachings[i].face_point) / 2).toString());
-    searchFaceScoreList.add(coachings[i].face_point);
-    searchVoiceScoreList.add(coachings[i].voice_point);
-  }
 
   return coachings;
 }
 
 class CoachingDataSource extends CalendarDataSource {
   CoachingDataSource.test() {
-    appointments = _getDataSource();
+    appointments = getDataSource();
   }
 
   CoachingDataSource(List<CoachingData> source) {
@@ -166,6 +125,18 @@ class CoachingDataSource extends CalendarDataSource {
   }
 }
 
+class SearchData{
+  SearchData(this.date, this.companyName, this.totalscore, this.facescore, this.voicescore);
+
+  String date;
+  String companyName;
+  double totalscore;
+  double facescore;
+  double voicescore;
+}
+
+List<SearchData> searchData = [];
+
 class HomeBarChartData {
   HomeBarChartData(this.date, this.total, this.face, this.voice);
 
@@ -185,26 +156,26 @@ class RecordBarChartData {
 
 List<HomeBarChartData> homechartData = [
   HomeBarChartData(
-      _getDataSource()[_getDataSource().length - 1].from,
-      (_getDataSource()[_getDataSource().length - 1].face_point +
-              _getDataSource()[_getDataSource().length - 1].voice_point) /
+      getDataSource()[getDataSource().length - 1].from,
+      (getDataSource()[getDataSource().length - 1].face_point +
+              getDataSource()[getDataSource().length - 1].voice_point) /
           2,
-      _getDataSource()[_getDataSource().length - 1].face_point,
-      _getDataSource()[_getDataSource().length - 1].voice_point),
+      getDataSource()[getDataSource().length - 1].face_point,
+      getDataSource()[getDataSource().length - 1].voice_point),
   HomeBarChartData(
-      _getDataSource()[_getDataSource().length - 2].from,
-      (_getDataSource()[_getDataSource().length - 2].face_point +
-              _getDataSource()[_getDataSource().length - 2].voice_point) /
+      getDataSource()[getDataSource().length - 2].from,
+      (getDataSource()[getDataSource().length - 2].face_point +
+              getDataSource()[getDataSource().length - 2].voice_point) /
           2,
-      _getDataSource()[_getDataSource().length - 2].face_point,
-      _getDataSource()[_getDataSource().length - 2].voice_point),
+      getDataSource()[getDataSource().length - 2].face_point,
+      getDataSource()[getDataSource().length - 2].voice_point),
   HomeBarChartData(
-      _getDataSource()[_getDataSource().length - 3].from,
-      (_getDataSource()[_getDataSource().length - 3].face_point +
-              _getDataSource()[_getDataSource().length - 3].voice_point) /
+      getDataSource()[getDataSource().length - 3].from,
+      (getDataSource()[getDataSource().length - 3].face_point +
+              getDataSource()[getDataSource().length - 3].voice_point) /
           2,
-      _getDataSource()[_getDataSource().length - 3].face_point,
-      _getDataSource()[_getDataSource().length - 3].voice_point),
+      getDataSource()[getDataSource().length - 3].face_point,
+      getDataSource()[getDataSource().length - 3].voice_point),
 ];
 
 class DonutChartData {
@@ -218,16 +189,16 @@ class DonutChartData {
 List<DonutChartData> TotalchartData = [
   DonutChartData(
     'Scorename',
-    (_getDataSource()[_getDataSource().length - 1].face_point +
-            _getDataSource()[_getDataSource().length - 1].voice_point) /
+    (getDataSource()[getDataSource().length - 1].face_point +
+            getDataSource()[getDataSource().length - 1].voice_point) /
         2,
     Color(0xff4F98FF),
   ),
   DonutChartData(
     'Scorename_empty',
     100 -
-        (_getDataSource()[_getDataSource().length - 1].face_point +
-                _getDataSource()[_getDataSource().length - 1].voice_point) /
+        (getDataSource()[getDataSource().length - 1].face_point +
+                getDataSource()[getDataSource().length - 1].voice_point) /
             2,
     Color(0xffD8D8D8),
   ),
@@ -236,12 +207,12 @@ List<DonutChartData> TotalchartData = [
 List<DonutChartData> FacechartData = [
   DonutChartData(
     'Scorename',
-    _getDataSource()[_getDataSource().length - 1].face_point,
+    getDataSource()[getDataSource().length - 1].face_point,
     Color(0xff4F98FF),
   ),
   DonutChartData(
     'Scorename_empty',
-    100 - _getDataSource()[_getDataSource().length - 1].face_point,
+    100 - getDataSource()[getDataSource().length - 1].face_point,
     Color(0xffD8D8D8),
   ),
 ];
@@ -249,12 +220,12 @@ List<DonutChartData> FacechartData = [
 List<DonutChartData> VoicechartData = [
   DonutChartData(
     'Scorename',
-    _getDataSource()[_getDataSource().length - 1].voice_point,
+    getDataSource()[getDataSource().length - 1].voice_point,
     Color(0xff4F98FF),
   ),
   DonutChartData(
     'Scorename_empty',
-    100 - _getDataSource()[_getDataSource().length - 1].voice_point,
+    100 - getDataSource()[getDataSource().length - 1].voice_point,
     Color(0xffD8D8D8),
   ),
 ];

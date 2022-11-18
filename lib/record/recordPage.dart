@@ -15,16 +15,15 @@ class RecordPage extends StatefulWidget {
 class _RecordPageState extends State<RecordPage> {
   @override
   final DateRangePickerController _controller = DateRangePickerController();
+
   late String _startDate, _endDate;
   late DateTime _start, _end;
-
-  var dateitems = <String>[];
-  var companyitems = <String>[];
-  var scoreitems = <String>[];
 
   late double Totalsum = 0.0;
   late double Facesum = 0.0;
   late double Voicesum = 0.0;
+
+  late List<SearchData> searchitems = [];
 
   void initState() {
     final DateTime today = DateTime.now();
@@ -36,7 +35,7 @@ class _RecordPageState extends State<RecordPage> {
         PickerDateRange(today.subtract(Duration(days: 7)), today);
 
     filterSearchResults(
-        today.subtract(Duration(days: 4)), today.add(Duration(days: 3)));
+        today.subtract(Duration(days: 8)), today.add(Duration(days: 0)));
 
     super.initState();
   }
@@ -154,7 +153,7 @@ class _RecordPageState extends State<RecordPage> {
               children: [
                 Container(
                     child: Text(
-                  "${dateitems.length}건의 검색 결과",
+                  "${searchitems.length}건의 검색 결과",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 )),
               ],
@@ -163,20 +162,20 @@ class _RecordPageState extends State<RecordPage> {
           Expanded(
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: dateitems.length,
+              itemCount: searchitems.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                    title: Text('${companyitems[index]}',
+                    title: Text('${searchitems[index].companyName}',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17)),
-                    subtitle: Text('${dateitems[index]}',
+                    subtitle: Text('${searchitems[index].date}',
                         style: TextStyle(
                             color: Color(0xff0066FF),
                             fontWeight: FontWeight.bold,
                             fontSize: 12)),
                     trailing: ElevatedButton(
                       onPressed: () {},
-                      child: Text("${scoreitems[index]}점"),
+                      child: Text("${searchitems[index].totalscore}점"),
                     ));
               },
             ),
@@ -241,8 +240,8 @@ class _RecordPageState extends State<RecordPage> {
                         onSelectionChanged: selectionChanged,
                         selectionMode: DateRangePickerSelectionMode.range,
                         initialSelectedRange: PickerDateRange(
-                            DateTime.now().subtract(Duration(days: 4)),
-                            DateTime.now().add(Duration(days: 3))),
+                            DateTime.now().subtract(Duration(days: 8)),
+                            DateTime.now().add(Duration(days: 0))),
                         headerStyle: DateRangePickerHeaderStyle(
                           textAlign: TextAlign.center,
                         ),
@@ -276,85 +275,40 @@ class _RecordPageState extends State<RecordPage> {
   }
 
   void filterSearchResults(DateTime startDate, DateTime endDate) {
-    var index = 0;
 
-    List<DateTime> dummyDateSearchList = <DateTime>[];
-    List<String> dummyCompanySearchList = <String>[];
-    List<String> dummyScoreSearchList = <String>[];
-    List<double> dummyFaceScoreSearchList = <double>[];
-    List<double> dummyVoiceScoreSearchList = <double>[];
+    List<CoachingData> coachData = getDataSource();
+    searchData.clear();
 
-    dummyDateSearchList.addAll(searchDateList);
-    dummyCompanySearchList.addAll(searchCompanyList);
-    dummyScoreSearchList.addAll(searchScoreList);
-    dummyFaceScoreSearchList.addAll(searchFaceScoreList);
-    dummyVoiceScoreSearchList.addAll(searchVoiceScoreList);
-
-    // for(int i = 0; i< searchVoiceScoreList.length; i++){
-    //   print("회사이름${searchCompanyList[i]}표정점수${searchFaceScoreList[i]}목소리점수${searchVoiceScoreList[i]}");
-    // }
-
-    List<String> dummyDateListData = <String>[];
-    List<String> dummyCompanyListData = <String>[];
-    List<String> dummyScoreListData = <String>[];
-    List<double> dummyFaceScoreListData = <double>[];
-    List<double> dummyVoiceScoreListData = <double>[];
-
-    //print("start : ${startDate}");
-    //print("end : ${endDate}");
-
-    dummyDateSearchList.forEach((item) {
-      //print("item : ${item}");
-      if (item.compareTo(startDate) > 0 && item.compareTo(endDate) <= 0) {
-        dummyDateListData
-            .add(DateFormat('yyyy. MM. dd').format(item).toString());
-        dummyCompanyListData.add(dummyCompanySearchList[index]);
-        dummyScoreListData.add(dummyScoreSearchList[index]);
-        dummyFaceScoreListData.add(dummyFaceScoreSearchList[index]);
-        dummyVoiceScoreListData.add(dummyVoiceScoreSearchList[index]);
+    coachData.forEach((item) {
+      if (item.from.compareTo(startDate) > 0 && item.from.compareTo(endDate) <= 0) {
+        searchData.add(SearchData(
+            DateFormat('yyyy. MM. dd').format(item.from).toString(),
+           item.companyName,
+            (item.face_point + item.voice_point) / 2,
+            item.face_point,
+            item.voice_point
+        ));
       }
-      index++;
     });
 
-    print(dummyCompanyListData.length);
+    double sumA = 0;
+    for(int i = 0; i < searchData.length; i++){
+      sumA = sumA + searchData[i].facescore;
+    }
 
-    double sum1 = dummyFaceScoreListData.fold(0, (vTotal, value) {
-      return vTotal + value;
-    });
+    double sumB = 0;
+    for(int i = 0; i < searchData.length; i++){
+      sumB = sumB + searchData[i].voicescore;
+    }
 
-    double sum2 = dummyVoiceScoreListData.fold(0, (vTotal, value) {
-      return vTotal + value;
-    });
-
-    print(sum1);
-    print(sum2);
-
-    Facesum = sum1 / dummyFaceScoreListData.length;
-    Voicesum = sum1 / dummyVoiceScoreListData.length;
+    Facesum = sumA / searchData.length;
+    Voicesum = sumB / searchData.length;
     Totalsum = (Facesum + Voicesum) / 2;
 
-    // List<RecordBarChartData> recordchartData = [
-    // RecordBarChartData("Total",((sum1 / ( dummyCompanyListData.length)) + (sum2 / (dummyCompanyListData.length)))/2,Color(0xff2980B9)),
-    // RecordBarChartData("표정", sum1 / ( dummyCompanyListData.length),Color(0xff2980B9)),
-    // RecordBarChartData("목소리", sum2 / (dummyCompanyListData.length),Color(0xff3498DB)),
-    // ];
-
-    // print("레코드 데이타 길이 ${recordchartData.length}");
-
-    //10 20  15
-    //20 30  25
-    //30 40  35
-    //20 30  25
-
     setState(() {
-      dateitems.clear();
-      dateitems.addAll(dummyDateListData);
+      searchitems.clear();
+      searchitems.addAll(searchData);
 
-      companyitems.clear();
-      companyitems.addAll(dummyCompanyListData);
-
-      scoreitems.clear();
-      scoreitems.addAll(dummyScoreListData);
     });
   }
 }

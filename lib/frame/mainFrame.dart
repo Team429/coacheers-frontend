@@ -210,7 +210,7 @@ class _MainFrameWidget extends State<MainFrame> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CameraPage()),
+                      MaterialPageRoute(builder: (context) => CamerademoPage()),
                     );
                   },
                 ),

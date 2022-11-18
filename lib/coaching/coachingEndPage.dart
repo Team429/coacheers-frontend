@@ -171,9 +171,9 @@ class _CoachingEndState extends State<CoachingEnd> {
                           label: Text("저장하기"),
                           onPressed: () {
                             print(widget.filePath);
-                            userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
-                            print(userData[0].companyName);
-                            print(userData.length);
+                            //userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
+                            //print(userData[0].companyName);
+                            //print(userData.length);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
