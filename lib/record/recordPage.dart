@@ -300,11 +300,16 @@ class _RecordPageState extends State<RecordPage> {
     for(int i = 0; i < searchData.length; i++){
       sumB = sumB + searchData[i].voicescore;
     }
-
-    Facesum = sumA / searchData.length;
-    Voicesum = sumB / searchData.length;
-    Totalsum = (Facesum + Voicesum) / 2;
-
+    if(searchData.length == 0){
+      Facesum = 0;
+      Voicesum = 0;
+      Totalsum = 0;
+    }
+    else {
+      Facesum = sumA / searchData.length;
+      Voicesum = sumB / searchData.length;
+      Totalsum = (Facesum + Voicesum) / 2;
+    }
     setState(() {
       searchitems.clear();
       searchitems.addAll(searchData);
