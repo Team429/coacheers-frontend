@@ -4,7 +4,10 @@ import 'package:coacheers/coaching/coachingEndPage.dart';
 import 'package:flutter/material.dart';
 
 class CameraPage extends StatefulWidget {
-  const CameraPage({Key? key}) : super(key: key);
+  final String name;
+  final String profileURL;
+
+  const CameraPage({Key? key, required this.name, required this.profileURL}) : super(key: key);
 
   @override
   _CameraPageState createState() => _CameraPageState();
@@ -45,7 +48,7 @@ class _CameraPageState extends State<CameraPage> {
       final route = MaterialPageRoute(
         fullscreenDialog: true,
         builder: (_) => //VideoPage(filePath: file.path),
-            CoachingEnd(filePath: file.path),
+            CoachingEnd(name: widget.name, profileURL: widget.profileURL, filePath: file.path),
       );
       Navigator.push(context, route);
     } else {

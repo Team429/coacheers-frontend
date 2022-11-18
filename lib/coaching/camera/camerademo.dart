@@ -5,7 +5,10 @@ import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 
 class CamerademoPage extends StatefulWidget {
-  const CamerademoPage({Key? key}) : super(key: key);
+  final String name;
+  final String profileURL;
+
+  const CamerademoPage({Key? key, required this.name, required this.profileURL}) : super(key: key);
 
   @override
   _CamerademoPageState createState() => _CamerademoPageState();
@@ -45,7 +48,7 @@ class _CamerademoPageState extends State<CamerademoPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CoachingEnd(filePath: "www")),
+                          builder: (context) => CoachingEnd(name: widget.name, profileURL : widget.profileURL, filePath: "www")),
                     )
                   },
                 ),

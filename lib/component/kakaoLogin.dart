@@ -52,7 +52,7 @@ void KakaoLogin(context) async {
       profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL,)),
+        MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL,subindex: 2,)),
       );
     } catch (error) {
       print('카카오톡으로 로그인 실패 $error');
@@ -75,7 +75,7 @@ void KakaoLogin(context) async {
         profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL,)),
+          MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL,subindex: 2,)),
         );
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
@@ -91,7 +91,7 @@ void KakaoLogin(context) async {
       profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL,)),
+        MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL, subindex: 2,)),
       );
     } catch (error) {
       print('카카오계정으로 로그인 실패 $error');

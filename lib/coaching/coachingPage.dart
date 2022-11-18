@@ -17,7 +17,7 @@ class _CoachingPageState extends State<CoachingPage> {
   Widget build(BuildContext context) {
     print("메인 페이지 - 코칭 페이지\n");
     // debugShowCheckedModeBanner: false,
-    return CamerademoPage();
+    return Container();
     //return CameraPage();
     //return Scaffold();
   }

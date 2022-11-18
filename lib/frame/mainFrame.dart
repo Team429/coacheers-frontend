@@ -13,8 +13,9 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 class MainFrame extends StatefulWidget {
   final String name;
   final String profileURL;
+  late int subindex;
 
-  const MainFrame({Key? key, required this.name, required this.profileURL}) : super(key: key);
+  MainFrame({Key? key, required this.name, required this.profileURL, required this.subindex}) : super(key: key);
 
   @override
   State<MainFrame> createState() => _MainFrameWidget();
@@ -40,6 +41,7 @@ class _MainFrameWidget extends State<MainFrame> {
     print(widget.name);
     print(widget.profileURL);
     //get();
+    _onItemTapped(widget.subindex);
     final List<Widget> widgetOptions = _widgetOptions();
     return WillPopScope(
       onWillPop: () async {
@@ -174,6 +176,7 @@ class _MainFrameWidget extends State<MainFrame> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      widget.subindex = _selectedIndex;
     });
   }
 
@@ -210,7 +213,7 @@ class _MainFrameWidget extends State<MainFrame> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CamerademoPage()),
+                      MaterialPageRoute(builder: (context) => CamerademoPage(name: widget.name,profileURL: widget.profileURL,)),
                     );
                   },
                 ),

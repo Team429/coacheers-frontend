@@ -8,9 +8,11 @@ import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
 class CoachingEnd extends StatefulWidget {
+  final String name;
+  final String profileURL;
   final String filePath;
 
-  const CoachingEnd({Key? key, required this.filePath}) : super(key: key);
+  const CoachingEnd({Key? key, required this.name, required this.profileURL, required this.filePath}) : super(key: key);
 
   @override
   State<CoachingEnd> createState() => _CoachingEndState();
@@ -66,7 +68,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                 size: 24,
               ),
               onPressed: () {
-                CoachingButtonDialog(context);
+                CoachingButtonDialog(context, 2);
               },
             ),
           ],
@@ -209,7 +211,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                         child: FloatingActionButton(
                           heroTag: "record",
                           onPressed: () {
-                            CoachingButtonDialog(context);
+                            CoachingButtonDialog(context,0);
                           },
                           child: Icon(
                             Icons.history,
@@ -237,7 +239,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                     heroTag: "coaching start",
                     label: Text("모의 면접 코칭 시작"),
                     onPressed: () {
-                      CoachingButtonDialog(context);
+                      CoachingButtonDialog(context,0);
                       //_onItemTapped(1);
                     },
                   ),
@@ -252,7 +254,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                         child: FloatingActionButton(
                           heroTag: "my",
                           onPressed: () {
-                            CoachingButtonDialog(context);
+                            CoachingButtonDialog(context,1);
                           },
                           child: Icon(
                             Icons.person,
@@ -283,7 +285,7 @@ class _CoachingEndState extends State<CoachingEnd> {
     return strToday;
   }
 
-  CoachingButtonDialog(context) {
+  CoachingButtonDialog(context, int index) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -311,7 +313,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainFrame(name : "", profileURL: "")),
+                    MaterialPageRoute(builder: (context) => MainFrame(name : widget.name, profileURL: widget.profileURL, subindex: index,)),
                   );
                 },
               ),
