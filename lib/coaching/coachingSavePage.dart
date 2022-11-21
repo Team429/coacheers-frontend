@@ -1,4 +1,5 @@
 import 'package:coacheers/coaching/camera/camerademo.dart';
+import 'package:coacheers/component/coachingDater.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 
@@ -6,8 +7,9 @@ class coachingSave extends StatefulWidget {
   final String name;
   final String profileURL;
   final String filePath;
+  final String comment;
 
-  const coachingSave({Key? key, required this.name, required this.profileURL, required this.filePath}) : super(key: key);
+  const coachingSave({Key? key, required this.comment, required this.name, required this.profileURL, required this.filePath}) : super(key: key);
 
   @override
   State<coachingSave> createState() => _coachingSaveState();
@@ -54,7 +56,15 @@ class _coachingSaveState extends State<coachingSave> {
           backgroundColor: Color(0xfffffffff),
           elevation: 0.0,
         ),
-        body: text("저장을 완료 하였습니다!"),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 230, 0, 250),
+              child: text("저장을 완료 하였습니다!"),
+            ),
+            BackHomeButton(),
+          ],
+        ),
         bottomNavigationBar: Container(
             color: Color(0xff1877F2),
             height: 100,
@@ -157,6 +167,34 @@ class _coachingSaveState extends State<coachingSave> {
         comment,
         style: TextStyle(
             fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget BackHomeButton(){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
+      child: FloatingActionButton.extended(
+        backgroundColor: Color(0xff1ABC9C),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)),
+        elevation: 4.0,
+        icon: const Icon(
+          Icons.home,
+        ),
+        heroTag: "Save",
+        label: Text("홈으로 이동"),
+        onPressed: () {
+          print(widget.filePath);
+          print(widget.comment);
+          print(widget.name);
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MainFrame(name : widget.name, profileURL: widget.profileURL, subindex: 2,)),
+          );
+          //CoachingButtonDialog(context);
+        },
       ),
     );
   }

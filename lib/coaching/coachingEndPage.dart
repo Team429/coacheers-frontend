@@ -273,7 +273,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                 builder:
                     (_) => //VideoPage(filePath: file.path),
                 //VideoPage(filePath: widget.filePath, name: _commentController.text),
-                coachingSave(name: widget.name, profileURL: widget.profileURL, filePath: widget.filePath)
+                coachingSave(comment : _commentController.text, name: widget.name, profileURL: widget.profileURL, filePath: widget.filePath)
               ));
           //CoachingButtonDialog(context);
         },

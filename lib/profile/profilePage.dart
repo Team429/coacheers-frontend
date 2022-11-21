@@ -5,14 +5,15 @@ class ProfilePage extends StatefulWidget {
   final String nickname;
   final String profileURL;
 
-  const ProfilePage({Key? key, required this.nickname, required this.profileURL}) : super(key: key);
+  const ProfilePage(
+      {Key? key, required this.nickname, required this.profileURL})
+      : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 프로필 페이지\n");
@@ -34,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       )),
                   child: Column(children: [
                     SizedBox(
-                      height: 28.0,
+                      height: 23.0,
                     ),
                     profile(),
                     SizedBox(
@@ -78,8 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
-  Widget profile(){
+  Widget profile() {
     return CircleAvatar(
       radius: 50.0,
       child: Container(
@@ -92,15 +92,16 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget nickname(){
+  Widget nickname() {
     return Text(widget.nickname,
         style: TextStyle(
           color: Colors.white,
-          fontSize: 20.0,
+          fontSize: 25.0,
+          //fontWeight: FontWeight.bold,
         ));
   }
 
-  Widget underline(){
+  Widget underline() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
       child: Container(
@@ -111,53 +112,106 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget attendence(){
+  Widget attendence() {
     return Container(
-      width: 140,
-      height: 165,
+      width: 150,
+      height: 175,
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
-      child: Text("이번달 출석률"),
       decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.blue,
-            width: 5,
-          )),
+        color: Color(0xffF7F7F7),
+        // border: Border.all(
+        //   color: Colors.blue,
+        //   width: 5,
+        // ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(40),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.7),
+            spreadRadius: 0,
+            blurRadius: 5.0,
+            offset: Offset(0, 10), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
+            child: Text("34%",style: TextStyle(fontSize : 45, fontWeight: FontWeight.bold),),
+          ),
+          Text("이번달 출석률",style: TextStyle(color: Color(0xff787878), fontWeight: FontWeight.bold),),
+        ],
+      ),
     );
   }
 
-  Widget stackpoint(){
+  Widget stackpoint() {
     return Container(
-      width: 140,
-      height: 165,
+      width: 150,
+      height: 175,
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
-      child: Text("누적 평균 점수"),
       decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.blue,
-            width: 5,
-          )),
+        color: Color(0xffF7F7F7),
+        // border: Border.all(
+        //   color: Colors.blue,
+        //   width: 5,
+        // ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(40),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.7),
+            spreadRadius: 0,
+            blurRadius: 5.0,
+            offset: Offset(0, 10), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
+            child: Text("68점",style: TextStyle(fontSize : 45, fontWeight: FontWeight.bold),),
+          ),
+          Text("누적 평균 점수",style: TextStyle(color: Color(0xff787878), fontWeight: FontWeight.bold),),
+        ],
+      ),
     );
   }
 
-  Widget wise(){
+  Widget wise() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
       child: Container(
-        width: 300,
-        height: 120,
+        width: 310,
+        height: 130,
         margin: EdgeInsets.all(10),
         padding: EdgeInsets.all(5),
-        child: Text("오늘의 명언"),
         decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              color: Colors.blue,
-              width: 5,
-            )),
+          color: Color(0xffF7F7F7),
+          // border: Border.all(
+          //   color: Colors.blue,
+          //   width: 5,
+          // ),
+
+          borderRadius: BorderRadius.all(
+            Radius.circular(40),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.7),
+              spreadRadius: 0,
+              blurRadius: 5.0,
+              offset: Offset(0, 10), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Center(child: Text("오늘의 명언")),
       ),
     );
   }
@@ -175,4 +229,3 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 }
-
