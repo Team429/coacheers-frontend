@@ -36,45 +36,18 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       height: 28.0,
                     ),
-                    CircleAvatar(
-                      radius: 50.0,
-                      child: Container(
-                        decoration: new BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: new DecorationImage(
-                                image: new NetworkImage(widget.profileURL))),
-                      ),
-                      backgroundColor: Colors.white,
-                    ),
+                    profile(),
                     SizedBox(
                       height: 10.0,
                     ),
-                    Text(widget.nickname,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        )),
+                    nickname(),
                     SizedBox(
                       height: 10.0,
                     ),
-                    // Text(
-                    //   'S Class Mage',
-                    //   style: TextStyle(
-                    //     color: Colors.white,
-                    //     fontSize: 15.0,
-                    //   ),
-                    // )
                   ]),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-                child: Container(
-                  height: 1.0,
-                  width: 300.0,
-                  color: Colors.grey,
-                ),
-              ),
+              underline(),
               Expanded(
                 flex: 5,
                 child: Padding(
@@ -84,53 +57,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 140,
-                            height: 165,
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(5),
-                            child: Text("이번달 출석률"),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.blue,
-                                  width: 5,
-                                )),
-                          ),
-                          Container(
-                            width: 140,
-                            height: 165,
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(5),
-                            child: Text("누적 평균 점수"),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.blue,
-                                  width: 5,
-                                )),
-                          ),
+                          attendence(),
+                          stackpoint(),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                            child: Container(
-                              width: 300,
-                              height: 120,
-                              margin: EdgeInsets.all(10),
-                              padding: EdgeInsets.all(5),
-                              child: Text("오늘의 명언"),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color: Colors.blue,
-                                    width: 5,
-                                  )),
-                            ),
-                          ),
+                          wise(),
                         ],
                       ),
                     ],
@@ -140,6 +74,90 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+
+  Widget profile(){
+    return CircleAvatar(
+      radius: 50.0,
+      child: Container(
+        decoration: new BoxDecoration(
+            shape: BoxShape.circle,
+            image: new DecorationImage(
+                image: new NetworkImage(widget.profileURL))),
+      ),
+      backgroundColor: Colors.white,
+    );
+  }
+
+  Widget nickname(){
+    return Text(widget.nickname,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+        ));
+  }
+
+  Widget underline(){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
+      child: Container(
+        height: 1.0,
+        width: 300.0,
+        color: Colors.grey,
+      ),
+    );
+  }
+
+  Widget attendence(){
+    return Container(
+      width: 140,
+      height: 165,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Text("이번달 출석률"),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.blue,
+            width: 5,
+          )),
+    );
+  }
+
+  Widget stackpoint(){
+    return Container(
+      width: 140,
+      height: 165,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Text("누적 평균 점수"),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.blue,
+            width: 5,
+          )),
+    );
+  }
+
+  Widget wise(){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+      child: Container(
+        width: 300,
+        height: 120,
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
+        child: Text("오늘의 명언"),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              color: Colors.blue,
+              width: 5,
+            )),
       ),
     );
   }
