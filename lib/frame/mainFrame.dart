@@ -1,9 +1,6 @@
-import 'dart:convert';
-import 'package:coacheers/component/kakaoLogin.dart';
-import 'package:http/http.dart' as http;
-import 'package:coacheers/coaching/camera/camera.dart';
-import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/coaching/coachingPage.dart';
+import 'package:coacheers/component/kakaoLogin.dart';
+import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/home/homePage.dart';
 import 'package:coacheers/profile/profilePage.dart';
 import 'package:coacheers/record/recordPage.dart';

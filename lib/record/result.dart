@@ -1,4 +1,3 @@
-import 'package:coacheers/coaching/camera/camera.dart';
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/component/kakaoLogin.dart';
 import 'package:coacheers/frame/mainFrame.dart';

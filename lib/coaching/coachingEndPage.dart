@@ -23,26 +23,6 @@ class _CoachingEndState extends State<CoachingEnd> {
   late TextEditingController _commentController;
 
   @override
-  void dispose() {
-    _videoPlayerController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _commentController = TextEditingController();
-
-  }
-
-  Future _initVideoPlayer() async {
-    _videoPlayerController = VideoPlayerController.file(File(widget.filePath));
-    await _videoPlayerController.initialize();
-    await _videoPlayerController.setLooping(true);
-    await _videoPlayerController.play();
-  }
-
-  @override
   Widget build(BuildContext context) {
     bool shouldPop = false;
 
@@ -78,35 +58,15 @@ class _CoachingEndState extends State<CoachingEnd> {
         body: Center(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                child: Container(
-                  height: 1.0,
-                  width: 300.0,
-                  color: Colors.grey,
-                ),
-              ),
+              underline(),
               SizedBox(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                   child: Column(
                     children: [
-                      Text(
-                        "모의 면접이 종료 되었습니다!",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "수고하셨습니다!",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Image(
-                            image: AssetImage('assets/Coacheers.png'),
-                            width: 250),
-                      ),
+                      text( "모의 면접이 종료 되었습니다!"),
+                      text( "수고하셨습니다!"),
+                      image(),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(50, 20, 0, 0),
                         child: Row(
@@ -123,17 +83,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
-                        child: TextField(
-                          // obscureText: true,
-                          controller: _commentController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: '메모할 내용을 적어주세요.',
-                          ),
-                        ),
-                      ),
+                      textfield(),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(50, 20, 0, 0),
                         child: Row(
@@ -151,43 +101,8 @@ class _CoachingEndState extends State<CoachingEnd> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 80, 0),
-                        child: Text(
-                          getToday(),
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-                        child: FloatingActionButton.extended(
-                          backgroundColor: Color(0xff1ABC9C),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          elevation: 4.0,
-                          icon: const Icon(
-                            Icons.save,
-                          ),
-                          heroTag: "Save",
-                          label: Text("저장하기"),
-                          onPressed: () {
-                            print(widget.filePath);
-                            //userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
-                            //print(userData[0].companyName);
-                            //print(userData.length);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  fullscreenDialog: true,
-                                  builder:
-                                      (_) => //VideoPage(filePath: file.path),
-                                          VideoPage(filePath: widget.filePath, name: _commentController.text),
-                                ));
-                            //CoachingButtonDialog(context);
-                          },
-                        ),
-                      ),
+                      gettime(),
+                      saveButton(),
                     ],
                   ),
                 ),
@@ -278,11 +193,109 @@ class _CoachingEndState extends State<CoachingEnd> {
     );
   }
 
+  Widget underline(){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+      child: Container(
+        height: 1.0,
+        width: 300.0,
+        color: Colors.grey,
+      ),
+    );
+  }
+
+  Widget text(String comment){
+    return Text(
+     comment,
+      style: TextStyle(
+          fontSize: 20, fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget image(){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+      child: Image(
+          image: AssetImage('assets/Coacheers.png'),
+          width: 250),
+    );
+  }
+
+  Widget textfield(){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
+      child: TextField(
+        // obscureText: true,
+        controller: _commentController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: '메모할 내용을 적어주세요.',
+        ),
+      ),
+    );
+  }
+
+  Widget gettime(){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 10, 80, 0),
+      child: Text(
+        getToday(),
+        style: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget saveButton(){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
+      child: FloatingActionButton.extended(
+        backgroundColor: Color(0xff1ABC9C),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)),
+        elevation: 4.0,
+        icon: const Icon(
+          Icons.save,
+        ),
+        heroTag: "Save",
+        label: Text("저장하기"),
+        onPressed: () {
+          print(widget.filePath);
+          //userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
+          //print(userData[0].companyName);
+          //print(userData.length);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder:
+                    (_) => //VideoPage(filePath: file.path),
+                VideoPage(filePath: widget.filePath, name: _commentController.text),
+              ));
+          //CoachingButtonDialog(context);
+        },
+      ),
+    );
+  }
+
   String getToday() {
     DateTime now = DateTime.now();
     DateFormat formatter = DateFormat('yyyy년 MM월 dd일 kk : mm');
     var strToday = formatter.format(now);
     return strToday;
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _commentController = TextEditingController();
+
   }
 
   CoachingButtonDialog(context, int index) {
