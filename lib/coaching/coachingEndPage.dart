@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/coaching/camera/video.dart';
+import 'package:coacheers/coaching/coachingSavePage.dart';
 import 'package:coacheers/component/coachingDater.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +50,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                 size: 24,
               ),
               onPressed: () {
-                CoachingButtonDialog(context, 2);
+                alertDialog(context, 2);
               },
             ),
           ],
@@ -126,7 +128,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                         child: FloatingActionButton(
                           heroTag: "record",
                           onPressed: () {
-                            CoachingButtonDialog(context,0);
+                            alertDialog(context,0);
                           },
                           child: Icon(
                             Icons.history,
@@ -154,7 +156,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                     heroTag: "coaching start",
                     label: Text("모의 면접 코칭 시작"),
                     onPressed: () {
-                      CoachingButtonDialog(context,0);
+                      recordalertDialog(context);
                       //_onItemTapped(1);
                     },
                   ),
@@ -169,7 +171,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                         child: FloatingActionButton(
                           heroTag: "my",
                           onPressed: () {
-                            CoachingButtonDialog(context,1);
+                            alertDialog(context,1);
                           },
                           child: Icon(
                             Icons.person,
@@ -270,7 +272,8 @@ class _CoachingEndState extends State<CoachingEnd> {
                 fullscreenDialog: true,
                 builder:
                     (_) => //VideoPage(filePath: file.path),
-                VideoPage(filePath: widget.filePath, name: _commentController.text),
+                //VideoPage(filePath: widget.filePath, name: _commentController.text),
+                coachingSave(name: widget.name, profileURL: widget.profileURL, filePath: widget.filePath)
               ));
           //CoachingButtonDialog(context);
         },
@@ -298,7 +301,7 @@ class _CoachingEndState extends State<CoachingEnd> {
 
   }
 
-  CoachingButtonDialog(context, int index) {
+  alertDialog(context, int index) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -330,6 +333,98 @@ class _CoachingEndState extends State<CoachingEnd> {
                   );
                 },
               ),
+              new TextButton(
+                child: new Text("취소"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  recordalertDialog(context){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            //Dialog Main Title
+
+            //
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Text(
+                  "홈으로 돌아가게 될시 면접이 저장이 되지 않을 수도 있습니다. 그래도 돌아가시겠습니까?",
+                  style: TextStyle(fontSize: 15),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              new TextButton(
+                child: new Text("확인"),
+                onPressed: () {
+                  Navigator.pop(context);
+                  CoachingButtonDialog(context);
+                },
+              ),
+              new TextButton(
+                child: new Text("취소"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+
+  CoachingButtonDialog(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            //Dialog Main Title
+            title: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Text("코칭 영상 선택"),
+              ],
+            ),
+            //
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new TextButton(
+                  child: new Text("앨범에서 영상 선택"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                new TextButton(
+                  child: new Text("영상 녹화 시작"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CamerademoPage(name: widget.name,profileURL: widget.profileURL,)),
+                    );
+                  },
+                ),
+              ],
+            ),
+            actions: <Widget>[
               new TextButton(
                 child: new Text("취소"),
                 onPressed: () {

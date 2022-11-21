@@ -289,9 +289,9 @@ class _RecordPageState extends State<RecordPage> {
     searchData.clear();
 
     coachData.forEach((item) {
-      if (item.from.compareTo(startDate) > 0 && item.from.compareTo(endDate) <= 0) {
+      if (item.time.compareTo(startDate) > 0 && item.time.compareTo(endDate) <= 0) {
         searchData.add(SearchData(
-            DateFormat('yyyy. MM. dd').format(item.from).toString(),
+            DateFormat('yyyy. MM. dd').format(item.time).toString(),
            item.companyName,
             (item.face_point + item.voice_point) / 2,
             item.face_point,
