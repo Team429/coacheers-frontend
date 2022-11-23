@@ -54,6 +54,7 @@ class _recordResultPageState extends State<recordResultPage> {
             backgroundColor: Color(0xfffffffff),
             elevation: 0.0,
           ),
+          body : feedback(),
           bottomNavigationBar: Container(
             color: Color(0xff1877F2),
             height: 100,
@@ -145,6 +146,61 @@ class _recordResultPageState extends State<recordResultPage> {
     );
   }
 
+  Widget feedback() {
+    return Container(
+      // width: 200,
+      height: 100,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.blue,
+            width: 5,
+          )),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            // width: 200,
+            // height: 200,
+            child: Text(' 탐앤탐스 군자역점'),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.blue,
+                  width: 5,
+                )),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                // width: 200,
+                // height: 200,
+                child: Text(' 탐앤탐스 군자역점'),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: Colors.blue,
+                      width: 5,
+                    )),
+              ),
+              Container(
+                // width: 200,
+                // height: 200,
+                child: Text(' 탐앤탐스 군자역점'),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: Colors.blue,
+                      width: 5,
+                    )),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
   CoachingButtonDialog(context) {
     showDialog(
         context: context,

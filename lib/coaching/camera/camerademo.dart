@@ -48,13 +48,14 @@ class _CamerademoPageState extends State<CamerademoPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CoachingEnd(name: widget.name, profileURL : widget.profileURL, filePath: "www")),
+                          builder: (context) => CoachingEnd(name: widget.name, profileURL : widget.profileURL, filePath: 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4')),
                     )
                   },
                 ),
               ),
             ],
           ),
-        ));
+        )
+    );
   }
 }

@@ -77,8 +77,7 @@ List<CoachingData> getDataSource() {
       .add(CoachingData('라인', startTime8, CoachingData.GREEN, false, 60, 77));
 
   coachings
-      .add(
-      CoachingData('배달의 민족', startTime9, CoachingData.GREEN, false, 58, 81));
+      .add(CoachingData('배달의 민족', startTime9, CoachingData.GREEN, false, 58, 81));
 
   coachings
       .add(CoachingData('직방', startTime10, CoachingData.GREEN, false, 65, 87));
