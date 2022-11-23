@@ -186,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget wise() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
       child: Container(
         width: 310,
         height: 130,
