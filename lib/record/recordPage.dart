@@ -181,7 +181,7 @@ class _RecordPageState extends State<RecordPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => recordResultPage(name: widget.nickname, profileURL: widget.profileURL,)),
+                          MaterialPageRoute(builder: (context) => recordResultPage(name: widget.nickname, profileURL: widget.profileURL, companyName: searchitems[index].companyName, date: searchitems[index].date, total_score: searchitems[index].totalscore, face_score: searchitems[index].facescore, voice_score: searchitems[index].voicescore,)),
                         );
                       },
                       child: Text("${searchitems[index].totalscore}점"),

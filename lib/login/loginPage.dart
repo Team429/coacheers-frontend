@@ -69,11 +69,11 @@ class _LoginPageState extends State<LoginPage> {
         height: 60,
         child: ElevatedButton(
           onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) => MainFrame()),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MainFrame(name: "", profileURL: "", subindex: 2)),
+            );
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
