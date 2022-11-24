@@ -1,4 +1,6 @@
 import 'package:coacheers/coaching/camera/camerademo.dart';
+import 'package:coacheers/component/graph/homebarchart.dart';
+import 'package:coacheers/component/graph/recordbarchart.dart';
 import 'package:coacheers/component/kakaoLogin.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:coacheers/profile/profilePage.dart';
@@ -9,14 +11,20 @@ class recordResultPage extends StatefulWidget {
   final int id;
   final String name;
   final String profileURL;
+  final String companyName;
+  final String date;
+  final double total_score;
+  final double face_score;
+  final double voice_score;
 
-  recordResultPage({Key? key, required this.id, required this.name, required this.profileURL}) : super(key: key);
+  recordResultPage({Key? key, required this.id, required this.name, required this.profileURL, required this.companyName, required this.date, required this.total_score, required this.face_score, required this.voice_score}) : super(key: key);
 
   @override
   State<recordResultPage> createState() => _recordResultPageState();
 }
 
 class _recordResultPageState extends State<recordResultPage> {
+
   @override
   Widget build(BuildContext context) {
     bool shouldPop = false;
@@ -55,7 +63,22 @@ class _recordResultPageState extends State<recordResultPage> {
             backgroundColor: Color(0xfffffffff),
             elevation: 0.0,
           ),
-          body : feedback(),
+          body: ListView(
+            children: [
+              underline(),
+              video(),
+              info(),
+              score(),
+              barchart(),
+              underline(),
+              item_evaluation(),
+              underline(),
+              time_evaluation(),
+              underline(),
+              feedback(),
+            ],
+
+          ),
           bottomNavigationBar: Container(
             color: Color(0xff1877F2),
             height: 100,
@@ -147,61 +170,6 @@ class _recordResultPageState extends State<recordResultPage> {
     );
   }
 
-  Widget feedback() {
-    return Container(
-      // width: 200,
-      height: 100,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.blue,
-            width: 5,
-          )),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            // width: 200,
-            // height: 200,
-            child: Text(' 탐앤탐스 군자역점'),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 5,
-                )),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                // width: 200,
-                // height: 200,
-                child: Text(' 탐앤탐스 군자역점'),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.blue,
-                      width: 5,
-                    )),
-              ),
-              Container(
-                // width: 200,
-                // height: 200,
-                child: Text(' 탐앤탐스 군자역점'),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.blue,
-                      width: 5,
-                    )),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
   CoachingButtonDialog(context) {
     showDialog(
         context: context,
@@ -252,6 +220,339 @@ class _recordResultPageState extends State<recordResultPage> {
             ],
           );
         });
+  }
+
+  Widget underline() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+      child: Container(
+        height: 1.0,
+        width: 300.0,
+        color: Colors.grey,
+      ),
+    );
+  }
+
+  Widget video() {
+    return Container(
+      width: 320,
+      height: 220,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Text(' 영상'),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.blue,
+            width: 5,
+          )),
+    );
+  }
+
+  Widget info() {
+    return Container(
+      height: 150,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.blue,
+            width: 5,
+
+          )),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Image(image: AssetImage('assets/feather.png'), width: 34),
+                Container(
+
+                  child: Text(
+                      ' ${widget.companyName}',
+                    style:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
+                  ),
+
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Image(image: AssetImage('assets/chart.png'), width: 24),
+                    Container(
+                      child: Text(
+                        ' ${widget.date}',
+                        style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      Image(image: AssetImage('assets/chart.png'), width: 24),
+                      Container(
+                        child: Text(
+                          ' ${widget.date}',
+                          style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget score() {
+    return Container(
+      width: 151,
+      height: 84,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.blue,
+            width: 5,
+          )),
+      child: Text("90점"),
+    );
+  }
+
+  Widget barchart() {
+    return Container(
+      width: 200,
+      height: 360,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+            child: Row(
+              children: [
+                Image(image: AssetImage('assets/chart.png'), width: 24),
+                Container(
+                  child: Text(
+                    " 총점",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          RecordBarchart(widget.total_score, widget.face_score, widget.voice_score)
+        ],
+      ),
+    );
+  }
+
+  Widget item_evaluation() {
+    // bool darkMode = false;
+    // bool useSides = false;
+    // double numberOfFeatures = 3;
+    // const ticks = [7, 14, 21, 28, 35];
+    // var features = ["AA", "BB", "CC", "DD", "EE", "FF", "GG", "HH"];
+    // var data = [
+    //   [10.0, 20, 28, 5, 16, 15, 17, 6],
+    //   [14.5, 1, 4, 14, 23, 10, 6, 19]
+    // ];
+    // features = features.sublist(0, numberOfFeatures.floor());
+    // data = data
+    //     .map((graph) => graph.sublist(0, numberOfFeatures.floor()))
+    //     .toList();
+    return Container(
+      width: 200,
+      height: 360,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+            child: Row(
+              children: [
+                Image(image: AssetImage('assets/chart.png'), width: 24),
+                Container(
+                  child: Text(
+                    " 항목별 평가",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                ),
+          //       Container(
+          //         color: darkMode ? Colors.black : Colors.white,
+          //         child: Column(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: <Widget>[
+          //             Padding(
+          //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //               child: Row(
+          //                 mainAxisAlignment: MainAxisAlignment.start,
+          //                 children: [
+          //                   darkMode
+          //                       ? Text(
+          //                     'Light mode',
+          //                     style: TextStyle(color: Colors.white),
+          //                   )
+          //                       : Text(
+          //                     'Dark mode',
+          //                     style: TextStyle(color: Colors.black),
+          //                   ),
+          //                   Switch(
+          //                     value: darkMode,
+          //                     onChanged: (value) {
+          //                       setState(() {
+          //                         darkMode = value;
+          //                       });
+          //                     },
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //             Padding(
+          //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //               child: Row(
+          //                 mainAxisAlignment: MainAxisAlignment.start,
+          //                 children: [
+          //                   useSides
+          //                       ? Text(
+          //                     'Polygon border',
+          //                     style: darkMode
+          //                         ? TextStyle(color: Colors.white)
+          //                         : TextStyle(color: Colors.black),
+          //                   )
+          //                       : Text(
+          //                     'Circular border',
+          //                     style: darkMode
+          //                         ? TextStyle(color: Colors.white)
+          //                         : TextStyle(color: Colors.black),
+          //                   ),
+          //                   Switch(
+          //                     value: useSides,
+          //                     onChanged: (value) {
+          //                       setState(() {
+          //                         useSides = value;
+          //                       });
+          //                     },
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //             Padding(
+          //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //               child: Row(
+          //                 mainAxisAlignment: MainAxisAlignment.end,
+          //                 children: <Widget>[
+          //                   Text(
+          //                     'Number of features',
+          //                     style: TextStyle(
+          //                         color: darkMode ? Colors.white : Colors.black),
+          //                   ),
+          //                   Expanded(
+          //                     child: Slider(
+          //                       value: numberOfFeatures,
+          //                       min: 3,
+          //                       max: 8,
+          //                       divisions: 5,
+          //                       onChanged: (value) {
+          //                         setState(() {
+          //                           numberOfFeatures = value;
+          //                         });
+          //                       },
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //             Expanded(
+          //               child: darkMode
+          //                   ? RadarChart.dark(
+          //                 ticks: ticks,
+          //                 features: features,
+          //                 data: data,
+          //                 reverseAxis: true,
+          //                 useSides: useSides,
+          //               )
+          //                   : RadarChart.light(
+          //                 ticks: ticks,
+          //                 features: features,
+          //                 data: data,
+          //                 reverseAxis: true,
+          //                 useSides: useSides,
+          //               ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+
+        ],
+      ),
+    ),
+        ],
+      ),
+    );
+  }
+
+  Widget time_evaluation() {
+    return Container(
+      width: 200,
+      height: 360,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+            child: Row(
+              children: [
+                Image(image: AssetImage('assets/support.png'), width: 24),
+                Container(
+                  child: Text(
+                    " 시간별 평가",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget feedback() {
+    return Container(
+      width: 200,
+      height: 200,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      child: Text(
+        "피드백",
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.blue,
+            width: 5,
+          )),
+    );
   }
 }
 
