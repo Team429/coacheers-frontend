@@ -6,6 +6,7 @@ import 'package:coacheers/frame/mainFrame.dart';
 import 'package:coacheers/profile/profilePage.dart';
 import 'package:coacheers/record/recordPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 
 class recordResultPage extends StatefulWidget {
   final String name;
@@ -23,6 +24,7 @@ class recordResultPage extends StatefulWidget {
 }
 
 class _recordResultPageState extends State<recordResultPage> {
+
   @override
   Widget build(BuildContext context) {
     bool shouldPop = false;
@@ -50,7 +52,7 @@ class _recordResultPageState extends State<recordResultPage> {
                   size: 24,
                 ),
                 onPressed: () {
-                  Navigator.pop(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) =>
                         MainFrame(name: widget.name, profileURL: widget.profileURL, subindex: 2,)),
@@ -360,6 +362,19 @@ class _recordResultPageState extends State<recordResultPage> {
   }
 
   Widget item_evaluation() {
+    // bool darkMode = false;
+    // bool useSides = false;
+    // double numberOfFeatures = 3;
+    // const ticks = [7, 14, 21, 28, 35];
+    // var features = ["AA", "BB", "CC", "DD", "EE", "FF", "GG", "HH"];
+    // var data = [
+    //   [10.0, 20, 28, 5, 16, 15, 17, 6],
+    //   [14.5, 1, 4, 14, 23, 10, 6, 19]
+    // ];
+    // features = features.sublist(0, numberOfFeatures.floor());
+    // data = data
+    //     .map((graph) => graph.sublist(0, numberOfFeatures.floor()))
+    //     .toList();
     return Container(
       width: 200,
       height: 360,
@@ -379,10 +394,115 @@ class _recordResultPageState extends State<recordResultPage> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-              ],
-            ),
-          ),
+          //       Container(
+          //         color: darkMode ? Colors.black : Colors.white,
+          //         child: Column(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: <Widget>[
+          //             Padding(
+          //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //               child: Row(
+          //                 mainAxisAlignment: MainAxisAlignment.start,
+          //                 children: [
+          //                   darkMode
+          //                       ? Text(
+          //                     'Light mode',
+          //                     style: TextStyle(color: Colors.white),
+          //                   )
+          //                       : Text(
+          //                     'Dark mode',
+          //                     style: TextStyle(color: Colors.black),
+          //                   ),
+          //                   Switch(
+          //                     value: darkMode,
+          //                     onChanged: (value) {
+          //                       setState(() {
+          //                         darkMode = value;
+          //                       });
+          //                     },
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //             Padding(
+          //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //               child: Row(
+          //                 mainAxisAlignment: MainAxisAlignment.start,
+          //                 children: [
+          //                   useSides
+          //                       ? Text(
+          //                     'Polygon border',
+          //                     style: darkMode
+          //                         ? TextStyle(color: Colors.white)
+          //                         : TextStyle(color: Colors.black),
+          //                   )
+          //                       : Text(
+          //                     'Circular border',
+          //                     style: darkMode
+          //                         ? TextStyle(color: Colors.white)
+          //                         : TextStyle(color: Colors.black),
+          //                   ),
+          //                   Switch(
+          //                     value: useSides,
+          //                     onChanged: (value) {
+          //                       setState(() {
+          //                         useSides = value;
+          //                       });
+          //                     },
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //             Padding(
+          //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //               child: Row(
+          //                 mainAxisAlignment: MainAxisAlignment.end,
+          //                 children: <Widget>[
+          //                   Text(
+          //                     'Number of features',
+          //                     style: TextStyle(
+          //                         color: darkMode ? Colors.white : Colors.black),
+          //                   ),
+          //                   Expanded(
+          //                     child: Slider(
+          //                       value: numberOfFeatures,
+          //                       min: 3,
+          //                       max: 8,
+          //                       divisions: 5,
+          //                       onChanged: (value) {
+          //                         setState(() {
+          //                           numberOfFeatures = value;
+          //                         });
+          //                       },
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //             Expanded(
+          //               child: darkMode
+          //                   ? RadarChart.dark(
+          //                 ticks: ticks,
+          //                 features: features,
+          //                 data: data,
+          //                 reverseAxis: true,
+          //                 useSides: useSides,
+          //               )
+          //                   : RadarChart.light(
+          //                 ticks: ticks,
+          //                 features: features,
+          //                 data: data,
+          //                 reverseAxis: true,
+          //                 useSides: useSides,
+          //               ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
 
+        ],
+      ),
+    ),
         ],
       ),
     );

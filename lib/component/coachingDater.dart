@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'dart:ui';
+import 'package:json_annotation/json_annotation.dart';
 
-class CoachingData {
+part 'coachingDater.g.dart';
+
+@JsonSerializable()
+
+class CoachingData  {
   //calander
   CoachingData(this.companyName, this.time, this.background, this.isAllDay,
       this.face_point, this.voice_point)
@@ -11,21 +16,33 @@ class CoachingData {
     // throw UnimplementedError();
   }
 
+  @JsonKey(
+    name: "background",
+    fromJson: ColorFromJson,
+    toJson: ColorToJson,
+  )
+  Color background;
+  static Color ColorFromJson(input) => Color(input);
+  static String ColorToJson(input) => input.toString();
+
   String companyName;
   DateTime time;
   DateTime to;
-  Color background;
   bool isAllDay;
   double face_point;
   double voice_point;
   static Color GREEN = Color(0xFF1ABC9C);
 
+  factory CoachingData.fromJson(Map<String, dynamic> json) => _$CoachingDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CoachingDataToJson(this);
 
   @override
   String toString() {
     return '${DateFormat('yyyy. MM. dd').format(time)} ${companyName} ${(face_point + voice_point) / 2}';
   }
 }
+
 
 List<CoachingData> getDataSource() {
   late List<CoachingData> coachings = [];

@@ -24,6 +24,7 @@ class _MainFrameWidget extends State<MainFrame> {
   @override
   bool shouldPop = false;
   int _selectedIndex = 2;
+  double memberCode = 2489925368;
 
   List<Widget> _widgetOptions() => [
     RecordPage(nickname : widget.name, profileURL : widget.profileURL),
