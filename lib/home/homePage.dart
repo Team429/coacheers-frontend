@@ -19,7 +19,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var list = [];
+  //var list = [];
+  List<CoachingData> coachData = getDataSource();
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 홈 페이지\n");
@@ -79,7 +80,8 @@ class _HomeState extends State<Home> {
               ),
             ),
             Container(
-              child: Row(
+              child: coachData.length > 0 ?
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
@@ -137,7 +139,12 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ],
-              ),
+              ) :
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                child: Center(child : Text("데이터가 없습니다.", style:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)),
+              )
             ),
           ],
         ),
@@ -210,9 +217,14 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          HomeBarchart(),
+          if(coachData.length >= 1)...[
+          HomeBarchart()] else...[Padding(
+            padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
+            child: Center(child : Text("데이터가 없습니다.", style:
+            TextStyle(fontWeight: FontWeight.bold, fontSize: 15),))
+          )]
         ],
-      ),
+      )
     );
   }
 

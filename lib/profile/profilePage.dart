@@ -21,6 +21,12 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     print("메인 페이지 - 프로필 페이지\n");
     //_get_user_info();
+    // Future<int> count = get_attendance_count_info(widget.id);
+    // count.then((value) =>
+    //     //print(value)
+    // );
+    //print(count);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -143,7 +149,21 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
-            child: Text("34%",style: TextStyle(fontSize : 45, fontWeight: FontWeight.bold),),
+            // child: Text("34%".toString(),style: TextStyle(fontSize : 45, fontWeight: FontWeight.bold),),
+            child: FutureBuilder(
+              future: get_attendance_count_info(widget.id),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  DateTime now = DateTime.now();
+                  int date = now.day;
+                  if(snapshot.hasData == false){
+                    return Text("0%",style: TextStyle(fontSize : 45, fontWeight: FontWeight.bold),);
+
+                  }else if (snapshot.hasError){
+                    return Center(child:Text(snapshot.error.toString()));
+                  }
+                  return Text("${(snapshot.data/date * 100).round().toString()}%",style: TextStyle(fontSize : 45, fontWeight: FontWeight.bold),);
+                }
+            ),
           ),
           Text("이번달 출석률",style: TextStyle(color: Color(0xff787878), fontWeight: FontWeight.bold),),
         ],
@@ -219,6 +239,27 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Future<int> get_attendance_count_info(int id) async {
+    String url = 'http://localhost:8000/attendances/searchmonth';
+    var jsonEncode2 = jsonEncode({
+      "user_id": id,
+      "start_date": DateTime(DateTime.now().year, DateTime.now().month,     1).millisecondsSinceEpoch,
+      "end_date":  DateTime.now().millisecondsSinceEpoch
+    });
+    http.Response response = await http.post(Uri.parse(url),
+        headers: <String, String>{"content-type": "application/json"},
+        body: jsonEncode2);
+    var decode = utf8.decode(response.bodyBytes);
+    //print("Response : ${response.statusCode} ${decode}");
+    //print(response.headers);
+    //print(response.body);
+
+    int count = json.decode(response.body).length;
+    //print(count);
+
+    return count;
+  }
+
   void _get_user_info() async {
     try {
       User user = await UserApi.instance.me();
@@ -231,23 +272,4 @@ class _ProfilePageState extends State<ProfilePage> {
       print('사용자 정보 요청 실패 $error');
     }
   }
-
-  get_attendance_count_info(int id) async {
-    String url = 'http://localhost:8000/attendances/searchmonth';
-    var jsonEncode2 = jsonEncode({
-      "user_id": id,
-      "start_date": DateTime(DateTime.now().year, DateTime.now().month,     1).millisecondsSinceEpoch,
-      "end_date":  DateTime.now().millisecondsSinceEpoch
-    });
-    http.Response response = await http.post(Uri.parse(url),
-        headers: <String, String>{"content-type": "application/json"},
-        body: jsonEncode2);
-    var decode = utf8.decode(response.bodyBytes);
-    print("Response : ${response.statusCode} ${decode}");
-    //print(response.headers);
-    print(response.body);
-
-    return response.body.length;
-  }
-
 }

@@ -7,8 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'coachingDater.g.dart';
 
 @JsonSerializable()
-
-class CoachingData  {
+class CoachingData {
   //calander
   CoachingData(this.companyName, this.time, this.background, this.isAllDay,
       this.face_point, this.voice_point)
@@ -22,7 +21,9 @@ class CoachingData  {
     toJson: ColorToJson,
   )
   Color background;
+
   static Color ColorFromJson(input) => Color(input);
+
   static String ColorToJson(input) => input.toString();
 
   String companyName;
@@ -34,7 +35,8 @@ class CoachingData  {
 
   static Color GREEN = Color(0xFF1ABC9C);
 
-  factory CoachingData.fromJson(Map<String, dynamic> json) => _$CoachingDataFromJson(json);
+  factory CoachingData.fromJson(Map<String, dynamic> json) =>
+      _$CoachingDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$CoachingDataToJson(this);
 
@@ -43,7 +45,6 @@ class CoachingData  {
     return '${DateFormat('yyyy. MM. dd').format(time)} ${companyName} ${(face_point + voice_point) / 2}';
   }
 }
-
 
 List<CoachingData> getDataSource() {
   late List<CoachingData> coachings = [];
@@ -69,35 +70,35 @@ List<CoachingData> getDataSource() {
   final DateTime startTime10 =
       DateTime(today.year, today.month, today.day - 1, 9, 0, 0);
 
-  coachings
-      .add(CoachingData('넥슨', startTime1, CoachingData.GREEN, false, 75, 25));
-
-  coachings
-      .add(CoachingData('SK하이닉스', startTime2, CoachingData.GREEN, false, 83, 41));
-
-  coachings
-      .add(CoachingData('농심', startTime3, CoachingData.GREEN, false, 78, 64));
-
-  coachings
-      .add(CoachingData('구글', startTime4, CoachingData.GREEN, false, 72, 70));
-
-  coachings
-      .add(CoachingData('삼성', startTime5, CoachingData.GREEN, false, 79, 81));
-
-  coachings
-      .add(CoachingData('쿠팡', startTime6, CoachingData.GREEN, false, 53, 75));
-
-  coachings
-      .add(CoachingData('네이버', startTime7, CoachingData.GREEN, false, 48, 73));
-
-  coachings
-      .add(CoachingData('라인', startTime8, CoachingData.GREEN, false, 60, 77));
-
-  coachings
-      .add(CoachingData('배달의 민족', startTime9, CoachingData.GREEN, false, 58, 81));
-
-  coachings
-      .add(CoachingData('직방', startTime10, CoachingData.GREEN, false, 65, 87));
+  // coachings
+  //     .add(CoachingData('넥슨', startTime1, CoachingData.GREEN, false, 75, 25));
+  //
+  // coachings.add(
+  //     CoachingData('SK하이닉스', startTime2, CoachingData.GREEN, false, 83, 41));
+  //
+  // coachings
+  //     .add(CoachingData('농심', startTime3, CoachingData.GREEN, false, 78, 64));
+  //
+  // coachings
+  //     .add(CoachingData('구글', startTime4, CoachingData.GREEN, false, 72, 70));
+  //
+  // coachings
+  //     .add(CoachingData('삼성', startTime5, CoachingData.GREEN, false, 79, 81));
+  //
+  // coachings
+  //     .add(CoachingData('쿠팡', startTime6, CoachingData.GREEN, false, 53, 75));
+  //
+  // coachings
+  //     .add(CoachingData('네이버', startTime7, CoachingData.GREEN, false, 48, 73));
+  //
+  // coachings
+  //     .add(CoachingData('라인', startTime8, CoachingData.GREEN, false, 60, 77));
+  //
+  // coachings.add(
+  //     CoachingData('배달의 민족', startTime9, CoachingData.GREEN, false, 58, 81));
+  //
+  // coachings
+  //     .add(CoachingData('직방', startTime10, CoachingData.GREEN, false, 65, 87));
 
   return coachings;
 }
@@ -167,29 +168,64 @@ class RecordBarChartData {
   final Color color;
 }
 
-List<HomeBarChartData> homechartData = [
-  HomeBarChartData(
-      getDataSource()[getDataSource().length - 1].time,
-      (getDataSource()[getDataSource().length - 1].face_point +
-              getDataSource()[getDataSource().length - 1].voice_point) /
-          2,
-      getDataSource()[getDataSource().length - 1].face_point,
-      getDataSource()[getDataSource().length - 1].voice_point),
-  HomeBarChartData(
-      getDataSource()[getDataSource().length - 2].time,
-      (getDataSource()[getDataSource().length - 2].face_point +
-              getDataSource()[getDataSource().length - 2].voice_point) /
-          2,
-      getDataSource()[getDataSource().length - 2].face_point,
-      getDataSource()[getDataSource().length - 2].voice_point),
-  HomeBarChartData(
-      getDataSource()[getDataSource().length - 3].time,
-      (getDataSource()[getDataSource().length - 3].face_point +
-              getDataSource()[getDataSource().length - 3].voice_point) /
-          2,
-      getDataSource()[getDataSource().length - 3].face_point,
-      getDataSource()[getDataSource().length - 3].voice_point),
-];
+List<HomeBarChartData> getHomeBarsource() {
+  late List<HomeBarChartData> homechartData = [];
+
+  if (getDataSource().length == 0) {
+    homechartData.add(HomeBarChartData(DateTime.now(), 0.0, 0.0, 0.0));
+    homechartData.add(HomeBarChartData(DateTime.now(), 0.0, 0.0, 0.0));
+    homechartData.add(HomeBarChartData(DateTime.now(), 0.0, 0.0, 0.0));
+  } else if (getDataSource().length == 1) {
+    homechartData.add(HomeBarChartData(
+        getDataSource()[getDataSource().length - 1].time,
+        (getDataSource()[getDataSource().length - 1].face_point +
+                getDataSource()[getDataSource().length - 1].voice_point) /
+            2,
+        getDataSource()[getDataSource().length - 1].face_point,
+        getDataSource()[getDataSource().length - 1].voice_point));
+  } else if (getDataSource().length == 2) {
+    homechartData.add(HomeBarChartData(
+        getDataSource()[getDataSource().length - 1].time,
+        (getDataSource()[getDataSource().length - 1].face_point +
+                getDataSource()[getDataSource().length - 1].voice_point) /
+            2,
+        getDataSource()[getDataSource().length - 1].face_point,
+        getDataSource()[getDataSource().length - 1].voice_point));
+    homechartData.add(HomeBarChartData(
+        getDataSource()[getDataSource().length - 2].time,
+        (getDataSource()[getDataSource().length - 2].face_point +
+                getDataSource()[getDataSource().length - 2].voice_point) /
+            2,
+        getDataSource()[getDataSource().length - 2].face_point,
+        getDataSource()[getDataSource().length - 2].voice_point));
+  } else {
+    homechartData.add(HomeBarChartData(
+        getDataSource()[getDataSource().length - 1].time,
+        (getDataSource()[getDataSource().length - 1].face_point +
+                getDataSource()[getDataSource().length - 1].voice_point) /
+            2,
+        getDataSource()[getDataSource().length - 1].face_point,
+        getDataSource()[getDataSource().length - 1].voice_point));
+    homechartData.add(HomeBarChartData(
+        getDataSource()[getDataSource().length - 2].time,
+        (getDataSource()[getDataSource().length - 2].face_point +
+                getDataSource()[getDataSource().length - 2].voice_point) /
+            2,
+        getDataSource()[getDataSource().length - 2].face_point,
+        getDataSource()[getDataSource().length - 2].voice_point));
+    homechartData.add(HomeBarChartData(
+        getDataSource()[getDataSource().length - 3].time,
+        (getDataSource()[getDataSource().length - 3].face_point +
+                getDataSource()[getDataSource().length - 3].voice_point) /
+            2,
+        getDataSource()[getDataSource().length - 3].face_point,
+        getDataSource()[getDataSource().length - 3].voice_point));
+  }
+
+  return homechartData;
+}
+
+List<HomeBarChartData> homechartData = getHomeBarsource();
 
 class DonutChartData {
   DonutChartData(this.scoreName, this.score, this.color);
@@ -199,13 +235,13 @@ class DonutChartData {
   final Color color;
 }
 
-List<DonutChartData> getTotalDonutsource(){
+List<DonutChartData> getTotalDonutsource() {
   late List<DonutChartData> TotalDonuts = [];
-  if(getDataSource().length >= 1){
+  if (getDataSource().length >= 1) {
     TotalDonuts.add(DonutChartData(
       'Scorename',
       (getDataSource()[getDataSource().length - 1].face_point +
-          getDataSource()[getDataSource().length - 1].voice_point) /
+              getDataSource()[getDataSource().length - 1].voice_point) /
           2,
       Color(0xff4F98FF),
     ));
@@ -213,28 +249,29 @@ List<DonutChartData> getTotalDonutsource(){
       'Scorename_empty',
       100 -
           (getDataSource()[getDataSource().length - 1].face_point +
-              getDataSource()[getDataSource().length - 1].voice_point) /
+                  getDataSource()[getDataSource().length - 1].voice_point) /
               2,
       Color(0xffD8D8D8),
     ));
-  }
-  else{
+  } else {
     TotalDonuts.add(DonutChartData(
       'Scorename',
-      0.0,Color(0xff4F98FF),
+      0.0,
+      Color(0xff4F98FF),
     ));
     TotalDonuts.add(DonutChartData(
       'Scorename_empty',
-      100.0,Color(0xffD8D8D8),
+      100.0,
+      Color(0xffD8D8D8),
     ));
   }
 
   return TotalDonuts;
 }
 
-List<DonutChartData> getfaceDonutsource(){
+List<DonutChartData> getfaceDonutsource() {
   late List<DonutChartData> faceDonuts = [];
-  if(getDataSource().length >= 1){
+  if (getDataSource().length >= 1) {
     faceDonuts.add(DonutChartData(
       'Scorename',
       getDataSource()[getDataSource().length - 1].face_point,
@@ -245,24 +282,25 @@ List<DonutChartData> getfaceDonutsource(){
       100 - getDataSource()[getDataSource().length - 1].face_point,
       Color(0xffD8D8D8),
     ));
-  }
-  else{
+  } else {
     faceDonuts.add(DonutChartData(
       'Scorename',
-      0.0,Color(0xff4F98FF),
+      0.0,
+      Color(0xff4F98FF),
     ));
     faceDonuts.add(DonutChartData(
       'Scorename_empty',
-      100.0,Color(0xffD8D8D8),
+      100.0,
+      Color(0xffD8D8D8),
     ));
   }
 
   return faceDonuts;
 }
 
-List<DonutChartData> getvoiceDonutsource(){
+List<DonutChartData> getvoiceDonutsource() {
   late List<DonutChartData> voiceDonuts = [];
-  if(getDataSource().length >= 1){
+  if (getDataSource().length >= 1) {
     voiceDonuts.add(DonutChartData(
       'Scorename',
       getDataSource()[getDataSource().length - 1].voice_point,
@@ -273,11 +311,11 @@ List<DonutChartData> getvoiceDonutsource(){
       100 - getDataSource()[getDataSource().length - 1].voice_point,
       Color(0xffD8D8D8),
     ));
-  }
-  else{
+  } else {
     voiceDonuts.add(DonutChartData(
       'Scorename',
-      0,Color(0xff4F98FF),
+      0,
+      Color(0xff4F98FF),
     ));
     voiceDonuts.add(DonutChartData(
       'Scorename_empty',
