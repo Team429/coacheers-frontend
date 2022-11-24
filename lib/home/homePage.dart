@@ -23,8 +23,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 홈 페이지\n");
-    //get();
-    _get_user_info();
+    get_user();
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -233,39 +232,59 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void get() async {
+  void get_user() async {
     String url = 'http://localhost:8000/users';
     var response = await http.get(Uri.parse(url));
     var statusCode = response.statusCode;
     var responseHeaders = response.headers;
     var responseBody = utf8.decode(response.bodyBytes);
 
-    Map<String, dynamic> user = jsonDecode(responseBody);
+    final user = jsonDecode(responseBody);
 
-    // print("statusCode: ${statusCode}");
-    // print("responseHeader: ${responseHeaders}");
+    print("statusCode: ${statusCode}");
+    //print("responseHeader: ${responseHeaders}");
     //print("responseBody: ${responseBody}");
 
-    print(user);
-    print(user['1']);
+    print(user[0]['email']);
+    //print(responseBody[0]);
 
-    Map<String, dynamic> user_info = jsonDecode(user['1']);
-    print(user_info['name']);
+    // Map<String, dynamic> user_info = jsonDecode(user['1']);
+    // print(user_info['name']);
   }
 
-  void _get_user_info() async {
-    try {
-      User user = await UserApi.instance.me();
-      user_code = user.id.toString();
-      print("user_code${user_code}");
-      print('사용자 정보 요청 성공'
-          '\n회원번호: ${user.id}'
-          '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
-          '\n프로필사진링크 : ${user.kakaoAccount?.profile?.thumbnailImageUrl}');
-    } catch (error) {
-      print('사용자 정보 요청 실패 $error');
-    }
+  void get_records_month() async{
+    String url = 'http://localhost:8000/records/searchmonth';
+    var response = await http.get(Uri.parse(url));
+    var statusCode = response.statusCode;
+    var responseHeaders = response.headers;
+    var responseBody = utf8.decode(response.bodyBytes);
+
+    //Map<String, dynamic> user = jsonDecode(responseBody);
+
+    print("statusCode: ${statusCode}");
+    print("responseHeader: ${responseHeaders}");
+    print("responseBody: ${responseBody}");
+
+    //print(user);
+    // print(user['1']);
+
+    // Map<String, dynamic> user_info = jsonDecode(user['1']);
+    // print(user_info['name']);
   }
+
+  // void _get_user_info() async {
+  //   try {
+  //     User user = await UserApi.instance.me();
+  //     user_code = user.id.toString();
+  //     print("user_code${user_code}");
+  //     print('사용자 정보 요청 성공'
+  //         '\n회원번호: ${user.id}'
+  //         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
+  //         '\n프로필사진링크 : ${user.kakaoAccount?.profile?.thumbnailImageUrl}');
+  //   } catch (error) {
+  //     print('사용자 정보 요청 실패 $error');
+  //   }
+  // }
 }
 
 

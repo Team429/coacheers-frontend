@@ -6,10 +6,11 @@ import 'package:coacheers/record/recordPage.dart';
 import 'package:flutter/material.dart';
 
 class recordResultPage extends StatefulWidget {
+  final int id;
   final String name;
   final String profileURL;
 
-  recordResultPage({Key? key, required this.name, required this.profileURL}) : super(key: key);
+  recordResultPage({Key? key, required this.id, required this.name, required this.profileURL}) : super(key: key);
 
   @override
   State<recordResultPage> createState() => _recordResultPageState();
@@ -43,10 +44,10 @@ class _recordResultPageState extends State<recordResultPage> {
                   size: 24,
                 ),
                 onPressed: () {
-                  Navigator.pop(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) =>
-                        MainFrame(name: widget.name, profileURL: widget.profileURL, subindex: 2,)),
+                        MainFrame(id : widget.id, name: widget.name, profileURL: widget.profileURL, subindex: 2,)),
                   );
                 },
               ),
@@ -74,7 +75,7 @@ class _recordResultPageState extends State<recordResultPage> {
                               Navigator.pop(
                                   context,
                                   MaterialPageRoute(builder: (context) =>
-                                      MainFrame(name: widget.name, profileURL: widget.profileURL,subindex: 0,),
+                                      MainFrame(id : widget.id, name: widget.name, profileURL: widget.profileURL,subindex: 0,),
                                   ));
                             },
                             child: Icon(
@@ -120,7 +121,7 @@ class _recordResultPageState extends State<recordResultPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) =>
-                                    MainFrame(name: widget.name, profileURL: widget.profileURL,subindex: 1,)
+                                    MainFrame(id :widget.id, name: widget.name, profileURL: widget.profileURL,subindex: 1,)
                                 ));
                           },
                           child: Icon(
@@ -235,7 +236,7 @@ class _recordResultPageState extends State<recordResultPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>
-                          CamerademoPage(name: widget.name, profileURL: widget.profileURL)),
+                          CamerademoPage(id : widget. id, name: widget.name, profileURL: widget.profileURL)),
                     );
                   },
                 ),

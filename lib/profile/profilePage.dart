@@ -1,12 +1,15 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class ProfilePage extends StatefulWidget {
+  final int id;
   final String nickname;
   final String profileURL;
 
   const ProfilePage(
-      {Key? key, required this.nickname, required this.profileURL})
+      {Key? key, required this.id,required this.nickname, required this.profileURL})
       : super(key: key);
 
   @override
@@ -228,4 +231,23 @@ class _ProfilePageState extends State<ProfilePage> {
       print('사용자 정보 요청 실패 $error');
     }
   }
+
+  get_attendance_count_info(int id) async {
+    String url = 'http://localhost:8000/attendances/searchmonth';
+    var jsonEncode2 = jsonEncode({
+      "user_id": id,
+      "start_date": DateTime(DateTime.now().year, DateTime.now().month,     1).millisecondsSinceEpoch,
+      "end_date":  DateTime.now().millisecondsSinceEpoch
+    });
+    http.Response response = await http.post(Uri.parse(url),
+        headers: <String, String>{"content-type": "application/json"},
+        body: jsonEncode2);
+    var decode = utf8.decode(response.bodyBytes);
+    print("Response : ${response.statusCode} ${decode}");
+    //print(response.headers);
+    print(response.body);
+
+    return response.body.length;
+  }
+
 }

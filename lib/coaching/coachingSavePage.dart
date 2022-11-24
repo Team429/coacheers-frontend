@@ -4,12 +4,13 @@ import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 
 class coachingSave extends StatefulWidget {
+  final int id;
   final String name;
   final String profileURL;
   final String filePath;
   final String comment;
 
-  const coachingSave({Key? key, required this.comment, required this.name, required this.profileURL, required this.filePath}) : super(key: key);
+  const coachingSave({Key? key, required this.id, required this.comment, required this.name, required this.profileURL, required this.filePath}) : super(key: key);
 
   @override
   State<coachingSave> createState() => _coachingSaveState();
@@ -46,6 +47,7 @@ class _coachingSaveState extends State<coachingSave> {
                   context,
                   MaterialPageRoute(builder: (context) =>
                       MainFrame(
+                        id : widget.id,
                         name: widget.name,
                         profileURL: widget.profileURL,
                         subindex: 2,)),
@@ -85,6 +87,7 @@ class _coachingSaveState extends State<coachingSave> {
                               context,
                               MaterialPageRoute(builder: (context) =>
                                   MainFrame(
+                                    id : widget.id,
                                     name: widget.name,
                                     profileURL: widget.profileURL,
                                     subindex: 0,)),
@@ -134,6 +137,7 @@ class _coachingSaveState extends State<coachingSave> {
                               context,
                               MaterialPageRoute(builder: (context) =>
                                   MainFrame(
+                                    id : widget.id,
                                     name: widget.name,
                                     profileURL: widget.profileURL,
                                     subindex: 1,)),
@@ -191,7 +195,7 @@ class _coachingSaveState extends State<coachingSave> {
           Navigator.pop(context);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MainFrame(name : widget.name, profileURL: widget.profileURL, subindex: 2,)),
+            MaterialPageRoute(builder: (context) => MainFrame(id : widget.id,name : widget.name, profileURL: widget.profileURL, subindex: 2,)),
           );
           //CoachingButtonDialog(context);
         },
@@ -234,7 +238,7 @@ class _coachingSaveState extends State<coachingSave> {
                       context,
                       MaterialPageRoute(builder: (context) =>
                           CamerademoPage(
-                            name: widget.name, profileURL: widget.profileURL,)),
+                            id : widget.id, name: widget.name, profileURL: widget.profileURL,)),
                     );
                   },
                 ),

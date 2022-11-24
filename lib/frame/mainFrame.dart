@@ -8,11 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class MainFrame extends StatefulWidget {
+  final int id;
   final String name;
   final String profileURL;
   late int subindex;
 
-  MainFrame({Key? key, required this.name, required this.profileURL, required this.subindex}) : super(key: key);
+  MainFrame({Key? key, required this.id, required this.name, required this.profileURL, required this.subindex}) : super(key: key);
 
   @override
   State<MainFrame> createState() => _MainFrameWidget();
@@ -26,9 +27,9 @@ class _MainFrameWidget extends State<MainFrame> {
   int _selectedIndex = 2;
 
   List<Widget> _widgetOptions() => [
-    RecordPage(nickname : widget.name, profileURL : widget.profileURL),
+    RecordPage(id : widget.id, nickname : widget.name, profileURL : widget.profileURL),
     //CoachingPage(),
-    ProfilePage(nickname : widget.name, profileURL : widget.profileURL),
+    ProfilePage(id : widget.id, nickname : widget.name, profileURL : widget.profileURL),
     Home(),
   ];
 
@@ -157,18 +158,18 @@ class _MainFrameWidget extends State<MainFrame> {
     );
   }
 
-  void _get_user_info() async {
-    try {
-      User user = await UserApi.instance.me();
-      print('사용자 정보 요청 성공'
-          '\n회원번호: ${user.id}'
-          '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
-          '\n프로필사진링크 : ${user.kakaoAccount?.profile?.thumbnailImageUrl}');
-      profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
-    } catch (error) {
-      print('사용자 정보 요청 실패 $error');
-    }
-  }
+  // void _get_user_info() async {
+  //   try {
+  //     User user = await UserApi.instance.me();
+  //     print('사용자 정보 요청 성공'
+  //         '\n회원번호: ${user.id}'
+  //         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
+  //         '\n프로필사진링크 : ${user.kakaoAccount?.profile?.thumbnailImageUrl}');
+  //     profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
+  //   } catch (error) {
+  //     print('사용자 정보 요청 실패 $error');
+  //   }
+  // }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -210,7 +211,7 @@ class _MainFrameWidget extends State<MainFrame> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CamerademoPage(name: widget.name,profileURL: widget.profileURL,)),
+                      MaterialPageRoute(builder: (context) => CamerademoPage(id : widget.id, name: widget.name,profileURL: widget.profileURL,)),
                     );
                   },
                 ),

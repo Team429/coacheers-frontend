@@ -5,10 +5,11 @@ import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 
 class CamerademoPage extends StatefulWidget {
+  final int id;
   final String name;
   final String profileURL;
 
-  const CamerademoPage({Key? key, required this.name, required this.profileURL}) : super(key: key);
+  const CamerademoPage({Key? key, required this.id, required this.name, required this.profileURL}) : super(key: key);
 
   @override
   _CamerademoPageState createState() => _CamerademoPageState();
@@ -48,7 +49,7 @@ class _CamerademoPageState extends State<CamerademoPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CoachingEnd(name: widget.name, profileURL : widget.profileURL, filePath: 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4')),
+                          builder: (context) => CoachingEnd(id :widget.id, name: widget.name, profileURL : widget.profileURL, filePath: 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4')),
                     )
                   },
                 ),

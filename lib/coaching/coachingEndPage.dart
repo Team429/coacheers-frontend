@@ -1,5 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/coaching/camera/video.dart';
 import 'package:coacheers/coaching/coachingSavePage.dart';
@@ -10,11 +11,12 @@ import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
 class CoachingEnd extends StatefulWidget {
+  final int id;
   final String name;
   final String profileURL;
   final String filePath;
 
-  const CoachingEnd({Key? key, required this.name, required this.profileURL, required this.filePath}) : super(key: key);
+  const CoachingEnd({Key? key, required this.id, required this.name, required this.profileURL, required this.filePath}) : super(key: key);
 
   @override
   State<CoachingEnd> createState() => _CoachingEndState();
@@ -263,6 +265,9 @@ class _CoachingEndState extends State<CoachingEnd> {
         label: Text("저장하기"),
         onPressed: () {
           print(widget.filePath);
+          print(_commentController.text);
+          print(DateTime.now().toString());
+          _post_record_info(_commentController.text,widget.filePath);
           //userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
           //print(userData[0].companyName);
           //print(userData.length);
@@ -273,7 +278,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                 builder:
                     (_) => //VideoPage(filePath: file.path),
                 //VideoPage(filePath: widget.filePath, name: _commentController.text),
-                coachingSave(comment : _commentController.text, name: widget.name, profileURL: widget.profileURL, filePath: widget.filePath)
+                coachingSave(id : widget.id, comment : _commentController.text, name: widget.name, profileURL: widget.profileURL, filePath: widget.filePath)
               ));
           //CoachingButtonDialog(context);
         },
@@ -329,7 +334,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainFrame(name : widget.name, profileURL: widget.profileURL, subindex: index,)),
+                    MaterialPageRoute(builder: (context) => MainFrame(id : widget.id, name : widget.name, profileURL: widget.profileURL, subindex: index,)),
                   );
                 },
               ),
@@ -418,7 +423,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CamerademoPage(name: widget.name,profileURL: widget.profileURL,)),
+                      MaterialPageRoute(builder: (context) => CamerademoPage(id : widget.id, name: widget.name,profileURL: widget.profileURL,)),
                     );
                   },
                 ),
@@ -435,4 +440,20 @@ class _CoachingEndState extends State<CoachingEnd> {
           );
         });
   }
+}
+
+void _post_record_info(String companyName,String filepath) async {
+  String url = 'http://localhost:8000/records/';
+  var jsonEncode2 = jsonEncode({
+    "user_id": 0,
+    "created_at": DateTime.now().millisecondsSinceEpoch,
+    "label": companyName,
+    "filepath": filepath,
+  });
+  http.Response response = await http.post(Uri.parse(url),
+      headers: <String, String>{"content-type": "application/json"},
+      body: jsonEncode2);
+  var decode = utf8.decode(response.bodyBytes);
+  print("Response : ${response.statusCode} ${decode}");
+  print(response.headers);
 }

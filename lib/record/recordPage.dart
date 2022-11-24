@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:coacheers/component/coachingDater.dart';
 import 'package:coacheers/component/graph/recordbarchart.dart';
 import 'package:coacheers/record/result.dart';
@@ -7,10 +9,11 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class RecordPage extends StatefulWidget {
+  final int id;
   final String nickname;
   final String profileURL;
 
-  const RecordPage({Key? key, required this.nickname, required this.profileURL}) : super(key: key);
+  const RecordPage({Key? key, required this.id, required this.nickname, required this.profileURL}) : super(key: key);
 
   @override
   _RecordPageState createState() => _RecordPageState();
@@ -48,6 +51,8 @@ class _RecordPageState extends State<RecordPage> {
   Widget build(BuildContext context) {
     print("메인 페이지 - 기록 페이지\n");
     //print(searchlist.toString());
+    print(widget.id);
+    get_records(widget.id);
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -181,7 +186,7 @@ class _RecordPageState extends State<RecordPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => recordResultPage(name: widget.nickname, profileURL: widget.profileURL,)),
+                          MaterialPageRoute(builder: (context) => recordResultPage(id : widget.id, name: widget.nickname, profileURL: widget.profileURL,)),
                         );
                       },
                       child: Text("${searchitems[index].totalscore}점"),
@@ -325,4 +330,26 @@ class _RecordPageState extends State<RecordPage> {
 
     });
   }
+}
+
+void get_records(int id) async {
+  print(id);
+  String url = 'http://localhost:8000/records/${id}';
+  var response = await http.post(Uri.parse(url));
+  var statusCode = response.statusCode;
+  var responseHeaders = response.headers;
+  var responseBody = utf8.decode(response.bodyBytes);
+
+  //Map<String, dynamic> records = jsonDecode(responseBody);
+
+  print("statusCode: ${statusCode}");
+  print("responseHeader: ${responseHeaders}");
+  print("responseBody: ${responseBody}");
+
+
+  //print(records);
+  //print(records['1']);
+
+  //Map<String, dynamic> user_info = jsonDecode(records['1']);
+  //print(user_info['name']);
 }

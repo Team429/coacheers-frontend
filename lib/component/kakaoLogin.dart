@@ -8,22 +8,51 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 String user_code = "";
 String name = "";
 String profileURL = "";
+int id = 0;
 
-void _get_user_info() async {
-  try {
-    User user = await UserApi.instance.me();
-    user_code = user.id.toString();
-    name = (user.kakaoAccount?.profile?.nickname).toString();
-    profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
-    //print("user_code${user_code}");
-    _post_user_info(user_code);
-    // print('사용자 정보 요청 성공'
-    //     '\n회원번호: ${user.id}'
-    //     '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
-  } catch (error) {
-    print('사용자 정보 요청 실패 $error');
-  }
-}
+// void _get_user_info() async {
+//   try {
+//     User user = await UserApi.instance.me();
+//     user_code = user.id.toString();
+//     name = (user.kakaoAccount?.profile?.nickname).toString();
+//     profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
+//     //print("user_code${user_code}");
+//     _post_user_info(user_code);
+//     // print('사용자 정보 요청 성공'
+//     //     '\n회원번호: ${user.id}'
+//     //     '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
+//   } catch (error) {
+//     print('사용자 정보 요청 실패 $error');
+//   }
+// }
+
+// Future<int> get_user_me(String user_code) async {
+//   String url = 'http://localhost:8000/users';
+//   var response = await http.get(Uri.parse(url));
+//   //var statusCode = response.statusCode;
+//   //var responseHeaders = response.headers;
+//   var responseBody = utf8.decode(response.bodyBytes);
+//   var id;
+//
+//   final user = jsonDecode(responseBody);
+//
+//   //print("statusCode: ${statusCode}");
+//   //print("responseHeader: ${responseHeaders}");
+//   //print("responseBody: ${responseBody}");
+//
+//   print(user[0]['email']);
+//   for(int i = 0; i< user.length; i++){
+//     if(user[i]['email'] == user_code){
+//       print("db유저 아이디값: ${user[i]['id']}");
+//       id = user[i]['id'];
+//     }
+//   }
+//   return id;
+//   //print(responseBody[0]);
+//
+//   // Map<String, dynamic> user_info = jsonDecode(user['1']);
+//   // print(user_info['name']);
+// }
 
 void _post_user_info(String string) async {
   String url = 'http://localhost:8000/users/';
@@ -36,6 +65,22 @@ void _post_user_info(String string) async {
   var decode = utf8.decode(response.bodyBytes);
   print("Response : ${response.statusCode} ${decode}");
   print(response.headers);
+  print("user info post 완료");
+}
+
+void _post_attendance_info(int id) async {
+  String url = 'http://localhost:8000/attendances/';
+  var jsonEncode2 = jsonEncode({
+    "user_id": id,
+    "created_at": DateTime.now().millisecondsSinceEpoch,
+  });
+  http.Response response = await http.post(Uri.parse(url),
+      headers: <String, String>{"content-type": "application/json"},
+      body: jsonEncode2);
+  var decode = utf8.decode(response.bodyBytes);
+  print("Response : ${response.statusCode} ${decode}");
+  print(response.headers);
+  print("attendance info post 완료");
 }
 
 void KakaoLogin(context) async {
@@ -48,11 +93,30 @@ void KakaoLogin(context) async {
       //카카오 로그인 화면 호출 -> 사용자가 토큰 가져오는 것 까지
       print('카카오톡으로 로그인 성공');
       User user = await UserApi.instance.me();
+      user_code = user.id.toString();
       name = (user.kakaoAccount?.profile?.nickname).toString();
       profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
+      _post_user_info(user_code);
+
+      String url = 'http://localhost:8000/users';
+      var response = await http.get(Uri.parse(url));
+      var responseBody = utf8.decode(response.bodyBytes);
+      final userinfo = jsonDecode(responseBody);
+
+      //print(userinfo[0]['email']);
+      for(int i = 0; i< userinfo.length; i++){
+        if(userinfo[i]['email'] == user_code){
+          //print("db유저 아이디값: ${userinfo[i]['id']}");
+          id = userinfo[i]['id'];
+        }
+      }
+      //print("id : ${id}");
+
+      _post_attendance_info(id);
+
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL,subindex: 2,)),
+        MaterialPageRoute(builder: (_) => MainFrame(id : id, name: name,profileURL: profileURL,subindex: 2,)),
       );
     } catch (error) {
       print('카카오톡으로 로그인 실패 $error');
@@ -71,11 +135,31 @@ void KakaoLogin(context) async {
         await UserApi.instance.loginWithKakaoAccount();
         print('카카오계정으로 로그인 성공');
         User user = await UserApi.instance.me();
+        user_code = user.id.toString();
         name = (user.kakaoAccount?.profile?.nickname).toString();
         profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
+
+        _post_user_info(user_code);
+
+        String url = 'http://localhost:8000/users';
+        var response = await http.get(Uri.parse(url));
+        var responseBody = utf8.decode(response.bodyBytes);
+        final userinfo = jsonDecode(responseBody);
+
+        //print(userinfo[0]['email']);
+        for(int i = 0; i< userinfo.length; i++){
+          if(userinfo[i]['email'] == user_code){
+            //print("db유저 아이디값: ${userinfo[i]['id']}");
+            id = userinfo[i]['id'];
+          }
+        }
+        //print("id : ${id}");
+
+        _post_attendance_info(id);
+
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL,subindex: 2,)),
+          MaterialPageRoute(builder: (_) => MainFrame(id : id, name: name,profileURL: profileURL,subindex: 2,)),
         );
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
@@ -87,11 +171,31 @@ void KakaoLogin(context) async {
       await UserApi.instance.loginWithKakaoAccount();
       print('카카오계정으로 로그인 성공');
       User user = await UserApi.instance.me();
+      user_code = user.id.toString();
       name = (user.kakaoAccount?.profile?.nickname).toString();
       profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
+
+      _post_user_info(user_code);
+
+      String url = 'http://localhost:8000/users';
+      var response = await http.get(Uri.parse(url));
+      var responseBody = utf8.decode(response.bodyBytes);
+      final userinfo = jsonDecode(responseBody);
+
+      //print(userinfo[0]['email']);
+      for(int i = 0; i< userinfo.length; i++){
+        if(userinfo[i]['email'] == user_code){
+          //print("db유저 아이디값: ${userinfo[i]['id']}");
+          id = userinfo[i]['id'];
+        }
+      }
+      //print("id : ${id}");
+
+      _post_attendance_info(id);
+
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => MainFrame(name: name,profileURL: profileURL, subindex: 2,)),
+        MaterialPageRoute(builder: (_) => MainFrame(id : id, name: name,profileURL: profileURL, subindex: 2,)),
       );
     } catch (error) {
       print('카카오계정으로 로그인 실패 $error');

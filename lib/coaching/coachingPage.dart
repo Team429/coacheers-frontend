@@ -4,10 +4,11 @@ import 'package:coacheers/coaching/coachingEndPage.dart';
 import 'package:flutter/material.dart';
 
 class CoachingPage extends StatefulWidget {
+  final int id;
   final String name;
   final String profileURL;
 
-  const CoachingPage({Key? key, required this.name, required this.profileURL}) : super(key: key);
+  const CoachingPage({Key? key, required this.id, required this.name, required this.profileURL}) : super(key: key);
 
   @override
   _CoachingPageState createState() => _CoachingPageState();
@@ -48,7 +49,7 @@ class _CoachingPageState extends State<CoachingPage> {
       final route = MaterialPageRoute(
         fullscreenDialog: true,
         builder: (_) => //VideoPage(filePath: file.path),
-        CoachingEnd(name: widget.name, profileURL: widget.profileURL, filePath: file.path),
+        CoachingEnd(id : widget.id, name: widget.name, profileURL: widget.profileURL, filePath: file.path),
       );
       Navigator.push(context, route);
     } else {
