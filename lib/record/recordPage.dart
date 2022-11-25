@@ -41,7 +41,9 @@ class _RecordPageState extends State<RecordPage> {
     _controller.selectedRange =
         PickerDateRange(today.subtract(Duration(days: 7)), today);
 
-    get_records_search(widget.id, today.subtract(Duration(days: 7)), today);
+    //get_records_search(widget.id, today.subtract(Duration(days: 7)), today);
+    filterSearchResults(
+        today.subtract(Duration(days: 8)), today.add(Duration(days: 0)));
 
     super.initState();
   }
@@ -219,8 +221,8 @@ class _RecordPageState extends State<RecordPage> {
           .format(args.value.endDate ?? args.value.startDate)
           .toString();
     });
-    get_records_search(widget.id, _start, _end);
-    //filterSearchResults(args.value.startDate, args.value.endDate ?? args.value.startDate);
+    //get_records_search(widget.id, _start, _end);
+    filterSearchResults(args.value.startDate, args.value.endDate ?? args.value.startDate);
   }
 
   void viewChanged(DateRangePickerViewChangedArgs args) {
@@ -268,8 +270,8 @@ class _RecordPageState extends State<RecordPage> {
                             ),
                             duration: Duration(milliseconds: 500),
                           ));
-                          //filterSearchResults(_start, _end);
-                          get_records_search(widget.id, _start, _end);
+                          filterSearchResults(_start, _end);
+                          //get_records_search(widget.id, _start, _end);
                           Navigator.of(context).pop();
                         },
 
