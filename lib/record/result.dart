@@ -14,14 +14,23 @@ class recordResultPage extends StatefulWidget {
   final double face_score;
   final double voice_score;
 
-  recordResultPage({Key? key, required this.id, required this.name, required this.profileURL, required this.companyName, required this.date, required this.total_score, required this.face_score, required this.voice_score}) : super(key: key);
+  recordResultPage(
+      {Key? key,
+      required this.id,
+      required this.name,
+      required this.profileURL,
+      required this.companyName,
+      required this.date,
+      required this.total_score,
+      required this.face_score,
+      required this.voice_score})
+      : super(key: key);
 
   @override
   State<recordResultPage> createState() => _recordResultPageState();
 }
 
 class _recordResultPageState extends State<recordResultPage> {
-
   @override
   Widget build(BuildContext context) {
     bool shouldPop = false;
@@ -37,8 +46,9 @@ class _recordResultPageState extends State<recordResultPage> {
             title: Text(
               "Coacheers",
               style: TextStyle(
-                  color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold
-              ),
+                  color: Colors.black,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
             ),
             centerTitle: true,
             actions: [
@@ -51,8 +61,13 @@ class _recordResultPageState extends State<recordResultPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>
-                        MainFrame(id : widget.id, name: widget.name, profileURL: widget.profileURL, subindex: 2,)),
+                    MaterialPageRoute(
+                        builder: (context) => MainFrame(
+                              id: widget.id,
+                              name: widget.name,
+                              profileURL: widget.profileURL,
+                              subindex: 2,
+                            )),
                   );
                 },
               ),
@@ -93,8 +108,13 @@ class _recordResultPageState extends State<recordResultPage> {
                             onPressed: () {
                               Navigator.pop(
                                   context,
-                                  MaterialPageRoute(builder: (context) =>
-                                      MainFrame(id : widget.id, name: widget.name, profileURL: widget.profileURL,subindex: 0,),
+                                  MaterialPageRoute(
+                                    builder: (context) => MainFrame(
+                                      id: widget.id,
+                                      name: widget.name,
+                                      profileURL: widget.profileURL,
+                                      subindex: 0,
+                                    ),
                                   ));
                             },
                             child: Icon(
@@ -107,19 +127,16 @@ class _recordResultPageState extends State<recordResultPage> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "기록",
-                            style: TextStyle(color:Colors.white),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],
-                    )
-                ),
+                    )),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 5, 20, 30),
                   child: FloatingActionButton.extended(
                     elevation: 4.0,
-                    icon: const Icon(
-                        Icons.wifi_tethering
-                    ),
+                    icon: const Icon(Icons.wifi_tethering),
                     heroTag: "coaching start",
                     label: Text("모의 면접 코칭 시작"),
                     onPressed: () {
@@ -139,9 +156,13 @@ class _recordResultPageState extends State<recordResultPage> {
                           onPressed: () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) =>
-                                    MainFrame(id :widget.id, name: widget.name, profileURL: widget.profileURL,subindex: 1,)
-                                ));
+                                MaterialPageRoute(
+                                    builder: (context) => MainFrame(
+                                          id: widget.id,
+                                          name: widget.name,
+                                          profileURL: widget.profileURL,
+                                          subindex: 1,
+                                        )));
                           },
                           child: Icon(
                             Icons.person,
@@ -162,8 +183,7 @@ class _recordResultPageState extends State<recordResultPage> {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 
   CoachingButtonDialog(context) {
@@ -199,8 +219,11 @@ class _recordResultPageState extends State<recordResultPage> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) =>
-                          CamerademoPage(id : widget. id, name: widget.name, profileURL: widget.profileURL)),
+                      MaterialPageRoute(
+                          builder: (context) => CamerademoPage(
+                              id: widget.id,
+                              name: widget.name,
+                              profileURL: widget.profileURL)),
                     );
                   },
                 ),
@@ -255,7 +278,6 @@ class _recordResultPageState extends State<recordResultPage> {
           border: Border.all(
             color: Colors.blue,
             width: 5,
-
           )),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -266,13 +288,10 @@ class _recordResultPageState extends State<recordResultPage> {
               children: [
                 Image(image: AssetImage('assets/feather.png'), width: 34),
                 Container(
-
                   child: Text(
-                      ' ${widget.companyName}',
-                    style:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
+                    ' ${widget.companyName}',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
                   ),
-
                 ),
               ],
             ),
@@ -285,8 +304,8 @@ class _recordResultPageState extends State<recordResultPage> {
                     Container(
                       child: Text(
                         ' ${widget.date}',
-                        style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     ),
                   ],
@@ -299,8 +318,8 @@ class _recordResultPageState extends State<recordResultPage> {
                       Container(
                         child: Text(
                           ' ${widget.date}',
-                          style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                       ),
                     ],
@@ -315,16 +334,25 @@ class _recordResultPageState extends State<recordResultPage> {
   }
 
   Widget score() {
-    return Container(
-      width: 151,
-      height: 84,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
+    return Center(
+      child: Container(
+        width: 151,
+        height: 84,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(17),
             color: Colors.blue,
-            width: 5,
-          )),
-      child: Text("90점"),
+            border: Border.all(
+              color: Colors.white,
+              width: 0,
+            )),
+        child: Center(
+          child: Text(
+            "90점",
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+        ),
+      ),
     );
   }
 
@@ -351,7 +379,8 @@ class _recordResultPageState extends State<recordResultPage> {
               ],
             ),
           ),
-          RecordBarchart(widget.total_score, widget.face_score, widget.voice_score)
+          RecordBarchart(
+              widget.total_score, widget.face_score, widget.voice_score)
         ],
       ),
     );
@@ -390,115 +419,114 @@ class _recordResultPageState extends State<recordResultPage> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-          //       Container(
-          //         color: darkMode ? Colors.black : Colors.white,
-          //         child: Column(
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: <Widget>[
-          //             Padding(
-          //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          //               child: Row(
-          //                 mainAxisAlignment: MainAxisAlignment.start,
-          //                 children: [
-          //                   darkMode
-          //                       ? Text(
-          //                     'Light mode',
-          //                     style: TextStyle(color: Colors.white),
-          //                   )
-          //                       : Text(
-          //                     'Dark mode',
-          //                     style: TextStyle(color: Colors.black),
-          //                   ),
-          //                   Switch(
-          //                     value: darkMode,
-          //                     onChanged: (value) {
-          //                       setState(() {
-          //                         darkMode = value;
-          //                       });
-          //                     },
-          //                   ),
-          //                 ],
-          //               ),
-          //             ),
-          //             Padding(
-          //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          //               child: Row(
-          //                 mainAxisAlignment: MainAxisAlignment.start,
-          //                 children: [
-          //                   useSides
-          //                       ? Text(
-          //                     'Polygon border',
-          //                     style: darkMode
-          //                         ? TextStyle(color: Colors.white)
-          //                         : TextStyle(color: Colors.black),
-          //                   )
-          //                       : Text(
-          //                     'Circular border',
-          //                     style: darkMode
-          //                         ? TextStyle(color: Colors.white)
-          //                         : TextStyle(color: Colors.black),
-          //                   ),
-          //                   Switch(
-          //                     value: useSides,
-          //                     onChanged: (value) {
-          //                       setState(() {
-          //                         useSides = value;
-          //                       });
-          //                     },
-          //                   ),
-          //                 ],
-          //               ),
-          //             ),
-          //             Padding(
-          //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          //               child: Row(
-          //                 mainAxisAlignment: MainAxisAlignment.end,
-          //                 children: <Widget>[
-          //                   Text(
-          //                     'Number of features',
-          //                     style: TextStyle(
-          //                         color: darkMode ? Colors.white : Colors.black),
-          //                   ),
-          //                   Expanded(
-          //                     child: Slider(
-          //                       value: numberOfFeatures,
-          //                       min: 3,
-          //                       max: 8,
-          //                       divisions: 5,
-          //                       onChanged: (value) {
-          //                         setState(() {
-          //                           numberOfFeatures = value;
-          //                         });
-          //                       },
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //             ),
-          //             Expanded(
-          //               child: darkMode
-          //                   ? RadarChart.dark(
-          //                 ticks: ticks,
-          //                 features: features,
-          //                 data: data,
-          //                 reverseAxis: true,
-          //                 useSides: useSides,
-          //               )
-          //                   : RadarChart.light(
-          //                 ticks: ticks,
-          //                 features: features,
-          //                 data: data,
-          //                 reverseAxis: true,
-          //                 useSides: useSides,
-          //               ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-
-        ],
-      ),
-    ),
+                //       Container(
+                //         color: darkMode ? Colors.black : Colors.white,
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: <Widget>[
+                //             Padding(
+                //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                //               child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.start,
+                //                 children: [
+                //                   darkMode
+                //                       ? Text(
+                //                     'Light mode',
+                //                     style: TextStyle(color: Colors.white),
+                //                   )
+                //                       : Text(
+                //                     'Dark mode',
+                //                     style: TextStyle(color: Colors.black),
+                //                   ),
+                //                   Switch(
+                //                     value: darkMode,
+                //                     onChanged: (value) {
+                //                       setState(() {
+                //                         darkMode = value;
+                //                       });
+                //                     },
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //             Padding(
+                //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                //               child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.start,
+                //                 children: [
+                //                   useSides
+                //                       ? Text(
+                //                     'Polygon border',
+                //                     style: darkMode
+                //                         ? TextStyle(color: Colors.white)
+                //                         : TextStyle(color: Colors.black),
+                //                   )
+                //                       : Text(
+                //                     'Circular border',
+                //                     style: darkMode
+                //                         ? TextStyle(color: Colors.white)
+                //                         : TextStyle(color: Colors.black),
+                //                   ),
+                //                   Switch(
+                //                     value: useSides,
+                //                     onChanged: (value) {
+                //                       setState(() {
+                //                         useSides = value;
+                //                       });
+                //                     },
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //             Padding(
+                //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                //               child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.end,
+                //                 children: <Widget>[
+                //                   Text(
+                //                     'Number of features',
+                //                     style: TextStyle(
+                //                         color: darkMode ? Colors.white : Colors.black),
+                //                   ),
+                //                   Expanded(
+                //                     child: Slider(
+                //                       value: numberOfFeatures,
+                //                       min: 3,
+                //                       max: 8,
+                //                       divisions: 5,
+                //                       onChanged: (value) {
+                //                         setState(() {
+                //                           numberOfFeatures = value;
+                //                         });
+                //                       },
+                //                     ),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //             Expanded(
+                //               child: darkMode
+                //                   ? RadarChart.dark(
+                //                 ticks: ticks,
+                //                 features: features,
+                //                 data: data,
+                //                 reverseAxis: true,
+                //                 useSides: useSides,
+                //               )
+                //                   : RadarChart.light(
+                //                 ticks: ticks,
+                //                 features: features,
+                //                 data: data,
+                //                 reverseAxis: true,
+                //                 useSides: useSides,
+                //               ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+              ],
+            ),
+          ),
           RadarChartExample(),
         ],
       ),
@@ -552,4 +580,3 @@ class _recordResultPageState extends State<recordResultPage> {
     );
   }
 }
-
