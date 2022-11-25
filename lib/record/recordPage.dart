@@ -349,8 +349,8 @@ class _RecordPageState extends State<RecordPage> {
   void get_records_search(int id, DateTime start, DateTime end) async {
     //print(id);
     String url = 'http://localhost:8000/records/search';
-    print(start.millisecondsSinceEpoch);
-    print(end.millisecondsSinceEpoch);
+    //print(start.millisecondsSinceEpoch);
+    //print(end.millisecondsSinceEpoch);
     var jsonEncode2 = jsonEncode({
       "user_id": id,
       "start_date": start.millisecondsSinceEpoch,
@@ -391,26 +391,6 @@ class _RecordPageState extends State<RecordPage> {
     catch (error) {
       print('기록이 없어서 데이터에 아무것도 안담겨요');
     }
-
-    // DateTime Date = DateTime.parse(json.decode(decode)[0]["created_at"]);
-    // String companyName = json.decode(decode)[0]["label"];
-    // double total_point = json.decode(decode)[0]["total_score"];
-    // double face_point = json.decode(decode)[0]["face_score"];
-    // double voice_point = json.decode(decode)[0]["voice_score"];
-    //
-    // //print(decode);
-    //
-    // searchData.clear();
-    //
-    // for(int i = 0; i < decode[0].length; i++){
-    //   searchData.add(SearchData(
-    //       DateFormat('yyyy. MM. dd').format(Date).toString(),
-    //       companyName,
-    //       total_point,
-    //       face_point,
-    //       voice_point
-    //   ));
-    // }
 
     setState(() {
       searchitems.clear();

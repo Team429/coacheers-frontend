@@ -8,9 +8,10 @@ import 'package:coacheers/component/graph/homebarchart.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final int id;
+
+  const Home({Key? key, required this.id}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -19,6 +20,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   //var list = [];
   List<CoachingData> coachData = getDataSource();
+
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 홈 페이지\n");
@@ -71,79 +73,109 @@ class _HomeState extends State<Home> {
                     child: Text(
                       " 최근 코치 기록",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
                 ],
               ),
             ),
-            Container(
-              child: coachData.length > 0 ?
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            child: TotalDonutchart(),
-                          ),
-                        ),
-                        Text(
-                          "Total",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            child: FaceDonutchart(),
-                          ),
-                        ),
-                        Text(
-                          "표정",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            child: VoiceDonutchart(),
-                          ),
-                        ),
-                        Text(
-                          "목소리",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ) :
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                child: Center(child : Text("데이터가 없습니다.", style:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)),
-              )
-            ),
+            FutureBuilder(
+                future: getMonthDataSource(widget.id),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  //해당 부분은 data를 아직 받아 오지 못했을때 실행되는 부분을 의미한다.
+                  if (snapshot.hasData == false) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  //error가 발생하게 될 경우 반환하게 되는 부분
+                  else if (snapshot.hasError) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Error: ${snapshot.error}',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    );
+                  }
+                  // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
+                  else {
+                    return Container(
+                        child: coachData.length > 0
+                            ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      child: TotalDonutchart(),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Total",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      child: FaceDonutchart(),
+                                    ),
+                                  ),
+                                  Text(
+                                    "표정",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      child: VoiceDonutchart(),
+                                    ),
+                                  ),
+                                  Text(
+                                    "목소리",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                            : Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                          child: Center(
+                              child: Text(
+                                "데이터가 없습니다.",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              )),
+                        ));
+                  }
+                })
           ],
         ),
       ),
@@ -151,6 +183,8 @@ class _HomeState extends State<Home> {
   }
 
   Widget calander() {
+    Future<List<CoachingData>> monthData = getMonthDataSource(widget.id);
+    monthData.then((value) => print(value));
     return Container(
       width: 200,
       height: 360,
@@ -174,18 +208,41 @@ class _HomeState extends State<Home> {
             ),
           ),
           Container(
-            child: SfCalendar(
-              view: CalendarView.month,
-              todayHighlightColor: Color(0xff4F98FF),
-              cellBorderColor: Colors.white,
-              headerHeight: 0,
-              dataSource: CoachingDataSource.test(),
-              monthViewSettings: MonthViewSettings(
-                //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-                //showAgenda: true,
-                appointmentDisplayCount: 1,
-              ),
-            ),
+            child: FutureBuilder(
+                future: getMonthDataSource(widget.id),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  //해당 부분은 data를 아직 받아 오지 못했을때 실행되는 부분을 의미한다.
+                  if (snapshot.hasData == false) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  //error가 발생하게 될 경우 반환하게 되는 부분
+                  else if (snapshot.hasError) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Error: ${snapshot.error}',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    );
+                  }
+                  // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
+                  else {
+                    return SfCalendar(
+                      view: CalendarView.month,
+                      todayHighlightColor: Color(0xff4F98FF),
+                      cellBorderColor: Colors.white,
+                      headerHeight: 0,
+                      dataSource: CoachingDataSource(getDataSource()),
+                      monthViewSettings: MonthViewSettings(
+                        //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+                        //showAgenda: true,
+                        appointmentDisplayCount: 1,
+                      ),
+                    );
+                  }
+                }),
           ),
         ],
       ),
@@ -193,37 +250,69 @@ class _HomeState extends State<Home> {
   }
 
   Widget threedaysbarchart() {
+    // print(coachData.length);
     return Container(
-      width: 200,
-      height: 360,
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
-            child: Row(
-              children: [
-                Image(image: AssetImage('assets/chart.png'), width: 24),
-                Container(
-                  child: Text(
-                    " 일간 기록",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+        width: 200,
+        height: 360,
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+              child: Row(
+                children: [
+                  Image(image: AssetImage('assets/chart.png'), width: 24),
+                  Container(
+                    child: Text(
+                      " 일간 기록",
+                      style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          if(coachData.length >= 1)...[
-          HomeBarchart()] else...[Padding(
-            padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
-            child: Center(child : Text("데이터가 없습니다.", style:
-            TextStyle(fontWeight: FontWeight.bold, fontSize: 15),))
-          )]
-        ],
-      )
-    );
+            FutureBuilder(
+                future: getMonthDataSource(widget.id),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  //해당 부분은 data를 아직 받아 오지 못했을때 실행되는 부분을 의미한다.
+                  if (snapshot.hasData == false) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  //error가 발생하게 될 경우 반환하게 되는 부분
+                  else if (snapshot.hasError) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Error: ${snapshot.error}',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    );
+                  }
+                  // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
+                  else {
+                    return Container(
+                        child: coachData.length >= 1 ?
+                        HomeBarchart()
+                            :
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
+                            child: Center(
+                                child: Text(
+                                  "데이터가 없습니다.",
+                                  style: TextStyle(fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                )))
+
+                    );
+                  }
+                }),
+          ],
+        ));
   }
 
   Widget feedback() {
@@ -262,7 +351,7 @@ class _HomeState extends State<Home> {
     // print(user_info['name']);
   }
 
-  void get_records_month() async{
+  void get_records_month() async {
     String url = 'http://localhost:8000/records/searchmonth';
     var response = await http.get(Uri.parse(url));
     var statusCode = response.statusCode;
@@ -282,19 +371,17 @@ class _HomeState extends State<Home> {
     // print(user_info['name']);
   }
 
-  // void _get_user_info() async {
-  //   try {
-  //     User user = await UserApi.instance.me();
-  //     user_code = user.id.toString();
-  //     print("user_code${user_code}");
-  //     print('사용자 정보 요청 성공'
-  //         '\n회원번호: ${user.id}'
-  //         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
-  //         '\n프로필사진링크 : ${user.kakaoAccount?.profile?.thumbnailImageUrl}');
-  //   } catch (error) {
-  //     print('사용자 정보 요청 실패 $error');
-  //   }
-  // }
+// void _get_user_info() async {
+//   try {
+//     User user = await UserApi.instance.me();
+//     user_code = user.id.toString();
+//     print("user_code${user_code}");
+//     print('사용자 정보 요청 성공'
+//         '\n회원번호: ${user.id}'
+//         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
+//         '\n프로필사진링크 : ${user.kakaoAccount?.profile?.thumbnailImageUrl}');
+//   } catch (error) {
+//     print('사용자 정보 요청 실패 $error');
+//   }
+// }
 }
-
-

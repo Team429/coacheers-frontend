@@ -29,7 +29,7 @@ class _MainFrameWidget extends State<MainFrame> {
     RecordPage(id : widget.id, nickname : widget.name, profileURL : widget.profileURL),
     //CoachingPage(),
     ProfilePage(id : widget.id, nickname : widget.name, profileURL : widget.profileURL),
-    Home(),
+    Home(id : widget.id),
   ];
 
   @override

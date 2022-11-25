@@ -13,7 +13,7 @@ class RadarChartExample extends StatefulWidget {
 class _RadarChartExampleState extends State<RadarChartExample> {
   int _counter = 5;
   List<double> values1 = [0.4, 0.8, 0.65,0.7,0.3];
-  List<double> values2 = [0.5, 0.3, 0.85];
+  List<double> values2 = [0.5, 0.3, 0.85,0.7,0.3];
   late List<PreferredSizeWidget> vertices2;
   late PreferredSizeWidget _vertex;
 
@@ -48,13 +48,6 @@ class _RadarChartExampleState extends State<RadarChartExample> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-            // child: Text(
-            //   "There are ${values1.length} values for each radar chart!",
-            //   style: const TextStyle(fontSize: 30),
-            // ),
-          ),
           RadarChart(
             length: _counter,
             radius: 150,
@@ -71,13 +64,13 @@ class _RadarChartExampleState extends State<RadarChartExample> {
                 borderColor: Colors.yellow,
                 backgroundColor: Colors.yellow.withOpacity(0.4),
               ),
-              RadarTile(
-                values: values2,
-                borderStroke: 2,
-                borderColor: Colors.blue,
-                backgroundColor: Colors.blue.withOpacity(0.4),
-                vertices: vertices2,
-              ),
+              // RadarTile(
+              //   values: values2,
+              //   borderStroke: 2,
+              //   borderColor: Colors.blue,
+              //   backgroundColor: Colors.blue.withOpacity(0.4),
+              //   vertices: vertices2,
+              // ),
             ],
           ),
           // RadarChart(
