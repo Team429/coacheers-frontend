@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:coacheers/coaching/camera/camerademo.dart';
-import 'package:coacheers/coaching/camera/video.dart';
 import 'package:coacheers/coaching/coachingSavePage.dart';
-import 'package:coacheers/component/coachingDater.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -267,7 +264,7 @@ class _CoachingEndState extends State<CoachingEnd> {
           print(widget.filePath);
           print(_commentController.text);
           print(DateTime.now().toString());
-          _post_record_info(_commentController.text,widget.filePath);
+          _post_record_info(widget.id,_commentController.text,widget.filePath);
           //userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
           //print(userData[0].companyName);
           //print(userData.length);
@@ -442,13 +439,21 @@ class _CoachingEndState extends State<CoachingEnd> {
   }
 }
 
-void _post_record_info(String companyName,String filepath) async {
+void _post_record_info(int id, String companyName,String filepath) async {
   String url = 'http://localhost:8000/records/';
   var jsonEncode2 = jsonEncode({
-    "user_id": 0,
+    "user_id": id,
     "created_at": DateTime.now().millisecondsSinceEpoch,
     "label": companyName,
     "filepath": filepath,
+    "anger_score": 0,
+    "scorn_score": 0,
+    "disgust_score": 0,
+    "happy_score": 0,
+    "neutral_score": 0,
+    "sad_score": 0,
+    "surprised_score": 0,
+    "voice_score": 0
   });
   http.Response response = await http.post(Uri.parse(url),
       headers: <String, String>{"content-type": "application/json"},

@@ -70,35 +70,35 @@ List<CoachingData> getDataSource() {
   final DateTime startTime10 =
       DateTime(today.year, today.month, today.day - 1, 9, 0, 0);
 
-  // coachings
-  //     .add(CoachingData('넥슨', startTime1, CoachingData.GREEN, false, 75, 25));
-  //
-  // coachings.add(
-  //     CoachingData('SK하이닉스', startTime2, CoachingData.GREEN, false, 83, 41));
-  //
-  // coachings
-  //     .add(CoachingData('농심', startTime3, CoachingData.GREEN, false, 78, 64));
-  //
-  // coachings
-  //     .add(CoachingData('구글', startTime4, CoachingData.GREEN, false, 72, 70));
-  //
-  // coachings
-  //     .add(CoachingData('삼성', startTime5, CoachingData.GREEN, false, 79, 81));
-  //
-  // coachings
-  //     .add(CoachingData('쿠팡', startTime6, CoachingData.GREEN, false, 53, 75));
-  //
-  // coachings
-  //     .add(CoachingData('네이버', startTime7, CoachingData.GREEN, false, 48, 73));
-  //
-  // coachings
-  //     .add(CoachingData('라인', startTime8, CoachingData.GREEN, false, 60, 77));
-  //
-  // coachings.add(
-  //     CoachingData('배달의 민족', startTime9, CoachingData.GREEN, false, 58, 81));
-  //
-  // coachings
-  //     .add(CoachingData('직방', startTime10, CoachingData.GREEN, false, 65, 87));
+  coachings
+      .add(CoachingData('넥슨', startTime1, CoachingData.GREEN, false, 75, 25));
+
+  coachings.add(
+      CoachingData('SK하이닉스', startTime2, CoachingData.GREEN, false, 83, 41));
+
+  coachings
+      .add(CoachingData('농심', startTime3, CoachingData.GREEN, false, 78, 64));
+
+  coachings
+      .add(CoachingData('구글', startTime4, CoachingData.GREEN, false, 72, 70));
+
+  coachings
+      .add(CoachingData('삼성', startTime5, CoachingData.GREEN, false, 79, 81));
+
+  coachings
+      .add(CoachingData('쿠팡', startTime6, CoachingData.GREEN, false, 53, 75));
+
+  coachings
+      .add(CoachingData('네이버', startTime7, CoachingData.GREEN, false, 48, 73));
+
+  coachings
+      .add(CoachingData('라인', startTime8, CoachingData.GREEN, false, 60, 77));
+
+  coachings.add(
+      CoachingData('배달의 민족', startTime9, CoachingData.GREEN, false, 58, 81));
+
+  coachings
+      .add(CoachingData('직방', startTime10, CoachingData.GREEN, false, 65, 87));
 
   return coachings;
 }

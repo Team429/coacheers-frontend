@@ -1,13 +1,9 @@
-import 'dart:convert';
-
-import 'package:coacheers/coaching/coachingPage.dart';
-import 'package:coacheers/component/kakaoLogin.dart';
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/home/homePage.dart';
 import 'package:coacheers/profile/profilePage.dart';
 import 'package:coacheers/record/recordPage.dart';
 import 'package:flutter/material.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+
 
 class MainFrame extends StatefulWidget {
   final int id;

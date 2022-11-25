@@ -1,7 +1,4 @@
-import 'package:camera/camera.dart';
-import 'package:coacheers/coaching/camera/video.dart';
 import 'package:coacheers/coaching/coachingEndPage.dart';
-import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 
 class CamerademoPage extends StatefulWidget {

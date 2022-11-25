@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:coacheers/component/kakaoLogin.dart';
 import 'package:http/http.dart' as http;
 import 'package:coacheers/component/coachingDater.dart';
 import 'package:coacheers/component/graph/FaceDonut.dart';
@@ -7,7 +6,6 @@ import 'package:coacheers/component/graph/TotalDonut.dart';
 import 'package:coacheers/component/graph/VoiceDonut.dart';
 import 'package:coacheers/component/graph/homebarchart.dart';
 import 'package:flutter/material.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 

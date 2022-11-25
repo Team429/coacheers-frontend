@@ -41,8 +41,7 @@ class _RecordPageState extends State<RecordPage> {
     _controller.selectedRange =
         PickerDateRange(today.subtract(Duration(days: 7)), today);
 
-    filterSearchResults(
-        today.subtract(Duration(days: 8)), today.add(Duration(days: 0)));
+    get_records_search(widget.id, today.subtract(Duration(days: 7)), today);
 
     super.initState();
   }
@@ -51,7 +50,7 @@ class _RecordPageState extends State<RecordPage> {
   Widget build(BuildContext context) {
     print("메인 페이지 - 기록 페이지\n");
     //print(searchlist.toString());
-    print(widget.id);
+    //print(widget.id);
     get_records(widget.id);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -220,6 +219,7 @@ class _RecordPageState extends State<RecordPage> {
           .format(args.value.endDate ?? args.value.startDate)
           .toString();
     });
+    get_records_search(widget.id, _start, _end);
     //filterSearchResults(args.value.startDate, args.value.endDate ?? args.value.startDate);
   }
 
@@ -268,7 +268,8 @@ class _RecordPageState extends State<RecordPage> {
                             ),
                             duration: Duration(milliseconds: 500),
                           ));
-                          filterSearchResults(_start, _end);
+                          //filterSearchResults(_start, _end);
+                          get_records_search(widget.id, _start, _end);
                           Navigator.of(context).pop();
                         },
 
@@ -330,26 +331,93 @@ class _RecordPageState extends State<RecordPage> {
 
     });
   }
+
+  void get_records(int id) async {
+    // print(id);
+    String url = 'http://localhost:8000/records/${id}';
+    var response = await http.post(Uri.parse(url));
+    var statusCode = response.statusCode;
+    var responseHeaders = response.headers;
+    var responseBody = utf8.decode(response.bodyBytes);
+
+    // print("statusCode: ${statusCode}");
+    // print("responseHeader: ${responseHeaders}");
+    // print("responseBody: ${responseBody}");
+
+  }
+
+  void get_records_search(int id, DateTime start, DateTime end) async {
+    //print(id);
+    String url = 'http://localhost:8000/records/search';
+    print(start.millisecondsSinceEpoch);
+    print(end.millisecondsSinceEpoch);
+    var jsonEncode2 = jsonEncode({
+      "user_id": id,
+      "start_date": start.millisecondsSinceEpoch,
+      "end_date":  end.millisecondsSinceEpoch
+    });
+
+    http.Response response = await http.post(Uri.parse(url),
+        headers: <String, String>{"content-type": "application/json"},
+        body: jsonEncode2);
+
+    var decode = utf8.decode(response.bodyBytes);
+
+    int list_cnt = json.decode(decode).length;
+    //print("오잉:${json.decode(decode)[0]['created_at']}");
+    //print("내가 원하는 거임 : ${response.body}");
+    searchData.clear();
+
+    try{
+
+      //print(decode[0].length);
+      for(int i = 0; i < list_cnt; i++){
+        DateTime Date = DateTime.parse(json.decode(decode)[i]['created_at']);
+        //print(Date);
+        print(Date.add(Duration(hours : 9)));
+        String companyName = json.decode(decode)[i]["label"];
+        double total_point = json.decode(decode)[i]["total_score"];
+        double face_point = json.decode(decode)[i]["face_score"];
+        double voice_point = json.decode(decode)[i]["voice_score"];
+        searchData.add(SearchData(
+            DateFormat('yyyy. MM. dd').format(Date.add(Duration(hours : 9))).toString(),
+            companyName,
+            total_point,
+            face_point,
+            voice_point
+        ));
+      }
+    }
+    catch (error) {
+      print('기록이 없어서 데이터에 아무것도 안담겨요');
+    }
+
+    // DateTime Date = DateTime.parse(json.decode(decode)[0]["created_at"]);
+    // String companyName = json.decode(decode)[0]["label"];
+    // double total_point = json.decode(decode)[0]["total_score"];
+    // double face_point = json.decode(decode)[0]["face_score"];
+    // double voice_point = json.decode(decode)[0]["voice_score"];
+    //
+    // //print(decode);
+    //
+    // searchData.clear();
+    //
+    // for(int i = 0; i < decode[0].length; i++){
+    //   searchData.add(SearchData(
+    //       DateFormat('yyyy. MM. dd').format(Date).toString(),
+    //       companyName,
+    //       total_point,
+    //       face_point,
+    //       voice_point
+    //   ));
+    // }
+
+    setState(() {
+      searchitems.clear();
+      searchitems.addAll(searchData);
+    });
+
+  }
+
 }
 
-void get_records(int id) async {
-  print(id);
-  String url = 'http://localhost:8000/records/${id}';
-  var response = await http.post(Uri.parse(url));
-  var statusCode = response.statusCode;
-  var responseHeaders = response.headers;
-  var responseBody = utf8.decode(response.bodyBytes);
-
-  //Map<String, dynamic> records = jsonDecode(responseBody);
-
-  print("statusCode: ${statusCode}");
-  print("responseHeader: ${responseHeaders}");
-  print("responseBody: ${responseBody}");
-
-
-  //print(records);
-  //print(records['1']);
-
-  //Map<String, dynamic> user_info = jsonDecode(records['1']);
-  //print(user_info['name']);
-}

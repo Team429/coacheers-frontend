@@ -1,10 +1,7 @@
 import 'package:coacheers/coaching/camera/camerademo.dart';
-import 'package:coacheers/component/graph/homebarchart.dart';
+import 'package:coacheers/component/graph/raderchart.dart';
 import 'package:coacheers/component/graph/recordbarchart.dart';
-import 'package:coacheers/component/kakaoLogin.dart';
 import 'package:coacheers/frame/mainFrame.dart';
-import 'package:coacheers/profile/profilePage.dart';
-import 'package:coacheers/record/recordPage.dart';
 import 'package:flutter/material.dart';
 
 class recordResultPage extends StatefulWidget {
@@ -77,7 +74,6 @@ class _recordResultPageState extends State<recordResultPage> {
               underline(),
               feedback(),
             ],
-
           ),
           bottomNavigationBar: Container(
             color: Color(0xff1877F2),
@@ -290,7 +286,7 @@ class _recordResultPageState extends State<recordResultPage> {
                       child: Text(
                         ' ${widget.date}',
                         style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     ),
                   ],
@@ -304,7 +300,7 @@ class _recordResultPageState extends State<recordResultPage> {
                         child: Text(
                           ' ${widget.date}',
                           style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                       ),
                     ],
@@ -503,6 +499,7 @@ class _recordResultPageState extends State<recordResultPage> {
         ],
       ),
     ),
+          RadarChartExample(),
         ],
       ),
     );
