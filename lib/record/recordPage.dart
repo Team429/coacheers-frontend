@@ -41,9 +41,9 @@ class _RecordPageState extends State<RecordPage> {
     _controller.selectedRange =
         PickerDateRange(today.subtract(Duration(days: 7)), today);
 
-    //get_records_search(widget.id, today.subtract(Duration(days: 7)), today);
-    filterSearchResults(
-        today.subtract(Duration(days: 8)), today.add(Duration(days: 0)));
+    get_records_search(widget.id, today.subtract(Duration(days: 7)), today);
+    // filterSearchResults(
+    //     today.subtract(Duration(days: 8)), today.add(Duration(days: 0)));
 
     super.initState();
   }
@@ -221,8 +221,8 @@ class _RecordPageState extends State<RecordPage> {
           .format(args.value.endDate ?? args.value.startDate)
           .toString();
     });
-    //get_records_search(widget.id, _start, _end);
-    filterSearchResults(args.value.startDate, args.value.endDate ?? args.value.startDate);
+    get_records_search(widget.id, _start, _end);
+    //filterSearchResults(args.value.startDate, args.value.endDate ?? args.value.startDate);
   }
 
   void viewChanged(DateRangePickerViewChangedArgs args) {
@@ -270,8 +270,8 @@ class _RecordPageState extends State<RecordPage> {
                             ),
                             duration: Duration(milliseconds: 500),
                           ));
-                          filterSearchResults(_start, _end);
-                          //get_records_search(widget.id, _start, _end);
+                          //filterSearchResults(_start, _end);
+                          get_records_search(widget.id, _start, _end);
                           Navigator.of(context).pop();
                         },
 
@@ -291,48 +291,48 @@ class _RecordPageState extends State<RecordPage> {
         });
   }
 
-  void filterSearchResults(DateTime startDate, DateTime endDate) {
-
-    List<CoachingData> coachData = getDataSource();
-    searchData.clear();
-
-    coachData.forEach((item) {
-      if (item.time.compareTo(startDate) > 0 && item.time.compareTo(endDate) <= 0) {
-        searchData.add(SearchData(
-            DateFormat('yyyy. MM. dd').format(item.time).toString(),
-           item.companyName,
-            (item.face_point + item.voice_point) / 2,
-            item.face_point,
-            item.voice_point
-        ));
-      }
-    });
-
-    double sumA = 0;
-    for(int i = 0; i < searchData.length; i++){
-      sumA = sumA + searchData[i].facescore;
-    }
-
-    double sumB = 0;
-    for(int i = 0; i < searchData.length; i++){
-      sumB = sumB + searchData[i].voicescore;
-    }
-    if(searchData.length == 0){
-      Facesum = 0;
-      Voicesum = 0;
-      Totalsum = 0;
-    }
-    else {
-      Facesum = sumA / searchData.length;
-      Voicesum = sumB / searchData.length;
-      Totalsum = (Facesum + Voicesum) / 2;
-    }
-    setState(() {
-      searchitems.clear();
-      searchitems.addAll(searchData);
-
-    });
-  }
+  // void filterSearchResults(DateTime startDate, DateTime endDate) {
+  //
+  //   List<CoachingData> coachData = getDataSource();
+  //   searchData.clear();
+  //
+  //   coachData.forEach((item) {
+  //     if (item.time.compareTo(startDate) > 0 && item.time.compareTo(endDate) <= 0) {
+  //       searchData.add(SearchData(
+  //           DateFormat('yyyy. MM. dd').format(item.time).toString(),
+  //          item.companyName,
+  //           (item.face_point + item.voice_point) / 2,
+  //           item.face_point,
+  //           item.voice_point
+  //       ));
+  //     }
+  //   });
+  //
+  //   double sumA = 0;
+  //   for(int i = 0; i < searchData.length; i++){
+  //     sumA = sumA + searchData[i].facescore;
+  //   }
+  //
+  //   double sumB = 0;
+  //   for(int i = 0; i < searchData.length; i++){
+  //     sumB = sumB + searchData[i].voicescore;
+  //   }
+  //   if(searchData.length == 0){
+  //     Facesum = 0;
+  //     Voicesum = 0;
+  //     Totalsum = 0;
+  //   }
+  //   else {
+  //     Facesum = sumA / searchData.length;
+  //     Voicesum = sumB / searchData.length;
+  //     Totalsum = (Facesum + Voicesum) / 2;
+  //   }
+  //   setState(() {
+  //     searchitems.clear();
+  //     searchitems.addAll(searchData);
+  //
+  //   });
+  // }
 
   void get_records(int id) async {
     // print(id);

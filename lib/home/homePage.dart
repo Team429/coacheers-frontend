@@ -19,12 +19,24 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   //var list = [];
-  List<CoachingData> coachData = getDataSource();
+
+  late List<CoachingData> coachitems = [];
+  late List<MonthCoachingData> monthcoachitems = [];
+
+  void initState() {
+
+    get_records_threedays(widget.id);
+    get_records_month(widget.id);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 홈 페이지\n");
-    get_user();
+    //print(coachings);
+
+    //get_user();
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -79,103 +91,152 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            FutureBuilder(
-                future: getMonthDataSource(widget.id),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  //해당 부분은 data를 아직 받아 오지 못했을때 실행되는 부분을 의미한다.
-                  if (snapshot.hasData == false) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  //error가 발생하게 될 경우 반환하게 되는 부분
-                  else if (snapshot.hasError) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Error: ${snapshot.error}',
-                        style: TextStyle(fontSize: 15),
+            Container(
+                child: coachings.length > 0
+                    ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: TotalDonutchart(),
+                            ),
+                          ),
+                          Text(
+                            "Total",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                        ],
                       ),
-                    );
-                  }
-                  // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
-                  else {
-                    return Container(
-                        child: coachData.length > 0
-                            ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: TotalDonutchart(),
-                                    ),
-                                  ),
-                                  Text(
-                                    "Total",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                ],
-                              ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: FaceDonutchart(),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: FaceDonutchart(),
-                                    ),
-                                  ),
-                                  Text(
-                                    "표정",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                ],
-                              ),
+                          ),
+                          Text(
+                            "표정",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: VoiceDonutchart(),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: VoiceDonutchart(),
-                                    ),
-                                  ),
-                                  Text(
-                                    "목소리",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                            : Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                          child: Center(
-                              child: Text(
-                                "데이터가 없습니다.",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )),
-                        ));
-                  }
-                })
+                          ),
+                          Text(
+                            "목소리",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+                    : Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                  child: Center(
+                      child: Text(
+                        "데이터가 없습니다.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15),
+                      )),
+                )),
+            // Container(
+            //     child: coachings.length > 0
+            //         ? Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         Expanded(
+            //           flex: 1,
+            //           child: Column(
+            //             children: [
+            //               Padding(
+            //                 padding: const EdgeInsets.all(8.0),
+            //                 child: Container(
+            //                   child: TotalDonutchart(),
+            //                 ),
+            //               ),
+            //               Text(
+            //                 "Total",
+            //                 style: TextStyle(
+            //                     fontWeight: FontWeight.bold,
+            //                     fontSize: 15),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         Expanded(
+            //           flex: 1,
+            //           child: Column(
+            //             children: [
+            //               Padding(
+            //                 padding: const EdgeInsets.all(8.0),
+            //                 child: Container(
+            //                   child: FaceDonutchart(),
+            //                 ),
+            //               ),
+            //               Text(
+            //                 "표정",
+            //                 style: TextStyle(
+            //                     fontWeight: FontWeight.bold,
+            //                     fontSize: 15),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         Expanded(
+            //           flex: 1,
+            //           child: Column(
+            //             children: [
+            //               Padding(
+            //                 padding: const EdgeInsets.all(8.0),
+            //                 child: Container(
+            //                   child: VoiceDonutchart(),
+            //                 ),
+            //               ),
+            //               Text(
+            //                 "목소리",
+            //                 style: TextStyle(
+            //                     fontWeight: FontWeight.bold,
+            //                     fontSize: 15),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     )
+            //         : Padding(
+            //       padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+            //       child: Center(
+            //           child: Text(
+            //             "데이터가 없습니다.",
+            //             style: TextStyle(
+            //                 fontWeight: FontWeight.bold, fontSize: 15),
+            //           )),
+            //     )),
           ],
         ),
       ),
@@ -183,8 +244,8 @@ class _HomeState extends State<Home> {
   }
 
   Widget calander() {
-    Future<List<CoachingData>> monthData = getMonthDataSource(widget.id);
-    monthData.then((value) => print(value));
+    //Future<List<MonthCoachingData>> monthData = getMonthDataSource(widget.id);
+    //monthData.then((value) => print("켈린더 : ${value}"));
     return Container(
       width: 200,
       height: 360,
@@ -208,41 +269,18 @@ class _HomeState extends State<Home> {
             ),
           ),
           Container(
-            child: FutureBuilder(
-                future: getMonthDataSource(widget.id),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  //해당 부분은 data를 아직 받아 오지 못했을때 실행되는 부분을 의미한다.
-                  if (snapshot.hasData == false) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  //error가 발생하게 될 경우 반환하게 되는 부분
-                  else if (snapshot.hasError) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Error: ${snapshot.error}',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    );
-                  }
-                  // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
-                  else {
-                    return SfCalendar(
-                      view: CalendarView.month,
-                      todayHighlightColor: Color(0xff4F98FF),
-                      cellBorderColor: Colors.white,
-                      headerHeight: 0,
-                      dataSource: CoachingDataSource(getDataSource()),
-                      monthViewSettings: MonthViewSettings(
-                        //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-                        //showAgenda: true,
-                        appointmentDisplayCount: 1,
-                      ),
-                    );
-                  }
-                }),
+            child: SfCalendar(
+              view: CalendarView.month,
+              todayHighlightColor: Color(0xff4F98FF),
+              cellBorderColor: Colors.white,
+              headerHeight: 0,
+              dataSource: MonthCoachingDataSource(getmonthDataSource()),
+              monthViewSettings: MonthViewSettings(
+                //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+                //showAgenda: true,
+                appointmentDisplayCount: 1,
+              ),
+            ),
           ),
         ],
       ),
@@ -274,43 +312,20 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            FutureBuilder(
-                future: getMonthDataSource(widget.id),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  //해당 부분은 data를 아직 받아 오지 못했을때 실행되는 부분을 의미한다.
-                  if (snapshot.hasData == false) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  //error가 발생하게 될 경우 반환하게 되는 부분
-                  else if (snapshot.hasError) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Error: ${snapshot.error}',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    );
-                  }
-                  // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
-                  else {
-                    return Container(
-                        child: coachData.length >= 1 ?
-                        HomeBarchart()
-                            :
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
-                            child: Center(
-                                child: Text(
-                                  "데이터가 없습니다.",
-                                  style: TextStyle(fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                )))
-
-                    );
-                  }
-                }),
+            Container(
+                child: coachings.length >= 1
+                    ? HomeBarchart()
+                    : Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
+                    child: Center(
+                        child: Text(
+                          "데이터가 없습니다.",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        )
+                    )
+                )
+            ),
           ],
         ));
   }
@@ -351,37 +366,109 @@ class _HomeState extends State<Home> {
     // print(user_info['name']);
   }
 
-  void get_records_month() async {
-    String url = 'http://localhost:8000/records/searchmonth';
-    var response = await http.get(Uri.parse(url));
-    var statusCode = response.statusCode;
-    var responseHeaders = response.headers;
-    var responseBody = utf8.decode(response.bodyBytes);
+  void get_records_threedays(int id) async {
+    //print(id);
+    String url = 'http://localhost:8000/records/searchTotal';
+    //print(start.millisecondsSinceEpoch);
+    //print(end.millisecondsSinceEpoch);
+    var jsonEncode2 = jsonEncode({
+      "user_id": id,
+    });
 
-    //Map<String, dynamic> user = jsonDecode(responseBody);
+    http.Response response = await http.post(Uri.parse(url),
+        headers: <String, String>{"content-type": "application/json"},
+        body: jsonEncode2);
 
-    print("statusCode: ${statusCode}");
-    print("responseHeader: ${responseHeaders}");
-    print("responseBody: ${responseBody}");
+    var decode = utf8.decode(response.bodyBytes);
 
-    //print(user);
-    // print(user['1']);
+    //print(decode);
 
-    // Map<String, dynamic> user_info = jsonDecode(user['1']);
-    // print(user_info['name']);
+    int list_cnt = json
+        .decode(decode)
+        .length;
+
+    //print(list_cnt);
+    //print("오잉:${json.decode(decode)[0]['created_at']}");
+    //print("내가 원하는 거임 : ${response.body}");
+    coachings.clear();
+
+    try {
+      //print(decode[0].length);
+      for (int i = 0; i < list_cnt; i++) {
+        DateTime Date = DateTime.parse(json.decode(decode)[i]['created_at']);
+        //print(Date);
+        //print(Date.add(Duration(hours : 9)));
+        String companyName = json.decode(decode)[i]["label"];
+        double face_point = json.decode(decode)[i]["face_score"];
+        double voice_point = json.decode(decode)[i]["voice_score"];
+        coachings.add(CoachingData(companyName, Date, CoachingData.GREEN, false,
+            face_point, voice_point));
+      }
+
+      //print(coachings);
+      //print(getdataSource().length);
+
+    } catch (error) {
+      print('기록이 없어서 데이터에 아무것도 안담겨요');
+    }
+
+    setState(() {
+      coachitems.clear();
+      coachitems.addAll(coachings);
+    });
+
   }
 
-// void _get_user_info() async {
-//   try {
-//     User user = await UserApi.instance.me();
-//     user_code = user.id.toString();
-//     print("user_code${user_code}");
-//     print('사용자 정보 요청 성공'
-//         '\n회원번호: ${user.id}'
-//         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
-//         '\n프로필사진링크 : ${user.kakaoAccount?.profile?.thumbnailImageUrl}');
-//   } catch (error) {
-//     print('사용자 정보 요청 실패 $error');
-//   }
-// }
+  void get_records_month(int id) async {
+    //print(id);
+    String url = 'http://localhost:8000/records/searchmonth';
+    //print(start.millisecondsSinceEpoch);
+    //print(end.millisecondsSinceEpoch);
+    var jsonEncode2 = jsonEncode({
+      "user_id": id,
+      "start_date": DateTime(DateTime.now().year, DateTime.now().month, 1).millisecondsSinceEpoch,
+      "end_date": DateTime.now().millisecondsSinceEpoch
+    });
+
+    http.Response response = await http.post(Uri.parse(url),
+        headers: <String, String>{"content-type": "application/json"},
+        body: jsonEncode2);
+
+    var decode = utf8.decode(response.bodyBytes);
+
+    //print(decode);
+
+    int list_cnt = json.decode(decode).length;
+
+    //print(list_cnt);
+    //print("오잉:${json.decode(decode)[0]['created_at']}");
+    //print("내가 원하는 거임 : ${response.body}");
+    monthcoachings.clear();
+
+    try {
+      //print(decode[0].length);
+      for (int i = 0; i < list_cnt; i++) {
+        DateTime Date = DateTime.parse(json.decode(decode)[i]['created_at']);
+        //print(Date);
+        //print(Date.add(Duration(hours : 9)));
+        String companyName = json.decode(decode)[i]["label"];
+        double face_point = json.decode(decode)[i]["face_score"];
+        double voice_point = json.decode(decode)[i]["voice_score"];
+        monthcoachings.add(MonthCoachingData(companyName, Date, CoachingData.GREEN, false,
+            face_point, voice_point));
+      }
+
+    } catch (error) {
+      print('기록이 없어서 데이터에 아무것도 안담겨요');
+    }
+
+    setState(() {
+      monthcoachitems.clear();
+      monthcoachitems.addAll(monthcoachings);
+    });
+
+    //print(monthcoachings);
+  }
 }
+
+

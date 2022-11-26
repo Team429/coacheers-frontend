@@ -270,15 +270,15 @@ class _recordResultPageState extends State<recordResultPage> {
 
   Widget info() {
     return Container(
-      height: 150,
+      height: 80,
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.blue,
-            width: 5,
-          )),
+      // decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     border: Border.all(
+      //       color: Colors.blue,
+      //       width: 5,
+      //     )),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: Column(

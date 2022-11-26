@@ -447,11 +447,8 @@ void _post_record_info(int id, String companyName,String filepath) async {
     "label": companyName,
     "filepath": filepath,
     "anger_score": 0,
-    "scorn_score": 0,
-    "disgust_score": 0,
-    "happy_score": 0,
-    "neutral_score": 0,
-    "sad_score": 0,
+    "joy_score": 0,
+    "sorrow_score": 0,
     "surprised_score": 0,
     "voice_score": 0
   });
