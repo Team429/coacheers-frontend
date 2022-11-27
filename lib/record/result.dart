@@ -1,30 +1,37 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/component/graph/raderchart.dart';
 import 'package:coacheers/component/graph/recordbarchart.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class recordResultPage extends StatefulWidget {
   final int id;
   final String name;
   final String profileURL;
-  final String companyName;
-  final String date;
-  final double total_score;
-  final double face_score;
-  final double voice_score;
 
-  recordResultPage(
-      {Key? key,
-      required this.id,
-      required this.name,
-      required this.profileURL,
-      required this.companyName,
-      required this.date,
-      required this.total_score,
-      required this.face_score,
-      required this.voice_score})
-      : super(key: key);
+  // final String companyName;
+  final DateTime date;
+
+  // final double total_score;
+  // final double face_score;
+  // final double voice_score;
+  final int recordIndex;
+
+  recordResultPage({
+    Key? key,
+    required this.recordIndex,
+    required this.id,
+    required this.name,
+    required this.profileURL,
+    // required this.companyName,
+    required this.date,
+    // required this.total_score,
+    // required this.face_score,
+    // required this.voice_score
+  }) : super(key: key);
 
   @override
   State<recordResultPage> createState() => _recordResultPageState();
@@ -32,9 +39,21 @@ class recordResultPage extends StatefulWidget {
 
 class _recordResultPageState extends State<recordResultPage> {
   @override
+  late String companyName = "";
+  late double total_score = 0;
+  late double face_score = 0;
+  late double voice_score = 0;
+
+  void initState() {
+
+    get_records_byrecordID(widget.id);
+
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     bool shouldPop = false;
-
+    //get_records_byrecordID(widget.id);
     return WillPopScope(
         onWillPop: () async {
           return shouldPop;
@@ -106,7 +125,7 @@ class _recordResultPageState extends State<recordResultPage> {
                           child: FloatingActionButton(
                             heroTag: "record",
                             onPressed: () {
-                              Navigator.pop(
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MainFrame(
@@ -270,7 +289,7 @@ class _recordResultPageState extends State<recordResultPage> {
 
   Widget info() {
     return Container(
-      height: 80,
+      height: 100,
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
       // decoration: BoxDecoration(
@@ -284,40 +303,48 @@ class _recordResultPageState extends State<recordResultPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Image(image: AssetImage('assets/feather.png'), width: 34),
-                Container(
-                  child: Text(
-                    ' ${widget.companyName}',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+              child: Row(
+                children: [
+                  Image(image: AssetImage('assets/feather.png'), width: 24),
+                  Container(
+                    child: Text(
+                      ' ${companyName}',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Image(image: AssetImage('assets/chart.png'), width: 24),
-                    Container(
-                      child: Text(
-                        ' ${widget.date}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    ),
-                  ],
-                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: Row(
                     children: [
-                      Image(image: AssetImage('assets/chart.png'), width: 24),
+                      Image(
+                          image: AssetImage('assets/calendar.png'), width: 24),
                       Container(
                         child: Text(
-                          ' ${widget.date}',
+                          ' ${DateFormat('yyyy. MM. dd').format(widget.date).toString()}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      Image(image: AssetImage('assets/alarm.png'), width: 24),
+                      Container(
+                        child: Text(
+                          ' ${DateFormat('aa hh : mm','ko').format(widget.date).toString()}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
@@ -380,7 +407,7 @@ class _recordResultPageState extends State<recordResultPage> {
             ),
           ),
           RecordBarchart(
-              widget.total_score, widget.face_score, widget.voice_score)
+              total_score, face_score, voice_score)
         ],
       ),
     );
@@ -578,5 +605,30 @@ class _recordResultPageState extends State<recordResultPage> {
             width: 5,
           )),
     );
+  }
+
+  void get_records_byrecordID(int id) async {
+    //print(id);
+    String url = 'http://localhost:8000/records/${id}';
+    //print(start.millisecondsSinceEpoch);
+    //print(end.millisecondsSinceEpoch);
+
+    var response = await http.post(Uri.parse(url));
+    var statusCode = response.statusCode;
+    var responseHeaders = response.headers;
+    var responseBody = utf8.decode(response.bodyBytes);
+
+    print("statusCode: ${statusCode}");
+    print("responseHeader: ${responseHeaders}");
+    print("responseBody: ${responseBody}");
+
+    print(responseBody[0]);
+
+    setState((){
+      companyName = json.decode(responseBody)["label"];
+      total_score = json.decode(responseBody)['total_score'];
+      face_score = json.decode(responseBody)['face_score'];
+      voice_score = json.decode(responseBody)['voice_score'];
+    });
   }
 }

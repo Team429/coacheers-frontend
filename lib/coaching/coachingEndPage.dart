@@ -441,9 +441,10 @@ class _CoachingEndState extends State<CoachingEnd> {
 
 void _post_record_info(int id, String companyName,String filepath) async {
   String url = 'http://localhost:8000/records/';
+  DateTime Date = DateTime.now();
   var jsonEncode2 = jsonEncode({
     "user_id": id,
-    "created_at": DateTime.now().millisecondsSinceEpoch,
+    "created_at": Date.add(Duration(hours : 9)).millisecondsSinceEpoch,
     "label": companyName,
     "filepath": filepath,
     "anger_score": 0,

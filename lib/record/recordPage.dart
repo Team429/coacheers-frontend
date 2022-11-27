@@ -178,7 +178,7 @@ class _RecordPageState extends State<RecordPage> {
                     title: Text('${searchitems[index].companyName}',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17)),
-                    subtitle: Text('${searchitems[index].date}',
+                    subtitle: Text('${DateFormat('yyyy. MM. dd').format(searchitems[index].date).toString()}',
                         style: TextStyle(
                             color: Color(0xff0066FF),
                             fontWeight: FontWeight.bold,
@@ -187,7 +187,18 @@ class _RecordPageState extends State<RecordPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => recordResultPage(id: widget.id, name: widget.nickname, profileURL: widget.profileURL, companyName: searchitems[index].companyName, date: searchitems[index].date, total_score: searchitems[index].totalscore, face_score: searchitems[index].facescore, voice_score: searchitems[index].voicescore))
+                          MaterialPageRoute(builder: (context) =>
+                              recordResultPage(recordIndex : searchitems[index].record_index,
+                                  id: widget.id,
+                                  name: widget.nickname,
+                                  profileURL: widget.profileURL,
+                                  // companyName: searchitems[index].companyName,
+                                  date: searchitems[index].date,
+                                  // total_score: searchitems[index].totalscore,
+                                  // face_score: searchitems[index].facescore,
+                                  // voice_score: searchitems[index].voicescore)
+                          )
+                        )
                         );
                       },
                       child: Text("${searchitems[index].totalscore}점"),
@@ -342,9 +353,7 @@ class _RecordPageState extends State<RecordPage> {
     var responseHeaders = response.headers;
     var responseBody = utf8.decode(response.bodyBytes);
 
-    // print("statusCode: ${statusCode}");
-    // print("responseHeader: ${responseHeaders}");
-    // print("responseBody: ${responseBody}");
+
 
   }
 
@@ -355,8 +364,8 @@ class _RecordPageState extends State<RecordPage> {
     //print(end.millisecondsSinceEpoch);
     var jsonEncode2 = jsonEncode({
       "user_id": id,
-      "start_date": start.millisecondsSinceEpoch,
-      "end_date":  end.millisecondsSinceEpoch
+      "start_date": start.add(Duration(hours : 9)).millisecondsSinceEpoch,
+      "end_date":  end.add(Duration(hours : 9)).millisecondsSinceEpoch
     });
 
     http.Response response = await http.post(Uri.parse(url),
@@ -376,13 +385,15 @@ class _RecordPageState extends State<RecordPage> {
       for(int i = 0; i < list_cnt; i++){
         DateTime Date = DateTime.parse(json.decode(decode)[i]['created_at']);
         //print(Date);
-        print(Date.add(Duration(hours : 9)));
+        //print(Date.add(Duration(hours : 9)));
         String companyName = json.decode(decode)[i]["label"];
         double total_point = json.decode(decode)[i]["total_score"];
         double face_point = json.decode(decode)[i]["face_score"];
         double voice_point = json.decode(decode)[i]["voice_score"];
+        int record_index = json.decode(decode)[i]["id"];
         searchData.add(SearchData(
-            DateFormat('yyyy. MM. dd').format(Date.add(Duration(hours : 9))).toString(),
+          record_index,
+            Date,
             companyName,
             total_point,
             face_point,

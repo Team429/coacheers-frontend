@@ -73,9 +73,10 @@ void _post_user_info(String string) async {
 
 void _post_attendance_info(int id) async {
   String url = 'http://localhost:8000/attendances/';
+  DateTime Date = DateTime.now();
   var jsonEncode2 = jsonEncode({
     "user_id": id,
-    "created_at": DateTime.now().millisecondsSinceEpoch,
+    "created_at": Date.add(Duration(hours : 9)).millisecondsSinceEpoch,
   });
   http.Response response = await http.post(Uri.parse(url),
       headers: <String, String>{"content-type": "application/json"},

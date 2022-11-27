@@ -22,6 +22,7 @@ class _HomeState extends State<Home> {
 
   late List<CoachingData> coachitems = [];
   late List<MonthCoachingData> monthcoachitems = [];
+  late int record_index = 0;
 
   void initState() {
 
@@ -401,7 +402,7 @@ class _HomeState extends State<Home> {
         String companyName = json.decode(decode)[i]["label"];
         double face_point = json.decode(decode)[i]["face_score"];
         double voice_point = json.decode(decode)[i]["voice_score"];
-        coachings.add(CoachingData(companyName, Date, CoachingData.GREEN, false,
+        coachings.add(CoachingData(companyName,Date, CoachingData.GREEN, false,
             face_point, voice_point));
       }
 
@@ -440,6 +441,7 @@ class _HomeState extends State<Home> {
 
     int list_cnt = json.decode(decode).length;
 
+    //print(json.decode(decode));
     //print(list_cnt);
     //print("오잉:${json.decode(decode)[0]['created_at']}");
     //print("내가 원하는 거임 : ${response.body}");
