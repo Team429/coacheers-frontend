@@ -17,46 +17,123 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.name),
-        elevation: 0,
-        backgroundColor: Colors.black26,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.check),
-            onPressed: () {
-              print('do something with the file');
-            },
-          )
-        ],
-      ),
-      extendBodyBehindAppBar: true,
-      body: VideoScreen(),
-      floatingActionButton: VideoPlayButton(),
+    return Column(
+      children: [
+        Stack(
+          children: [
+            FutureBuilder(
+              future: _initializeVideoPlayerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // 만약 VideoPlayerController 초기화가 끝나면, 제공된 데이터를 사용하여
+                  // VideoPlayer의 종횡비를 제한하세요.
+                  return AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    // 영상을 보여주기 위해 VideoPlayer 위젯을 사용합니다.
+                    child: SizedBox(
+                        width: _controller.value.size?.width ?? 0,
+                        height: _controller.value.size?.height ?? 0,
+                        child: VideoPlayer(_controller)),
+                  );
+                } else {
+                  // 만약 VideoPlayerController가 여전히 초기화 중이라면,
+                  // 로딩 스피너를 보여줍니다.
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+            Positioned(
+                bottom: 0,
+                width: MediaQuery.of(context).size.width,
+                child: VideoProgressIndicator(
+                  _controller,
+                  allowScrubbing: false,
+                  colors: VideoProgressColors(
+                      backgroundColor: Colors.blueGrey,
+                      bufferedColor: Colors.blueGrey,
+                      playedColor: Colors.blueAccent),
+                )),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                    fixedSize: MaterialStateProperty.all(Size(70, 70)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100)))),
+                onPressed: () {
+                  _controller.pause();
+                },
+                child: Icon(Icons.pause)),
+            Padding(padding: EdgeInsets.all(2)),
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.redAccent),
+                    fixedSize: MaterialStateProperty.all<Size>(Size(80, 80)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100)))),
+                onPressed: () {
+                  _controller.play();
+                },
+                child: Icon(Icons.play_arrow)),
+            Padding(padding: EdgeInsets.all(2)),
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                    fixedSize: MaterialStateProperty.all(Size(70, 70)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100)))),
+                onPressed: () {
+                  _controller.seekTo(Duration(
+                      seconds: _controller.value.position.inSeconds + 10));
+                },
+                child: Icon(Icons.fast_forward))
+          ],
+        )
+      ],
     );
+      //Scaffold(
+      // appBar: AppBar(
+      //   title: Text(widget.name),
+      //   elevation: 0,
+      //   backgroundColor: Colors.black26,
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.check),
+      //       onPressed: () {
+      //         print('do something with the file');
+      //       },
+      //     )
+      //   ],
+      // ),
+      // extendBodyBehindAppBar: true,
+      // body: VideoScreen(),
+    //);
   }
   @override
-  Widget VideoScreen(){
-    return FutureBuilder(
-      future: _initializeVideoPlayerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          // 만약 VideoPlayerController 초기화가 끝나면, 제공된 데이터를 사용하여
-          // VideoPlayer의 종횡비를 제한하세요.
-          return AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            // 영상을 보여주기 위해 VideoPlayer 위젯을 사용합니다.
-            child: VideoPlayer(_controller),
-          );
-        } else {
-          // 만약 VideoPlayerController가 여전히 초기화 중이라면,
-          // 로딩 스피너를 보여줍니다.
-          return Center(child: CircularProgressIndicator());
-        }
-      },
-    );
-  }
+  // Widget VideoScreen(){
+  //   return FutureBuilder(
+  //     future: _initializeVideoPlayerFuture,
+  //     builder: (context, snapshot) {
+  //       if (snapshot.connectionState == ConnectionState.done) {
+  //         // 만약 VideoPlayerController 초기화가 끝나면, 제공된 데이터를 사용하여
+  //         // VideoPlayer의 종횡비를 제한하세요.
+  //         return AspectRatio(
+  //           aspectRatio: _controller.value.aspectRatio,
+  //           // 영상을 보여주기 위해 VideoPlayer 위젯을 사용합니다.
+  //           child: VideoPlayer(_controller),
+  //         );
+  //       } else {
+  //         // 만약 VideoPlayerController가 여전히 초기화 중이라면,
+  //         // 로딩 스피너를 보여줍니다.
+  //         return Center(child: CircularProgressIndicator());
+  //       }
+  //     },
+  //   );
+  // }
 
   @override
   Widget VideoPlayButton(){

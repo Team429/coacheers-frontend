@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:coacheers/coaching/camera/video.dart';
 import 'package:http/http.dart' as http;
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/component/graph/raderchart.dart';
@@ -274,16 +275,17 @@ class _recordResultPageState extends State<recordResultPage> {
   Widget video() {
     return Container(
       width: 320,
-      height: 220,
+      height: 250,
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
-      child: Text(' 영상'),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.blue,
-            width: 5,
-          )),
+      child: VideoPage(filePath: "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4", name: companyName),
+      // child: Text(' 영상'),
+      // decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     border: Border.all(
+      //       color: Colors.blue,
+      //       width: 5,
+      //     )),
     );
   }
 
