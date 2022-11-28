@@ -12,7 +12,6 @@ class recordResultPage extends StatefulWidget {
   final int id;
   final String name;
   final String profileURL;
-  final String filepath;
 
   // final String companyName;
   final DateTime date;
@@ -30,7 +29,6 @@ class recordResultPage extends StatefulWidget {
     required this.profileURL,
     // required this.companyName,
     required this.date,
-    required this.filepath,
     // required this.total_score,
     // required this.face_score,
     // required this.voice_score
@@ -85,11 +83,11 @@ class _recordResultPageState extends State<recordResultPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => MainFrame(
-                              id: widget.id,
-                              name: widget.name,
-                              profileURL: widget.profileURL,
-                              subindex: 2,
-                            )),
+                          id: widget.id,
+                          name: widget.name,
+                          profileURL: widget.profileURL,
+                          subindex: 2,
+                        )),
                   );
                 },
               ),
@@ -180,11 +178,11 @@ class _recordResultPageState extends State<recordResultPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => MainFrame(
-                                          id: widget.id,
-                                          name: widget.name,
-                                          profileURL: widget.profileURL,
-                                          subindex: 1,
-                                        )));
+                                      id: widget.id,
+                                      name: widget.name,
+                                      profileURL: widget.profileURL,
+                                      subindex: 1,
+                                    )));
                           },
                           child: Icon(
                             Icons.person,
@@ -277,10 +275,10 @@ class _recordResultPageState extends State<recordResultPage> {
   Widget video() {
     return Container(
       width: 320,
-      height: 705,
+      height: 250,
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
-      child: VideoPage(filePath: widget.filepath, name: companyName),
+      child: VideoPage(filePath: "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4", name: companyName),
       // child: Text(' 영상'),
       // decoration: BoxDecoration(
       //     color: Colors.white,
@@ -316,7 +314,7 @@ class _recordResultPageState extends State<recordResultPage> {
                     child: Text(
                       ' ${companyName}',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
                     ),
                   ),
                 ],
@@ -630,7 +628,7 @@ class _recordResultPageState extends State<recordResultPage> {
 
     setState((){
       companyName = json.decode(responseBody)["label"];
-      total_score = json.decode(responseBody)['total_score'];
+      total_score = (json.decode(responseBody)['total_score'])/2;
       face_score = json.decode(responseBody)['face_score'];
       voice_score = json.decode(responseBody)['voice_score'];
     });

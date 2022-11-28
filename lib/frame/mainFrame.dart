@@ -36,8 +36,8 @@ class _MainFrameWidget extends State<MainFrame> {
   @override
   Widget build(BuildContext context) {
     print("메인 페이지\n");
-    print(widget.name);
-    print(widget.profileURL);
+    //print(widget.name);
+    //print(widget.profileURL);
     //get();
     _onItemTapped(widget.subindex);
     final List<Widget> widgetOptions = _widgetOptions();

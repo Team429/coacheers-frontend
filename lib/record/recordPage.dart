@@ -194,7 +194,6 @@ class _RecordPageState extends State<RecordPage> {
                                   profileURL: widget.profileURL,
                                   // companyName: searchitems[index].companyName,
                                   date: searchitems[index].date,
-                                  filepath: "",
                                   // total_score: searchitems[index].totalscore,
                                   // face_score: searchitems[index].facescore,
                                   // voice_score: searchitems[index].voicescore)
@@ -354,8 +353,6 @@ class _RecordPageState extends State<RecordPage> {
     var responseHeaders = response.headers;
     var responseBody = utf8.decode(response.bodyBytes);
 
-
-
   }
 
   void get_records_search(int id, DateTime start, DateTime end) async {
@@ -379,6 +376,9 @@ class _RecordPageState extends State<RecordPage> {
     //print("오잉:${json.decode(decode)[0]['created_at']}");
     //print("내가 원하는 거임 : ${response.body}");
     searchData.clear();
+    Totalsum = 0;
+    Facesum = 0;
+    Voicesum = 0;
 
     try{
 
@@ -400,7 +400,12 @@ class _RecordPageState extends State<RecordPage> {
             face_point,
             voice_point
         ));
+        Facesum = Facesum + face_point;
+        Voicesum = Voicesum + voice_point;
       }
+      Facesum = Facesum / list_cnt;
+      Voicesum = Voicesum / list_cnt;
+      Totalsum = (Facesum + Voicesum) / 2;
     }
     catch (error) {
       print('기록이 없어서 데이터에 아무것도 안담겨요');

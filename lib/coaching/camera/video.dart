@@ -161,8 +161,8 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   void initState() {
-    //_controller = VideoPlayerController.file(File(widget.filePath));
-    _controller = VideoPlayerController.asset(widget.filePath);
+    _controller = VideoPlayerController.file(File(widget.filePath));
+    //_controller = VideoPlayerController.asset(widget.filePath);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
 

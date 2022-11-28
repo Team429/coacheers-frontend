@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/coaching/coachingSavePage.dart';
@@ -25,6 +23,7 @@ class CoachingEnd extends StatefulWidget {
 class _CoachingEndState extends State<CoachingEnd> {
   late VideoPlayerController _videoPlayerController;
   late TextEditingController _commentController;
+  late int video_id = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +209,7 @@ class _CoachingEndState extends State<CoachingEnd> {
 
   Widget text(String comment){
     return Text(
-     comment,
+      comment,
       style: TextStyle(
           fontSize: 20, fontWeight: FontWeight.bold),
     );
@@ -263,24 +262,24 @@ class _CoachingEndState extends State<CoachingEnd> {
         ),
         heroTag: "Save",
         label: Text("저장하기"),
-        onPressed: () {
+        onPressed: () async {
           print(widget.filePath);
           print(_commentController.text);
           print(DateTime.now().toString());
-          _post_record_info(widget.id,_commentController.text,widget.filePath);
-          uploadFileToServer(File(widget.filePath),widget.filePath,DateTime.now());
-          //userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
-          //print(userData[0].companyName);
-          //print(userData.length);
+          video_id = await multipartProdecudre(widget.filePath);
+          _post_record_info(widget.id,_commentController.text,widget.filePath,video_id);
           Navigator.push(
               context,
               MaterialPageRoute(
-                fullscreenDialog: true,
-                builder:
-                    (_) => //VideoPage(filePath: file.path),
-                //VideoPage(filePath: widget.filePath, name: _commentController.text),
-                coachingSave(id : widget.id, comment : _commentController.text, name: widget.name, profileURL: widget.profileURL, filePath: widget.filePath)
+                  fullscreenDialog: true,
+                  builder:
+                      (_) => //VideoPage(filePath: file.path),
+                  //VideoPage(filePath: widget.filePath, name: _commentController.text),
+                  coachingSave(id : widget.id, comment : _commentController.text, name: widget.name, profileURL: widget.profileURL, filePath: widget.filePath)
               ));
+          //userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
+          //print(userData[0].companyName);
+          //print(userData.length);
           //CoachingButtonDialog(context);
         },
       ),
@@ -441,54 +440,80 @@ class _CoachingEndState extends State<CoachingEnd> {
         });
   }
 
-  void _post_record_info(int id, String companyName,String filepath) async {
+  void uploadFileToServer(String filepath) async {
+    String url = 'http://localhost:8000/videos/';
+    DateTime now = DateTime.now();
+    String isoDate = now.toIso8601String();
+
+    var request = new http.MultipartRequest(
+        "POST", Uri.parse(url));
+    request.fields['file_path'] = filepath;
+    request.fields['create_at'] = isoDate;
+    request.files.add(await http.MultipartFile.fromPath('video', File(filepath).path));
+
+  }
+
+  Future<int> multipartProdecudre(String filepath) async {
+    String url = 'http://localhost:8000/videos/';
+    DateTime now = DateTime.now();
+    String isoDate = now.toIso8601String();
+
+    //for multipartrequest
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    //for token
+    //request.headers.addAll({"Authorization": "Bearer token"});
+
+    //for image and videos and files
+    request.fields['file_path'] = filepath;
+    request.fields['create_at'] = isoDate;
+    request.files.add(await http.MultipartFile.fromPath('video', "/Users/seodongwon/coacheers/assets/Test.mp4"));
+
+    //for completeing the request
+
+    var response =await request.send();
+
+    //for getting and decoding the response into json format
+    var responsed = await http.Response.fromStream(response);
+    final responseData = json.decode(responsed.body);
+
+
+    video_id = await responseData['video_id'];
+
+    return video_id;
+
+    // if (response.statusCode==200) {
+    //   print("SUCCESS");
+    //   print(responseData['video_id']);
+    //
+    // }
+    // else {
+    //   print("ERROR");
+    // }
+
+
+  }}
+
+void _post_record_info(int id, String companyName,String filepath, int video_id) async {
     String url = 'http://localhost:8000/records/';
     DateTime Date = DateTime.now();
     var jsonEncode2 = jsonEncode({
       "user_id": id,
       "created_at": Date.add(Duration(hours : 9)).millisecondsSinceEpoch,
       "label": companyName,
-      "filepath": filepath,
-      "anger_score": 0,
-      "joy_score": 0,
-      "sorrow_score": 0,
-      "surprised_score": 0,
+      "filepath": "string",
+      "video_id": video_id,
       "voice_score": 0
     });
     http.Response response = await http.post(Uri.parse(url),
         headers: <String, String>{"content-type": "application/json"},
         body: jsonEncode2);
     var decode = utf8.decode(response.bodyBytes);
-    //print("Response : ${response.statusCode} ${decode}");
-    //print(response.headers);
+    print("Response : ${response.statusCode} ${decode}");
+    print(response.headers);
 
     //print(filepath);
 
   }
-
-  void uploadFileToServer(File videopath, String filepath, DateTime date) async {
-    String url = 'http://localhost:8000/videos/';
-    var request = new http.MultipartRequest(
-        "POST", Uri.parse(url));
-
-    print(request);
-
-    request.fields['filepath'] = filepath;
-    request.fields['create_at'] = date.add(Duration(hours : 9)).millisecondsSinceEpoch.toString();
-    //request.fields['title'] = 'My first image';
-    request.files.add(
-        await http.MultipartFile.fromPath('video', videopath.path));
-    request.send().then((response) {
-      http.Response.fromStream(response).then((onValue) {
-        try {
-          print(response);
-          // get your response here...
-        } catch (e) {
-          // handle exeption
-        }
-      });
-    });
-  }
-}
 
 

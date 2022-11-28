@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    print("메인 페이지 - 홈 페이지\n");
+    //print("메인 페이지 - 홈 페이지\n");
     //print(coachings);
 
     //get_user();
@@ -356,11 +356,11 @@ class _HomeState extends State<Home> {
 
     final user = jsonDecode(responseBody);
 
-    print("statusCode: ${statusCode}");
+    //print("statusCode: ${statusCode}");
     //print("responseHeader: ${responseHeaders}");
     //print("responseBody: ${responseBody}");
 
-    print(user[0]['email']);
+    //print(user[0]['email']);
     //print(responseBody[0]);
 
     // Map<String, dynamic> user_info = jsonDecode(user['1']);
