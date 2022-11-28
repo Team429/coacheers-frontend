@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/coaching/coachingSavePage.dart';
@@ -265,6 +268,7 @@ class _CoachingEndState extends State<CoachingEnd> {
           print(_commentController.text);
           print(DateTime.now().toString());
           _post_record_info(widget.id,_commentController.text,widget.filePath);
+          uploadFileToServer(File(widget.filePath),widget.filePath,DateTime.now());
           //userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
           //print(userData[0].companyName);
           //print(userData.length);
@@ -386,7 +390,6 @@ class _CoachingEndState extends State<CoachingEnd> {
         });
   }
 
-
   CoachingButtonDialog(context) {
     showDialog(
         context: context,
@@ -437,29 +440,55 @@ class _CoachingEndState extends State<CoachingEnd> {
           );
         });
   }
+
+  void _post_record_info(int id, String companyName,String filepath) async {
+    String url = 'http://localhost:8000/records/';
+    DateTime Date = DateTime.now();
+    var jsonEncode2 = jsonEncode({
+      "user_id": id,
+      "created_at": Date.add(Duration(hours : 9)).millisecondsSinceEpoch,
+      "label": companyName,
+      "filepath": filepath,
+      "anger_score": 0,
+      "joy_score": 0,
+      "sorrow_score": 0,
+      "surprised_score": 0,
+      "voice_score": 0
+    });
+    http.Response response = await http.post(Uri.parse(url),
+        headers: <String, String>{"content-type": "application/json"},
+        body: jsonEncode2);
+    var decode = utf8.decode(response.bodyBytes);
+    //print("Response : ${response.statusCode} ${decode}");
+    //print(response.headers);
+
+    //print(filepath);
+
+  }
+
+  void uploadFileToServer(File videopath, String filepath, DateTime date) async {
+    String url = 'http://localhost:8000/videos/';
+    var request = new http.MultipartRequest(
+        "POST", Uri.parse(url));
+
+    print(request);
+
+    request.fields['filepath'] = filepath;
+    request.fields['create_at'] = date.add(Duration(hours : 9)).millisecondsSinceEpoch.toString();
+    //request.fields['title'] = 'My first image';
+    request.files.add(
+        await http.MultipartFile.fromPath('video', videopath.path));
+    request.send().then((response) {
+      http.Response.fromStream(response).then((onValue) {
+        try {
+          print(response);
+          // get your response here...
+        } catch (e) {
+          // handle exeption
+        }
+      });
+    });
+  }
 }
 
-void _post_record_info(int id, String companyName,String filepath) async {
-  String url = 'http://localhost:8000/records/';
-  DateTime Date = DateTime.now();
-  var jsonEncode2 = jsonEncode({
-    "user_id": id,
-    "created_at": Date.add(Duration(hours : 9)).millisecondsSinceEpoch,
-    "label": companyName,
-    "filepath": filepath,
-    "anger_score": 0,
-    "joy_score": 0,
-    "sorrow_score": 0,
-    "surprised_score": 0,
-    "voice_score": 0
-  });
-  http.Response response = await http.post(Uri.parse(url),
-      headers: <String, String>{"content-type": "application/json"},
-      body: jsonEncode2);
-  var decode = utf8.decode(response.bodyBytes);
-  print("Response : ${response.statusCode} ${decode}");
-  print(response.headers);
 
-  print(filepath);
-
-}

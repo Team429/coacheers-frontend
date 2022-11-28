@@ -194,6 +194,7 @@ class _RecordPageState extends State<RecordPage> {
                                   profileURL: widget.profileURL,
                                   // companyName: searchitems[index].companyName,
                                   date: searchitems[index].date,
+                                  filepath: "",
                                   // total_score: searchitems[index].totalscore,
                                   // face_score: searchitems[index].facescore,
                                   // voice_score: searchitems[index].voicescore)

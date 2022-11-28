@@ -12,6 +12,7 @@ class recordResultPage extends StatefulWidget {
   final int id;
   final String name;
   final String profileURL;
+  final String filepath;
 
   // final String companyName;
   final DateTime date;
@@ -29,6 +30,7 @@ class recordResultPage extends StatefulWidget {
     required this.profileURL,
     // required this.companyName,
     required this.date,
+    required this.filepath,
     // required this.total_score,
     // required this.face_score,
     // required this.voice_score
@@ -275,10 +277,10 @@ class _recordResultPageState extends State<recordResultPage> {
   Widget video() {
     return Container(
       width: 320,
-      height: 250,
+      height: 705,
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
-      child: VideoPage(filePath: "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4", name: companyName),
+      child: VideoPage(filePath: widget.filepath, name: companyName),
       // child: Text(' 영상'),
       // decoration: BoxDecoration(
       //     color: Colors.white,

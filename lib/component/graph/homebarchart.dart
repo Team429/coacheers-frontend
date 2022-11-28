@@ -12,6 +12,8 @@ class HomeBarchart extends StatefulWidget {
 class _HomeBarchartState extends State<HomeBarchart> {
   @override
   Widget build(BuildContext context) {
+    print(homechartData.length);
+    print(getdataSource().length);
     return SfCartesianChart(primaryXAxis: CategoryAxis(), palette: <Color>[
       Color(0xff2980B9),
       Color(0xff3498DB),

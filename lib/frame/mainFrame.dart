@@ -1,4 +1,5 @@
 import 'package:coacheers/coaching/camera/camerademo.dart';
+import 'package:coacheers/coaching/camera/coachingPage.dart';
 import 'package:coacheers/home/homePage.dart';
 import 'package:coacheers/profile/profilePage.dart';
 import 'package:coacheers/record/recordPage.dart';
@@ -29,7 +30,7 @@ class _MainFrameWidget extends State<MainFrame> {
     RecordPage(id : widget.id, nickname : widget.name, profileURL : widget.profileURL),
     //CoachingPage(),
     ProfilePage(id : widget.id, nickname : widget.name, profileURL : widget.profileURL),
-    Home(id : widget.id),
+    Home(id: widget.id,),
   ];
 
   @override

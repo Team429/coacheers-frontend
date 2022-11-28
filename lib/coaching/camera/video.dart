@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -61,29 +62,29 @@ class _VideoPageState extends State<VideoPage> {
             ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                    fixedSize: MaterialStateProperty.all(Size(70, 70)),
+                    fixedSize: MaterialStateProperty.all(Size(30, 30)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100)))),
                 onPressed: () {
                   _controller.pause();
                 },
                 child: Icon(Icons.pause)),
-            Padding(padding: EdgeInsets.all(2)),
+            Padding(padding: EdgeInsets.fromLTRB(0, 2, 30, 0)),
             ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.redAccent),
-                    fixedSize: MaterialStateProperty.all<Size>(Size(80, 80)),
+                    fixedSize: MaterialStateProperty.all<Size>(Size(40, 40)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100)))),
                 onPressed: () {
                   _controller.play();
                 },
                 child: Icon(Icons.play_arrow)),
-            Padding(padding: EdgeInsets.all(2)),
+            Padding(padding: EdgeInsets.fromLTRB(30, 2, 0, 0)),
             ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                    fixedSize: MaterialStateProperty.all(Size(70, 70)),
+                    fixedSize: MaterialStateProperty.all(Size(30, 30)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100)))),
                 onPressed: () {
@@ -161,7 +162,7 @@ class _VideoPageState extends State<VideoPage> {
   @override
   void initState() {
     //_controller = VideoPlayerController.file(File(widget.filePath));
-    _controller = VideoPlayerController.network(widget.filePath);
+    _controller = VideoPlayerController.asset(widget.filePath);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
 
