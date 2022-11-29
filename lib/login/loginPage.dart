@@ -29,17 +29,17 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
                 child: SizedBox(
                   width: 300,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
-                    child: realkakao(),
-                  ),
-                  // child: Column(
-                  //   children: [
-                  //     //facebook(),
-                  //     // kakao(),
-                  //     //google(),
-                  //   ],
+                  // child: Padding(
+                  //   padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
+                  //   child: realkakao(),
                   // ),
+                  child: Column(
+                    children: [
+                      facebook(),
+                      kakao(),
+                      google(),
+                    ],
+                  ),
                 ),
               ),
             ],
