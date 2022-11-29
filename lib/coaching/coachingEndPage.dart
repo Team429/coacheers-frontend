@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
+
 class CoachingEnd extends StatefulWidget {
   final int id;
   final String name;
@@ -263,11 +264,13 @@ class _CoachingEndState extends State<CoachingEnd> {
         heroTag: "Save",
         label: Text("저장하기"),
         onPressed: () async {
-          print(widget.filePath);
-          print(_commentController.text);
-          print(DateTime.now().toString());
+          //print(widget.filePath);
+          //print(_commentController.text);
+          //print(DateTime.now().toString());
+          _onLoading();
           video_id = await multipartProdecudre(widget.filePath);
           _post_record_info(widget.id,_commentController.text,widget.filePath,video_id);
+          NavigationBar.pop(context);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -439,6 +442,25 @@ class _CoachingEndState extends State<CoachingEnd> {
           );
         });
   }
+
+  void _onLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: new Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              new CircularProgressIndicator(),
+              new Text("Loading"),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
 
   void uploadFileToServer(String filepath) async {
     String url = 'http://localhost:8000/videos/';

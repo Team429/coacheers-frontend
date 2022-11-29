@@ -1,4 +1,5 @@
 import 'package:coacheers/login/loginPage.dart';
+import 'package:coacheers/onwillpop.dart';
 import 'package:coacheers/record/result.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginPage(),
+      home: modalpage(),
       debugShowCheckedModeBanner: false,
     );
   }
