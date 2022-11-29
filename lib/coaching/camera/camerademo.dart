@@ -46,7 +46,7 @@ class _CamerademoPageState extends State<CamerademoPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CoachingEnd(id :widget.id, name: widget.name, profileURL : widget.profileURL, filePath: 'assets/Test.mp4')),
+                          builder: (context) => CoachingEnd(id :widget.id, name: widget.name, profileURL : widget.profileURL, filePath: '/assets/videos/Test.mp4')),
                     )
                   },
                 ),

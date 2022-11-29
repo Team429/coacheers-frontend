@@ -81,7 +81,7 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
               child: Row(
                 children: [
-                  Image(image: AssetImage('assets/recent.png'), width: 24),
+                  Image(image: AssetImage('assets/images/recent.png'), width: 24),
                   Container(
                     child: Text(
                       " 최근 코치 기록",
@@ -259,7 +259,7 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
             child: Row(
               children: [
-                Image(image: AssetImage('assets/calendar.png'), width: 24),
+                Image(image: AssetImage('assets/images/calendar.png'), width: 24),
                 Container(
                   child: Text(
                     " 이번달 출석부",
@@ -302,7 +302,7 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
               child: Row(
                 children: [
-                  Image(image: AssetImage('assets/chart.png'), width: 24),
+                  Image(image: AssetImage('assets/images/chart.png'), width: 24),
                   Container(
                     child: Text(
                       " 일간 기록",

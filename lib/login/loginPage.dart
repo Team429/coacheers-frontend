@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         children: [
           Image(
-              image: AssetImage('assets/Coacheers.png'), width: 300),
+              image: AssetImage('assets/images/Coacheers.png'), width: 300),
           Text(
             "Coacheers",
             style:
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image(
-                  image: AssetImage('assets/Facebook.png'),
+                  image: AssetImage('assets/images/Facebook.png'),
                   width: 40,
                 ),
                 Text(
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image(
-                    image: AssetImage('assets/kakaotalk.png'),
+                    image: AssetImage('assets/images/kakaotalk.png'),
                     width: 40),
                 Text(
                   "Kakao 로그인",
@@ -175,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(
-                  image: AssetImage('assets/Google.png'),
+                  image: AssetImage('assets/images/Google.png'),
                   width: 40),
               Text(
                 "Google 로그인",

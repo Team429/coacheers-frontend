@@ -4,9 +4,8 @@ import 'package:video_player/video_player.dart';
 
 class VideoPage extends StatefulWidget {
   final String filePath;
-  final String name;
 
-  const VideoPage({Key? key, required this.filePath, required this.name}) : super(key: key);
+  const VideoPage({Key? key, required this.filePath}) : super(key: key);
 
   @override
   _VideoPageState createState() => _VideoPageState();
@@ -96,22 +95,22 @@ class _VideoPageState extends State<VideoPage> {
         )
       ],
     );
-      //Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.name),
-      //   elevation: 0,
-      //   backgroundColor: Colors.black26,
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.check),
-      //       onPressed: () {
-      //         print('do something with the file');
-      //       },
-      //     )
-      //   ],
-      // ),
-      // extendBodyBehindAppBar: true,
-      // body: VideoScreen(),
+    //Scaffold(
+    // appBar: AppBar(
+    //   title: Text(widget.name),
+    //   elevation: 0,
+    //   backgroundColor: Colors.black26,
+    //   actions: [
+    //     IconButton(
+    //       icon: const Icon(Icons.check),
+    //       onPressed: () {
+    //         print('do something with the file');
+    //       },
+    //     )
+    //   ],
+    // ),
+    // extendBodyBehindAppBar: true,
+    // body: VideoScreen(),
     //);
   }
   @override

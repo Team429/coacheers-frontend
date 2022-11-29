@@ -137,10 +137,11 @@ List<CoachingData> getdataSource() {
 
 
 class SearchData {
-  SearchData(this.record_index, this.date, this.companyName, this.totalscore, this.facescore,
+  SearchData(this.record_index, this.video_id, this.date, this.companyName, this.totalscore, this.facescore,
       this.voicescore);
 
   int record_index;
+  int video_id;
   DateTime date;
   String companyName;
   double totalscore;

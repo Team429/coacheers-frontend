@@ -76,7 +76,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                         child: Row(
                           children: [
                             Image(
-                                image: AssetImage('assets/new.png'), width: 24),
+                                image: AssetImage('assets/images/new.png'), width: 24),
                             Container(
                               child: Text(
                                 " 메모 ",
@@ -93,7 +93,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                         child: Row(
                           children: [
                             Image(
-                                image: AssetImage('assets/time.png'),
+                                image: AssetImage('assets/images/time.png'),
                                 width: 24),
                             Container(
                               child: Text(
@@ -220,7 +220,7 @@ class _CoachingEndState extends State<CoachingEnd> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Image(
-          image: AssetImage('assets/Coacheers.png'),
+          image: AssetImage('assets/images/Coacheers.png'),
           width: 250),
     );
   }
@@ -461,7 +461,6 @@ class _CoachingEndState extends State<CoachingEnd> {
     );
   }
 
-
   void uploadFileToServer(String filepath) async {
     String url = 'http://localhost:8000/videos/';
     DateTime now = DateTime.now();
@@ -474,6 +473,7 @@ class _CoachingEndState extends State<CoachingEnd> {
     request.files.add(await http.MultipartFile.fromPath('video', File(filepath).path));
 
   }
+
 
   Future<int> multipartProdecudre(String filepath) async {
     String url = 'http://localhost:8000/videos/';
@@ -489,7 +489,7 @@ class _CoachingEndState extends State<CoachingEnd> {
     //for image and videos and files
     request.fields['file_path'] = filepath;
     request.fields['create_at'] = isoDate;
-    request.files.add(await http.MultipartFile.fromPath('video', "/Users/seodongwon/coacheers/assets/Test.mp4"));
+    request.files.add(await http.MultipartFile.fromPath('video', "/Users/seodongwon/coacheers/assets/videos/Test.mp4"));
 
     //for completeing the request
 
@@ -523,7 +523,7 @@ void _post_record_info(int id, String companyName,String filepath, int video_id)
       "user_id": id,
       "created_at": Date.add(Duration(hours : 9)).millisecondsSinceEpoch,
       "label": companyName,
-      "filepath": "string",
+      "filepath": filepath,
       "video_id": video_id,
       "voice_score": 0
     });

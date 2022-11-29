@@ -13,7 +13,12 @@ class RecordPage extends StatefulWidget {
   final String nickname;
   final String profileURL;
 
-  const RecordPage({Key? key, required this.id, required this.nickname, required this.profileURL}) : super(key: key);
+  const RecordPage(
+      {Key? key,
+      required this.id,
+      required this.nickname,
+      required this.profileURL})
+      : super(key: key);
 
   @override
   _RecordPageState createState() => _RecordPageState();
@@ -53,7 +58,7 @@ class _RecordPageState extends State<RecordPage> {
     print("메인 페이지 - 기록 페이지\n");
     //print(searchlist.toString());
     //print(widget.id);
-    get_records(widget.id);
+    //get_records(widget.id);
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -107,7 +112,7 @@ class _RecordPageState extends State<RecordPage> {
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
               child: Row(
                 children: [
-                  Image(image: AssetImage('assets/Vector.png'), width: 24),
+                  Image(image: AssetImage('assets/images/Vector.png'), width: 24),
                   Container(
                     child: Text(
                       " 기간별 기록",
@@ -133,7 +138,7 @@ class _RecordPageState extends State<RecordPage> {
                     // Text('$RangeStart' ' - ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                     // Text('$RangeEnd', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                     IconButton(
-                      icon: Image.asset('assets/calendar.png'),
+                      icon: Image.asset('assets/images/calendar.png'),
                       iconSize: 24,
                       onPressed: () {
                         _showSimpleModalDialog(context);
@@ -178,7 +183,8 @@ class _RecordPageState extends State<RecordPage> {
                     title: Text('${searchitems[index].companyName}',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17)),
-                    subtitle: Text('${DateFormat('yyyy. MM. dd').format(searchitems[index].date).toString()}',
+                    subtitle: Text(
+                        '${DateFormat('yyyy. MM. dd').format(searchitems[index].date).toString()}',
                         style: TextStyle(
                             color: Color(0xff0066FF),
                             fontWeight: FontWeight.bold,
@@ -186,20 +192,21 @@ class _RecordPageState extends State<RecordPage> {
                     trailing: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>
-                              recordResultPage(recordIndex : searchitems[index].record_index,
-                                  id: widget.id,
-                                  name: widget.nickname,
-                                  profileURL: widget.profileURL,
-                                  // companyName: searchitems[index].companyName,
-                                  date: searchitems[index].date,
-                                  // total_score: searchitems[index].totalscore,
-                                  // face_score: searchitems[index].facescore,
-                                  // voice_score: searchitems[index].voicescore)
-                          )
-                        )
-                        );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => recordResultPage(
+                                      recordIndex:
+                                          searchitems[index].record_index,
+                                      video_id: searchitems[index].video_id,
+                                      id: widget.id,
+                                      name: widget.nickname,
+                                      profileURL: widget.profileURL,
+                                      // companyName: searchitems[index].companyName,
+                                      date: searchitems[index].date,
+                                      // total_score: searchitems[index].totalscore,
+                                      // face_score: searchitems[index].facescore,
+                                      // voice_score: searchitems[index].voicescore)
+                                    )));
                       },
                       child: Text("${searchitems[index].totalscore}점"),
                     ));
@@ -215,7 +222,7 @@ class _RecordPageState extends State<RecordPage> {
       //       width: 5,
       //     )),
       //   child:  Image(
-      //       image: AssetImage('assets/Group 3002.png')),
+      //       image: AssetImage('assets/images/Group 3002.png')),
     );
   }
 
@@ -346,24 +353,36 @@ class _RecordPageState extends State<RecordPage> {
   // }
 
   void get_records(int id) async {
-    // print(id);
+    //print(id);
     String url = 'http://localhost:8000/records/${id}';
     var response = await http.post(Uri.parse(url));
     var statusCode = response.statusCode;
     var responseHeaders = response.headers;
     var responseBody = utf8.decode(response.bodyBytes);
+  }
 
+  void get_videos(int video_id) async {
+    // print(id);
+    String url = 'http://localhost:8000/videos/${video_id}';
+    var response = await http.post(Uri.parse(url));
+    var statusCode = response.statusCode;
+    var responseHeaders = response.headers;
+    var responseBody = utf8.decode(response.bodyBytes);
   }
 
   void get_records_search(int id, DateTime start, DateTime end) async {
     //print(id);
+
     String url = 'http://localhost:8000/records/search';
+    //print(id);
+    print(start.add(Duration(hours: 9)).millisecondsSinceEpoch);
+    print(end.add(Duration(hours: 9)).millisecondsSinceEpoch);
     //print(start.millisecondsSinceEpoch);
     //print(end.millisecondsSinceEpoch);
     var jsonEncode2 = jsonEncode({
       "user_id": id,
-      "start_date": start.add(Duration(hours : 9)).millisecondsSinceEpoch,
-      "end_date":  end.add(Duration(hours : 9)).millisecondsSinceEpoch
+      "start_date": start.add(Duration(hours: 9)).millisecondsSinceEpoch,
+      "end_date": end.add(Duration(hours: 9)).millisecondsSinceEpoch
     });
 
     http.Response response = await http.post(Uri.parse(url),
@@ -372,51 +391,60 @@ class _RecordPageState extends State<RecordPage> {
 
     var decode = utf8.decode(response.bodyBytes);
 
+    //print(json.decode(decode));
+
     int list_cnt = json.decode(decode).length;
+
     //print("오잉:${json.decode(decode)[0]['created_at']}");
     //print("내가 원하는 거임 : ${response.body}");
+    //print(list_cnt);
+
     searchData.clear();
-    Totalsum = 0;
-    Facesum = 0;
-    Voicesum = 0;
 
-    try{
+    try {
+      Totalsum = 0.0;
+      Facesum = 0.0;
+      Voicesum = 0.0;
 
-      //print(decode[0].length);
-      for(int i = 0; i < list_cnt; i++){
-        DateTime Date = DateTime.parse(json.decode(decode)[i]['created_at']);
-        //print(Date);
-        //print(Date.add(Duration(hours : 9)));
-        String companyName = json.decode(decode)[i]["label"];
-        double total_point = json.decode(decode)[i]["total_score"];
-        double face_point = json.decode(decode)[i]["face_score"];
-        double voice_point = json.decode(decode)[i]["voice_score"];
-        int record_index = json.decode(decode)[i]["id"];
-        searchData.add(SearchData(
-          record_index,
+      if (list_cnt != 0) {
+        for (int i = 0; i < list_cnt; i++) {
+          int record_index = json.decode(decode)[i]["id"];
+          int video_id = json.decode(decode)[i]["video_id"];
+          DateTime Date = DateTime.parse(json.decode(decode)[i]['created_at']);
+          //print(Date);
+          //print(Date.add(Duration(hours : 9)));
+          String companyName = json.decode(decode)[i]["label"];
+          double total_point = json.decode(decode)[i]["total_score"];
+          double face_point = json.decode(decode)[i]["face_score"];
+          double voice_point = json.decode(decode)[i]["voice_score"];
+
+          searchData.add(SearchData(
+            record_index,
+            video_id,
             Date,
             companyName,
             total_point,
             face_point,
-            voice_point
-        ));
-        Facesum = Facesum + face_point;
-        Voicesum = Voicesum + voice_point;
+            voice_point,
+          ));
+          Facesum = Facesum + face_point;
+          Voicesum = Voicesum + voice_point;
+        }
+        Facesum = Facesum / list_cnt;
+        Voicesum = Voicesum / list_cnt;
+        Totalsum = (Facesum + Voicesum) / 2;
+      } else {
+        Totalsum = 0.0;
+        Facesum = 0.0;
+        Voicesum = 0.0;
       }
-      Facesum = Facesum / list_cnt;
-      Voicesum = Voicesum / list_cnt;
-      Totalsum = (Facesum + Voicesum) / 2;
-    }
-    catch (error) {
-      print('기록이 없어서 데이터에 아무것도 안담겨요');
+    } catch (error) {
+      print("error");
     }
 
     setState(() {
       searchitems.clear();
       searchitems.addAll(searchData);
     });
-
   }
-
 }
-

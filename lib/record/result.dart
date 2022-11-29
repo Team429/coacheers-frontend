@@ -10,20 +10,17 @@ import 'package:intl/intl.dart';
 
 class recordResultPage extends StatefulWidget {
   final int id;
+  final int video_id;
   final String name;
   final String profileURL;
 
-  // final String companyName;
   final DateTime date;
-
-  // final double total_score;
-  // final double face_score;
-  // final double voice_score;
   final int recordIndex;
 
   recordResultPage({
     Key? key,
     required this.recordIndex,
+    required this.video_id,
     required this.id,
     required this.name,
     required this.profileURL,
@@ -44,16 +41,16 @@ class _recordResultPageState extends State<recordResultPage> {
   late double total_score = 0;
   late double face_score = 0;
   late double voice_score = 0;
+  late String Filepath = "";
 
   void initState() {
-
-    get_records_byrecordID(widget.id);
-
+    get_records_byrecordID(widget.recordIndex);
     super.initState();
   }
 
   Widget build(BuildContext context) {
     bool shouldPop = false;
+    //print(Filepath);
     //get_records_byrecordID(widget.id);
     return WillPopScope(
         onWillPop: () async {
@@ -83,11 +80,11 @@ class _recordResultPageState extends State<recordResultPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => MainFrame(
-                          id: widget.id,
-                          name: widget.name,
-                          profileURL: widget.profileURL,
-                          subindex: 2,
-                        )),
+                              id: widget.id,
+                              name: widget.name,
+                              profileURL: widget.profileURL,
+                              subindex: 2,
+                            )),
                   );
                 },
               ),
@@ -178,11 +175,11 @@ class _recordResultPageState extends State<recordResultPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => MainFrame(
-                                      id: widget.id,
-                                      name: widget.name,
-                                      profileURL: widget.profileURL,
-                                      subindex: 1,
-                                    )));
+                                          id: widget.id,
+                                          name: widget.name,
+                                          profileURL: widget.profileURL,
+                                          subindex: 1,
+                                        )));
                           },
                           child: Icon(
                             Icons.person,
@@ -273,12 +270,26 @@ class _recordResultPageState extends State<recordResultPage> {
   }
 
   Widget video() {
+    //print(Filepath);
     return Container(
       width: 320,
-      height: 250,
+      height: 430,
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
-      child: VideoPage(filePath: "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4", name: companyName),
+      child: FutureBuilder(
+          future: get_video_path(widget.recordIndex),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData == false) {
+              return Text(
+                "0%",
+                style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+              );
+            } else if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
+            }
+            return VideoPage(filePath: snapshot.data);
+          }),
+
       // child: Text(' 영상'),
       // decoration: BoxDecoration(
       //     color: Colors.white,
@@ -290,6 +301,7 @@ class _recordResultPageState extends State<recordResultPage> {
   }
 
   Widget info() {
+    print(companyName);
     return Container(
       height: 100,
       margin: EdgeInsets.all(10),
@@ -309,12 +321,14 @@ class _recordResultPageState extends State<recordResultPage> {
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
               child: Row(
                 children: [
-                  Image(image: AssetImage('assets/feather.png'), width: 24),
+                  Image(
+                      image: AssetImage('assets/images/feather.png'),
+                      width: 24),
                   Container(
                     child: Text(
                       ' ${companyName}',
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
                     ),
                   ),
                 ],
@@ -328,7 +342,8 @@ class _recordResultPageState extends State<recordResultPage> {
                   child: Row(
                     children: [
                       Image(
-                          image: AssetImage('assets/calendar.png'), width: 24),
+                          image: AssetImage('assets/images/calendar.png'),
+                          width: 24),
                       Container(
                         child: Text(
                           ' ${DateFormat('yyyy. MM. dd').format(widget.date).toString()}',
@@ -343,10 +358,12 @@ class _recordResultPageState extends State<recordResultPage> {
                   padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
                   child: Row(
                     children: [
-                      Image(image: AssetImage('assets/alarm.png'), width: 24),
+                      Image(
+                          image: AssetImage('assets/images/alarm.png'),
+                          width: 24),
                       Container(
                         child: Text(
-                          ' ${DateFormat('aa hh : mm','ko').format(widget.date).toString()}',
+                          ' ${DateFormat('aa hh : mm', 'ko').format(widget.date).toString()}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
@@ -398,7 +415,7 @@ class _recordResultPageState extends State<recordResultPage> {
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
             child: Row(
               children: [
-                Image(image: AssetImage('assets/chart.png'), width: 24),
+                Image(image: AssetImage('assets/images/chart.png'), width: 24),
                 Container(
                   child: Text(
                     " 총점",
@@ -408,8 +425,7 @@ class _recordResultPageState extends State<recordResultPage> {
               ],
             ),
           ),
-          RecordBarchart(
-              total_score, face_score, voice_score)
+          RecordBarchart(total_score, face_score, voice_score)
         ],
       ),
     );
@@ -441,7 +457,7 @@ class _recordResultPageState extends State<recordResultPage> {
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
             child: Row(
               children: [
-                Image(image: AssetImage('assets/chart.png'), width: 24),
+                Image(image: AssetImage('assets/images/chart.png'), width: 24),
                 Container(
                   child: Text(
                     " 항목별 평가",
@@ -575,7 +591,8 @@ class _recordResultPageState extends State<recordResultPage> {
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
             child: Row(
               children: [
-                Image(image: AssetImage('assets/support.png'), width: 24),
+                Image(
+                    image: AssetImage('assets/images/support.png'), width: 24),
                 Container(
                   child: Text(
                     " 시간별 평가",
@@ -609,9 +626,11 @@ class _recordResultPageState extends State<recordResultPage> {
     );
   }
 
-  void get_records_byrecordID(int id) async {
+  void get_records_byrecordID(int record_index) async {
     //print(id);
-    String url = 'http://localhost:8000/records/${id}';
+    String url = 'http://localhost:8000/records/${record_index}';
+
+    print(url);
     //print(start.millisecondsSinceEpoch);
     //print(end.millisecondsSinceEpoch);
 
@@ -620,17 +639,44 @@ class _recordResultPageState extends State<recordResultPage> {
     var responseHeaders = response.headers;
     var responseBody = utf8.decode(response.bodyBytes);
 
-    print("statusCode: ${statusCode}");
-    print("responseHeader: ${responseHeaders}");
-    print("responseBody: ${responseBody}");
+    //print("statusCode: ${statusCode}");
+    //print("responseHeader: ${responseHeaders}");
+    //print("responseBody: ${responseBody}");
 
-    print(responseBody[0]);
+    print(json.decode(responseBody));
 
-    setState((){
+    setState(() {
       companyName = json.decode(responseBody)["label"];
-      total_score = (json.decode(responseBody)['total_score'])/2;
+      total_score = (json.decode(responseBody)['total_score']) / 2;
       face_score = json.decode(responseBody)['face_score'];
       voice_score = json.decode(responseBody)['voice_score'];
     });
+
+  }
+
+  Future<String> get_video_path(int record_index) async{
+    //print(id);
+    String url = 'http://localhost:8000/records/${record_index}';
+
+    //print(url);
+    //print(start.millisecondsSinceEpoch);
+    //print(end.millisecondsSinceEpoch);
+
+    var response = await http.post(Uri.parse(url));
+    var statusCode = response.statusCode;
+    var responseHeaders = response.headers;
+    var responseBody = utf8.decode(response.bodyBytes);
+
+    //print("statusCode: ${statusCode}");
+    //print("responseHeader: ${responseHeaders}");
+    //print("responseBody: ${responseBody}");
+
+    print(json.decode(responseBody));
+
+    String filepath = json.decode(responseBody)['filepath'];
+
+    print(filepath);
+
+    return filepath;
   }
 }
