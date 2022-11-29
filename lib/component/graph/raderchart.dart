@@ -13,7 +13,7 @@ class _RadarChartExampleState extends State<RadarChartExample> {
   int _counter = 5;
 
   List<double> values = [0.5, 0.3, 0.85, 0.7, 0.3];
-  List<String> name = ["표정","크기","높낮이","발음","빠르기"];
+  List<String> name = ["표정", "크기", "높낮이", "발음", "빠르기"];
   late List<PreferredSizeWidget> vertices2;
   late PreferredSizeWidget _vertex;
 
@@ -56,13 +56,12 @@ class _RadarChartExampleState extends State<RadarChartExample> {
                   radius: 0,
                   textOffset: Offset(0, 0),
                   text: Text(
-                      '${name[i]}',
+                    '${name[i]}',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
             ],
             radars: [
-
               RadarTile(
                 values: values,
                 borderStroke: 2,

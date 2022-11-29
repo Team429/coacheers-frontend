@@ -273,7 +273,7 @@ class _recordResultPageState extends State<recordResultPage> {
     //print(Filepath);
     return Container(
       width: 320,
-      height: 430,
+      height: 715,
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
       child: FutureBuilder(
@@ -393,7 +393,7 @@ class _recordResultPageState extends State<recordResultPage> {
             )),
         child: Center(
           child: Text(
-            "90점",
+            "${total_score.toStringAsFixed(1)} 점",
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
           ),
@@ -651,10 +651,9 @@ class _recordResultPageState extends State<recordResultPage> {
       face_score = json.decode(responseBody)['face_score'];
       voice_score = json.decode(responseBody)['voice_score'];
     });
-
   }
 
-  Future<String> get_video_path(int record_index) async{
+  Future<String> get_video_path(int record_index) async {
     //print(id);
     String url = 'http://localhost:8000/records/${record_index}';
 

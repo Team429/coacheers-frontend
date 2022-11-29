@@ -25,7 +25,6 @@ class _HomeState extends State<Home> {
   late int record_index = 0;
 
   void initState() {
-
     get_records_threedays(widget.id);
     get_records_month(widget.id);
 
@@ -81,12 +80,13 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
               child: Row(
                 children: [
-                  Image(image: AssetImage('assets/images/recent.png'), width: 24),
+                  Image(
+                      image: AssetImage('assets/images/recent.png'), width: 24),
                   Container(
                     child: Text(
                       " 최근 코치 기록",
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
                 ],
@@ -95,149 +95,76 @@ class _HomeState extends State<Home> {
             Container(
                 child: coachings.length > 0
                     ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              child: TotalDonutchart(),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    child: TotalDonutchart(),
+                                  ),
+                                ),
+                                Text(
+                                  "Total",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                              ],
                             ),
                           ),
-                          Text(
-                            "Total",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              child: FaceDonutchart(),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    child: FaceDonutchart(),
+                                  ),
+                                ),
+                                Text(
+                                  "표정",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                              ],
                             ),
                           ),
-                          Text(
-                            "표정",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              child: VoiceDonutchart(),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    child: VoiceDonutchart(),
+                                  ),
+                                ),
+                                Text(
+                                  "목소리",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                              ],
                             ),
                           ),
-                          Text(
-                            "목소리",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
                         ],
-                      ),
-                    ),
-                  ],
-                )
+                      )
                     : Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                  child: Center(
-                      child: Text(
-                        "데이터가 없습니다.",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
+                        padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                        child: Center(
+                            child: Text(
+                          "데이터가 없습니다.",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        )),
                       )),
-                )),
-            // Container(
-            //     child: coachings.length > 0
-            //         ? Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         Expanded(
-            //           flex: 1,
-            //           child: Column(
-            //             children: [
-            //               Padding(
-            //                 padding: const EdgeInsets.all(8.0),
-            //                 child: Container(
-            //                   child: TotalDonutchart(),
-            //                 ),
-            //               ),
-            //               Text(
-            //                 "Total",
-            //                 style: TextStyle(
-            //                     fontWeight: FontWeight.bold,
-            //                     fontSize: 15),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //         Expanded(
-            //           flex: 1,
-            //           child: Column(
-            //             children: [
-            //               Padding(
-            //                 padding: const EdgeInsets.all(8.0),
-            //                 child: Container(
-            //                   child: FaceDonutchart(),
-            //                 ),
-            //               ),
-            //               Text(
-            //                 "표정",
-            //                 style: TextStyle(
-            //                     fontWeight: FontWeight.bold,
-            //                     fontSize: 15),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //         Expanded(
-            //           flex: 1,
-            //           child: Column(
-            //             children: [
-            //               Padding(
-            //                 padding: const EdgeInsets.all(8.0),
-            //                 child: Container(
-            //                   child: VoiceDonutchart(),
-            //                 ),
-            //               ),
-            //               Text(
-            //                 "목소리",
-            //                 style: TextStyle(
-            //                     fontWeight: FontWeight.bold,
-            //                     fontSize: 15),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       ],
-            //     )
-            //         : Padding(
-            //       padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-            //       child: Center(
-            //           child: Text(
-            //             "데이터가 없습니다.",
-            //             style: TextStyle(
-            //                 fontWeight: FontWeight.bold, fontSize: 15),
-            //           )),
-            //     )),
           ],
         ),
       ),
@@ -259,7 +186,8 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
             child: Row(
               children: [
-                Image(image: AssetImage('assets/images/calendar.png'), width: 24),
+                Image(
+                    image: AssetImage('assets/images/calendar.png'), width: 24),
                 Container(
                   child: Text(
                     " 이번달 출석부",
@@ -302,12 +230,13 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
               child: Row(
                 children: [
-                  Image(image: AssetImage('assets/images/chart.png'), width: 24),
+                  Image(
+                      image: AssetImage('assets/images/chart.png'), width: 24),
                   Container(
                     child: Text(
                       " 일간 기록",
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
                 ],
@@ -317,16 +246,13 @@ class _HomeState extends State<Home> {
                 child: coachings.length >= 1
                     ? HomeBarchart()
                     : Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
-                    child: Center(
-                        child: Text(
+                        padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
+                        child: Center(
+                            child: Text(
                           "데이터가 없습니다.",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15),
-                        )
-                    )
-                )
-            ),
+                        )))),
           ],
         ));
   }
@@ -368,10 +294,7 @@ class _HomeState extends State<Home> {
   }
 
   void get_records_threedays(int id) async {
-    //print(id);
     String url = 'http://localhost:8000/records/searchTotal';
-    //print(start.millisecondsSinceEpoch);
-    //print(end.millisecondsSinceEpoch);
     var jsonEncode2 = jsonEncode({
       "user_id": id,
     });
@@ -382,33 +305,19 @@ class _HomeState extends State<Home> {
 
     var decode = utf8.decode(response.bodyBytes);
 
-    //print(decode);
+    int list_cnt = json.decode(decode).length;
 
-    int list_cnt = json
-        .decode(decode)
-        .length;
-
-    //print(list_cnt);
-    //print("오잉:${json.decode(decode)[0]['created_at']}");
-    //print("내가 원하는 거임 : ${response.body}");
     coachings.clear();
 
     try {
-      //print(decode[0].length);
       for (int i = 0; i < list_cnt; i++) {
         DateTime Date = DateTime.parse(json.decode(decode)[i]['created_at']);
-        //print(Date);
-        //print(Date.add(Duration(hours : 9)));
         String companyName = json.decode(decode)[i]["label"];
         double face_point = json.decode(decode)[i]["face_score"];
         double voice_point = json.decode(decode)[i]["voice_score"];
-        coachings.add(CoachingData(companyName,Date, CoachingData.GREEN, false,
+        coachings.add(CoachingData(companyName, Date, CoachingData.GREEN, false,
             face_point, voice_point));
       }
-
-      //print(coachings);
-      //print(getdataSource().length);
-
     } catch (error) {
       print('기록이 없어서 데이터에 아무것도 안담겨요');
     }
@@ -417,17 +326,15 @@ class _HomeState extends State<Home> {
       coachitems.clear();
       coachitems.addAll(coachings);
     });
-
   }
 
   void get_records_month(int id) async {
-    //print(id);
     String url = 'http://localhost:8000/records/searchmonth';
-    //print(start.millisecondsSinceEpoch);
-    //print(end.millisecondsSinceEpoch);
+
     var jsonEncode2 = jsonEncode({
       "user_id": id,
-      "start_date": DateTime(DateTime.now().year, DateTime.now().month, 1).millisecondsSinceEpoch,
+      "start_date": DateTime(DateTime.now().year, DateTime.now().month, 1)
+          .millisecondsSinceEpoch,
       "end_date": DateTime.now().millisecondsSinceEpoch
     });
 
@@ -437,29 +344,20 @@ class _HomeState extends State<Home> {
 
     var decode = utf8.decode(response.bodyBytes);
 
-    //print(decode);
-
     int list_cnt = json.decode(decode).length;
 
-    //print(json.decode(decode));
-    //print(list_cnt);
-    //print("오잉:${json.decode(decode)[0]['created_at']}");
-    //print("내가 원하는 거임 : ${response.body}");
     monthcoachings.clear();
 
     try {
-      //print(decode[0].length);
       for (int i = 0; i < list_cnt; i++) {
         DateTime Date = DateTime.parse(json.decode(decode)[i]['created_at']);
-        //print(Date);
-        //print(Date.add(Duration(hours : 9)));
+
         String companyName = json.decode(decode)[i]["label"];
         double face_point = json.decode(decode)[i]["face_score"];
         double voice_point = json.decode(decode)[i]["voice_score"];
-        monthcoachings.add(MonthCoachingData(companyName, Date, CoachingData.GREEN, false,
-            face_point, voice_point));
+        monthcoachings.add(MonthCoachingData(companyName, Date,
+            CoachingData.GREEN, false, face_point, voice_point));
       }
-
     } catch (error) {
       print('기록이 없어서 데이터에 아무것도 안담겨요');
     }
@@ -468,8 +366,5 @@ class _HomeState extends State<Home> {
       monthcoachitems.clear();
       monthcoachitems.addAll(monthcoachings);
     });
-
-    //print(monthcoachings);
   }
 }
-

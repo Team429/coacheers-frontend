@@ -112,7 +112,8 @@ class _RecordPageState extends State<RecordPage> {
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
               child: Row(
                 children: [
-                  Image(image: AssetImage('assets/images/Vector.png'), width: 24),
+                  Image(
+                      image: AssetImage('assets/images/Vector.png'), width: 24),
                   Container(
                     child: Text(
                       " 기간별 기록",
@@ -208,7 +209,8 @@ class _RecordPageState extends State<RecordPage> {
                                       // voice_score: searchitems[index].voicescore)
                                     )));
                       },
-                      child: Text("${searchitems[index].totalscore}점"),
+                      child: Text(
+                          "${searchitems[index].totalscore.toStringAsFixed(1)}점"),
                     ));
               },
             ),
@@ -361,22 +363,22 @@ class _RecordPageState extends State<RecordPage> {
     var responseBody = utf8.decode(response.bodyBytes);
   }
 
-  void get_videos(int video_id) async {
-    // print(id);
-    String url = 'http://localhost:8000/videos/${video_id}';
-    var response = await http.post(Uri.parse(url));
-    var statusCode = response.statusCode;
-    var responseHeaders = response.headers;
-    var responseBody = utf8.decode(response.bodyBytes);
-  }
+  // void get_videos(int video_id) async {
+  //   // print(id);
+  //   String url = 'http://localhost:8000/videos/${video_id}';
+  //   var response = await http.post(Uri.parse(url));
+  //   var statusCode = response.statusCode;
+  //   var responseHeaders = response.headers;
+  //   var responseBody = utf8.decode(response.bodyBytes);
+  // }
 
   void get_records_search(int id, DateTime start, DateTime end) async {
     //print(id);
 
     String url = 'http://localhost:8000/records/search';
     //print(id);
-    print(start.add(Duration(hours: 9)).millisecondsSinceEpoch);
-    print(end.add(Duration(hours: 9)).millisecondsSinceEpoch);
+    //print(start.add(Duration(hours: 9)).millisecondsSinceEpoch);
+    //print(end.add(Duration(hours: 9)).millisecondsSinceEpoch);
     //print(start.millisecondsSinceEpoch);
     //print(end.millisecondsSinceEpoch);
     var jsonEncode2 = jsonEncode({

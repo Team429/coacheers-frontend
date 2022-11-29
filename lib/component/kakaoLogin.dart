@@ -57,7 +57,7 @@ int user_id = 0;
 //   // print(user_info['name']);
 // }
 
-Future <void> _post_user_info(String string) async {
+Future<void> _post_user_info(String string) async {
   String url = 'http://localhost:8000/users/';
   var jsonEncode2 = jsonEncode({
     "email": string,
@@ -74,7 +74,7 @@ Future <void> _post_user_info(String string) async {
   print("user info post 완료");
 }
 
-Future <void> _post_attendance_info(int id) async {
+Future<void> _post_attendance_info(int id) async {
   String url = 'http://localhost:8000/attendances/';
   DateTime Date = DateTime.now();
   var jsonEncode2 = jsonEncode({

@@ -5,7 +5,10 @@ import 'package:coacheers/component/coachingDater.dart';
 class TotalDonutchart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String percent = TotalchartData[TotalchartData.length - 2].score.toString();
+    String percent = TotalchartData[TotalchartData.length - 2]
+        .score
+        .toStringAsFixed(1)
+        .toString();
     final size = 100.0;
     return Container(
         width: size,

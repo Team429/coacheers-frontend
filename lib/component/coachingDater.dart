@@ -4,10 +4,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'dart:ui';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'coachingDater.g.dart';
-
-
-@JsonSerializable()
 class MonthCoachingData {
   //calander
   MonthCoachingData(this.companyName, this.time, this.background, this.isAllDay,
@@ -16,16 +12,7 @@ class MonthCoachingData {
     // throw UnimplementedError();
   }
 
-  @JsonKey(
-    name: "background",
-    fromJson: ColorFromJson,
-    toJson: ColorToJson,
-  )
   Color background;
-
-  static Color ColorFromJson(input) => Color(input);
-
-  static String ColorToJson(input) => input.toString();
 
   String companyName;
   DateTime time;
@@ -35,7 +22,6 @@ class MonthCoachingData {
   double voice_point;
 
   static Color GREEN = Color(0xFF1ABC9C);
-
 
   @override
   String toString() {
@@ -84,8 +70,6 @@ class MonthCoachingDataSource extends CalendarDataSource {
   }
 }
 
-
-
 class CoachingData {
   //calander
   CoachingData(this.companyName, this.time, this.background, this.isAllDay,
@@ -114,11 +98,6 @@ class CoachingData {
 
   static Color GREEN = Color(0xFF1ABC9C);
 
-  factory CoachingData.fromJson(Map<String, dynamic> json) =>
-      _$CoachingDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CoachingDataToJson(this);
-
   @override
   String toString() {
     return '${DateFormat('yyyy. MM. dd').format(time)} ${companyName} ${(face_point + voice_point) / 2}';
@@ -128,17 +107,14 @@ class CoachingData {
 late List<CoachingData> coachings = [];
 
 List<CoachingData> getdataSource() {
-
   //print(coachings);
 
   return coachings;
 }
 
-
-
 class SearchData {
-  SearchData(this.record_index, this.video_id, this.date, this.companyName, this.totalscore, this.facescore,
-      this.voicescore);
+  SearchData(this.record_index, this.video_id, this.date, this.companyName,
+      this.totalscore, this.facescore, this.voicescore);
 
   int record_index;
   int video_id;
@@ -150,8 +126,6 @@ class SearchData {
 }
 
 List<SearchData> searchData = [];
-
-
 
 class HomeBarChartData {
   HomeBarChartData(this.date, this.total, this.face, this.voice);
@@ -223,13 +197,10 @@ List<HomeBarChartData> getHomeBarsource() {
         getdataSource()[getdataSource().length - 3].voice_point));
   }
 
-
   return homechartData;
 }
 
 List<HomeBarChartData> homechartData = getHomeBarsource();
-
-
 
 class DonutChartData {
   DonutChartData(this.scoreName, this.score, this.color);

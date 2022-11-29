@@ -8,14 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
-
 class CoachingEnd extends StatefulWidget {
   final int id;
   final String name;
   final String profileURL;
   final String filePath;
 
-  const CoachingEnd({Key? key, required this.id, required this.name, required this.profileURL, required this.filePath}) : super(key: key);
+  const CoachingEnd(
+      {Key? key,
+      required this.id,
+      required this.name,
+      required this.profileURL,
+      required this.filePath})
+      : super(key: key);
 
   @override
   State<CoachingEnd> createState() => _CoachingEndState();
@@ -35,7 +40,7 @@ class _CoachingEndState extends State<CoachingEnd> {
         return shouldPop;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset : false,
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
@@ -68,15 +73,16 @@ class _CoachingEndState extends State<CoachingEnd> {
                   padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                   child: Column(
                     children: [
-                      text( "모의 면접이 종료 되었습니다!"),
-                      text( "수고하셨습니다!"),
+                      text("모의 면접이 종료 되었습니다!"),
+                      text("수고하셨습니다!"),
                       image(),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(50, 20, 0, 0),
                         child: Row(
                           children: [
                             Image(
-                                image: AssetImage('assets/images/new.png'), width: 24),
+                                image: AssetImage('assets/images/new.png'),
+                                width: 24),
                             Container(
                               child: Text(
                                 " 메모 ",
@@ -130,7 +136,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                         child: FloatingActionButton(
                           heroTag: "record",
                           onPressed: () {
-                            alertDialog(context,0);
+                            alertDialog(context, 0);
                           },
                           child: Icon(
                             Icons.history,
@@ -173,7 +179,7 @@ class _CoachingEndState extends State<CoachingEnd> {
                         child: FloatingActionButton(
                           heroTag: "my",
                           onPressed: () {
-                            alertDialog(context,1);
+                            alertDialog(context, 1);
                           },
                           child: Icon(
                             Icons.person,
@@ -197,7 +203,7 @@ class _CoachingEndState extends State<CoachingEnd> {
     );
   }
 
-  Widget underline(){
+  Widget underline() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
       child: Container(
@@ -208,24 +214,22 @@ class _CoachingEndState extends State<CoachingEnd> {
     );
   }
 
-  Widget text(String comment){
+  Widget text(String comment) {
     return Text(
       comment,
-      style: TextStyle(
-          fontSize: 20, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
 
-  Widget image(){
+  Widget image() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-      child: Image(
-          image: AssetImage('assets/images/Coacheers.png'),
-          width: 250),
+      child:
+          Image(image: AssetImage('assets/images/Coacheers.png'), width: 250),
     );
   }
 
-  Widget textfield(){
+  Widget textfield() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
       child: TextField(
@@ -239,24 +243,23 @@ class _CoachingEndState extends State<CoachingEnd> {
     );
   }
 
-  Widget gettime(){
+  Widget gettime() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 80, 0),
       child: Text(
         getToday(),
-        style: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
       ),
     );
   }
 
-  Widget saveButton(){
+  Widget saveButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
       child: FloatingActionButton.extended(
         backgroundColor: Color(0xff1ABC9C),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         elevation: 4.0,
         icon: const Icon(
           Icons.save,
@@ -269,17 +272,21 @@ class _CoachingEndState extends State<CoachingEnd> {
           //print(DateTime.now().toString());
           _onLoading();
           video_id = await multipartProdecudre(widget.filePath);
-          _post_record_info(widget.id,_commentController.text,widget.filePath,video_id);
-          NavigationBar.pop(context);
+          _post_record_info(
+              widget.id, _commentController.text, widget.filePath, video_id);
+          Navigator.pop(context);
           Navigator.push(
               context,
               MaterialPageRoute(
                   fullscreenDialog: true,
-                  builder:
-                      (_) => //VideoPage(filePath: file.path),
-                  //VideoPage(filePath: widget.filePath, name: _commentController.text),
-                  coachingSave(id : widget.id, comment : _commentController.text, name: widget.name, profileURL: widget.profileURL, filePath: widget.filePath)
-              ));
+                  builder: (_) => //VideoPage(filePath: file.path),
+                      //VideoPage(filePath: widget.filePath, name: _commentController.text),
+                      coachingSave(
+                          id: widget.id,
+                          comment: _commentController.text,
+                          name: widget.name,
+                          profileURL: widget.profileURL,
+                          filePath: widget.filePath)));
           //userData.add(UserData(_commentController.text.toString(),DateTime.now(),widget.filePath,0,0,0));
           //print(userData[0].companyName);
           //print(userData.length);
@@ -306,7 +313,6 @@ class _CoachingEndState extends State<CoachingEnd> {
   void initState() {
     super.initState();
     _commentController = TextEditingController();
-
   }
 
   alertDialog(context, int index) {
@@ -337,7 +343,13 @@ class _CoachingEndState extends State<CoachingEnd> {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainFrame(id : widget.id, name : widget.name, profileURL: widget.profileURL, subindex: index,)),
+                    MaterialPageRoute(
+                        builder: (context) => MainFrame(
+                              id: widget.id,
+                              name: widget.name,
+                              profileURL: widget.profileURL,
+                              subindex: index,
+                            )),
                   );
                 },
               ),
@@ -352,7 +364,7 @@ class _CoachingEndState extends State<CoachingEnd> {
         });
   }
 
-  recordalertDialog(context){
+  recordalertDialog(context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -425,7 +437,12 @@ class _CoachingEndState extends State<CoachingEnd> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CamerademoPage(id : widget.id, name: widget.name,profileURL: widget.profileURL,)),
+                      MaterialPageRoute(
+                          builder: (context) => CamerademoPage(
+                                id: widget.id,
+                                name: widget.name,
+                                profileURL: widget.profileURL,
+                              )),
                     );
                   },
                 ),
@@ -446,14 +463,30 @@ class _CoachingEndState extends State<CoachingEnd> {
   void _onLoading() {
     showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: true,
+      barrierLabel: '',
+      // barrierColor: null,
       builder: (BuildContext context) {
         return Dialog(
-          child: new Row(
+          child: new Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              new CircularProgressIndicator(),
-              new Text("Loading"),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 30, 0, 10),
+                child: new CircularProgressIndicator(),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: new Text("면접 결과를 저장중입니다.",
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                child: new Text("30 ~ 40초정도 소요 됩니다.",
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              ),
             ],
           ),
         );
@@ -466,14 +499,12 @@ class _CoachingEndState extends State<CoachingEnd> {
     DateTime now = DateTime.now();
     String isoDate = now.toIso8601String();
 
-    var request = new http.MultipartRequest(
-        "POST", Uri.parse(url));
+    var request = new http.MultipartRequest("POST", Uri.parse(url));
     request.fields['file_path'] = filepath;
     request.fields['create_at'] = isoDate;
-    request.files.add(await http.MultipartFile.fromPath('video', File(filepath).path));
-
+    request.files
+        .add(await http.MultipartFile.fromPath('video', File(filepath).path));
   }
-
 
   Future<int> multipartProdecudre(String filepath) async {
     String url = 'http://localhost:8000/videos/';
@@ -489,16 +520,16 @@ class _CoachingEndState extends State<CoachingEnd> {
     //for image and videos and files
     request.fields['file_path'] = filepath;
     request.fields['create_at'] = isoDate;
-    request.files.add(await http.MultipartFile.fromPath('video', "/Users/seodongwon/coacheers/assets/videos/Test.mp4"));
+    request.files.add(await http.MultipartFile.fromPath(
+        'video', "/Users/seodongwon/coacheers/assets/videos/Test.mp4"));
 
     //for completeing the request
 
-    var response =await request.send();
+    var response = await request.send();
 
     //for getting and decoding the response into json format
     var responsed = await http.Response.fromStream(response);
     final responseData = json.decode(responsed.body);
-
 
     video_id = await responseData['video_id'];
 
@@ -512,30 +543,27 @@ class _CoachingEndState extends State<CoachingEnd> {
     // else {
     //   print("ERROR");
     // }
-
-
-  }}
-
-void _post_record_info(int id, String companyName,String filepath, int video_id) async {
-    String url = 'http://localhost:8000/records/';
-    DateTime Date = DateTime.now();
-    var jsonEncode2 = jsonEncode({
-      "user_id": id,
-      "created_at": Date.add(Duration(hours : 9)).millisecondsSinceEpoch,
-      "label": companyName,
-      "filepath": filepath,
-      "video_id": video_id,
-      "voice_score": 0
-    });
-    http.Response response = await http.post(Uri.parse(url),
-        headers: <String, String>{"content-type": "application/json"},
-        body: jsonEncode2);
-    var decode = utf8.decode(response.bodyBytes);
-    print("Response : ${response.statusCode} ${decode}");
-    print(response.headers);
-
-    //print(filepath);
-
   }
+}
 
+void _post_record_info(
+    int id, String companyName, String filepath, int video_id) async {
+  String url = 'http://localhost:8000/records/';
+  DateTime Date = DateTime.now();
+  var jsonEncode2 = jsonEncode({
+    "user_id": id,
+    "created_at": Date.add(Duration(hours: 9)).millisecondsSinceEpoch,
+    "label": companyName,
+    "filepath": filepath,
+    "video_id": video_id,
+    "voice_score": 0
+  });
+  http.Response response = await http.post(Uri.parse(url),
+      headers: <String, String>{"content-type": "application/json"},
+      body: jsonEncode2);
+  var decode = utf8.decode(response.bodyBytes);
+  print("Response : ${response.statusCode} ${decode}");
+  print(response.headers);
 
+  //print(filepath);
+}

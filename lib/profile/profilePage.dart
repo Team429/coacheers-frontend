@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -9,7 +11,10 @@ class ProfilePage extends StatefulWidget {
   final String profileURL;
 
   const ProfilePage(
-      {Key? key, required this.id,required this.nickname, required this.profileURL})
+      {Key? key,
+      required this.id,
+      required this.nickname,
+      required this.profileURL})
       : super(key: key);
 
   @override
@@ -151,21 +156,30 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
             // child: Text("34%".toString(),style: TextStyle(fontSize : 45, fontWeight: FontWeight.bold),),
             child: FutureBuilder(
-              future: get_attendance_count_info(widget.id),
+                future: get_attendance_count_info(widget.id),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   DateTime now = DateTime.now();
                   int date = now.day;
-                  if(snapshot.hasData == false){
-                    return Text("0%",style: TextStyle(fontSize : 45, fontWeight: FontWeight.bold),);
-
-                  }else if (snapshot.hasError){
-                    return Center(child:Text(snapshot.error.toString()));
+                  if (snapshot.hasData == false) {
+                    return Text(
+                      "0%",
+                      style:
+                          TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text(snapshot.error.toString()));
                   }
-                  return Text("${(snapshot.data/date * 100).round().toString()}%",style: TextStyle(fontSize : 45, fontWeight: FontWeight.bold),);
-                }
-            ),
+                  return Text(
+                    "${(snapshot.data / date * 100).toStringAsFixed(1).toString()}%",
+                    style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                  );
+                }),
           ),
-          Text("이번달 출석률",style: TextStyle(color: Color(0xff787878), fontWeight: FontWeight.bold),),
+          Text(
+            "이번달 출석률",
+            style: TextStyle(
+                color: Color(0xff787878), fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
@@ -199,43 +213,105 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
-            child: Text("68점",style: TextStyle(fontSize : 45, fontWeight: FontWeight.bold),),
+            child: FutureBuilder(
+                future: get_records_month(widget.id),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData == false) {
+                    return Text(
+                      "0 점",
+                      style:
+                          TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text(snapshot.error.toString()));
+                  }
+                  return Text(
+                    '${snapshot.data.toStringAsFixed(1)}점',
+                    style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                  );
+                }),
           ),
-          Text("누적 평균 점수",style: TextStyle(color: Color(0xff787878), fontWeight: FontWeight.bold),),
+          Text(
+            "누적 평균 점수",
+            style: TextStyle(
+                color: Color(0xff787878), fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
   }
 
   Widget wise() {
+    read_wise();
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
       child: Container(
-        width: 310,
-        height: 130,
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          color: Color(0xffF7F7F7),
-          // border: Border.all(
-          //   color: Colors.blue,
-          //   width: 5,
-          // ),
+          width: 310,
+          height: 150,
+          margin: EdgeInsets.all(10),
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Color(0xffF7F7F7),
+            // border: Border.all(
+            //   color: Colors.blue,
+            //   width: 5,
+            // ),
 
-          borderRadius: BorderRadius.all(
-            Radius.circular(40),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.7),
-              spreadRadius: 0,
-              blurRadius: 5.0,
-              offset: Offset(0, 10), // changes position of shadow
+            borderRadius: BorderRadius.all(
+              Radius.circular(40),
             ),
-          ],
-        ),
-        child: Center(child: Text("오늘의 명언")),
-      ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.7),
+                spreadRadius: 0,
+                blurRadius: 5.0,
+                offset: Offset(0, 10), // changes position of shadow
+              ),
+            ],
+          ),
+          child: FutureBuilder(
+              future: read_wise(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData == false) {
+                  return Text(
+                    "0%",
+                    style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                }
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
+                      child: Text(
+                        "오늘의 명언",
+                        style: TextStyle(
+                            color: Color(0xff787878),
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      child: Center(
+                          child: Text(
+                        "${snapshot.data[1]}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(240, 0, 0, 0),
+                        child: Text(
+                          "${snapshot.data[0]}",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
+                  ],
+                );
+              })),
     );
   }
 
@@ -243,8 +319,9 @@ class _ProfilePageState extends State<ProfilePage> {
     String url = 'http://localhost:8000/attendances/searchmonth';
     var jsonEncode2 = jsonEncode({
       "user_id": id,
-      "start_date": DateTime(DateTime.now().year, DateTime.now().month,     1).millisecondsSinceEpoch,
-      "end_date":  DateTime.now().millisecondsSinceEpoch
+      "start_date": DateTime(DateTime.now().year, DateTime.now().month, 1)
+          .millisecondsSinceEpoch,
+      "end_date": DateTime.now().millisecondsSinceEpoch
     });
     http.Response response = await http.post(Uri.parse(url),
         headers: <String, String>{"content-type": "application/json"},
@@ -260,16 +337,84 @@ class _ProfilePageState extends State<ProfilePage> {
     return count;
   }
 
-  void _get_user_info() async {
+  Future<List> read_wise() async {
+    String jsonString = await rootBundle.loadString('assets/wise.json');
+    final jsonResponse = json.decode(jsonString);
+
+    List wise = [];
+    //print(jsonResponse.length);
+    int leftDice = Random().nextInt(jsonResponse.length);
+    //print(leftDice);
+    //print(jsonResponse[leftDice]['message']);
+    //print(jsonResponse[leftDice]['author']);
+
+    wise.add(jsonResponse[leftDice]['author']);
+    wise.add(jsonResponse[leftDice]['message']);
+    //print(jsonResponse);
+
+    return wise;
+  }
+
+  // void _get_user_info() async {
+  //   try {
+  //     User user = await UserApi.instance.me();
+  //     print('사용자 정보 요청 성공'
+  //         '\n회원번호: ${user.id}'
+  //         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
+  //     //nickname = (user.kakaoAccount?.profile?.nickname).toString();
+  //     //profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
+  //   } catch (error) {
+  //     print('사용자 정보 요청 실패 $error');
+  //   }
+  // }
+
+  Future<double> get_records_month(int id) async {
+    //print(id);
+    String url = 'http://localhost:8000/records/searchmonth';
+    //print(start.millisecondsSinceEpoch);
+    //print(end.millisecondsSinceEpoch);
+    var jsonEncode2 = jsonEncode({
+      "user_id": id,
+      "start_date": DateTime(DateTime.now().year, DateTime.now().month, 1)
+          .add(Duration(hours: 9))
+          .millisecondsSinceEpoch,
+      "end_date": DateTime.now().add(Duration(hours: 9)).millisecondsSinceEpoch
+    });
+
+    http.Response response = await http.post(Uri.parse(url),
+        headers: <String, String>{"content-type": "application/json"},
+        body: jsonEncode2);
+
+    var decode = utf8.decode(response.bodyBytes);
+
+    //print(decode);
+
+    int list_cnt = json.decode(decode).length;
+
+    double stack_point = 0;
+
     try {
-      User user = await UserApi.instance.me();
-      print('사용자 정보 요청 성공'
-          '\n회원번호: ${user.id}'
-          '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
-      //nickname = (user.kakaoAccount?.profile?.nickname).toString();
-      //profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
-    } catch (error) {
-      print('사용자 정보 요청 실패 $error');
+      if (list_cnt != 0) {
+        for (int i = 0; i < list_cnt; i++) {
+          double face_point = json.decode(decode)[i]["face_score"];
+          double voice_point = json.decode(decode)[i]["voice_score"];
+          double total_point = (face_point + voice_point) / 2;
+
+          stack_point = stack_point + total_point;
+        }
+
+        stack_point = stack_point / list_cnt;
+      } else {
+        stack_point = 0;
+      }
     }
+    //print(decode[0].length);
+    catch (error) {
+      print('기록이 없어서 데이터에 아무것도 안담겨요');
+    }
+
+    return stack_point;
+
+    //print(monthcoachings);
   }
 }

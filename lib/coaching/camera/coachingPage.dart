@@ -7,7 +7,12 @@ class CoachingPage extends StatefulWidget {
   final String name;
   final String profileURL;
 
-  const CoachingPage({Key? key, required this.id, required this.name, required this.profileURL}) : super(key: key);
+  const CoachingPage(
+      {Key? key,
+      required this.id,
+      required this.name,
+      required this.profileURL})
+      : super(key: key);
 
   @override
   _CoachingPageState createState() => _CoachingPageState();
@@ -34,7 +39,7 @@ class _CoachingPageState extends State<CoachingPage> {
   _initCamera() async {
     final cameras = await availableCameras();
     final front = cameras.firstWhere(
-            (camera) => camera.lensDirection == CameraLensDirection.front);
+        (camera) => camera.lensDirection == CameraLensDirection.front);
     _cameraController = CameraController(front, ResolutionPreset.max);
     await _cameraController.initialize();
     setState(() => _isLoading = false);
@@ -48,7 +53,11 @@ class _CoachingPageState extends State<CoachingPage> {
       final route = MaterialPageRoute(
         fullscreenDialog: true,
         builder: (_) => //VideoPage(filePath: file.path),
-        CoachingEnd(id : widget.id, name: widget.name, profileURL: widget.profileURL, filePath: file.path),
+            CoachingEnd(
+                id: widget.id,
+                name: widget.name,
+                profileURL: widget.profileURL,
+                filePath: file.path),
       );
       Navigator.push(context, route);
     } else {

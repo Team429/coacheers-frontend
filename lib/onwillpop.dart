@@ -20,58 +20,45 @@ class modalpage extends StatefulWidget {
 
 class _modalpageState extends State<modalpage> {
   @override
-  List _items = [];
-  Random random = new Random();
+
   // int randomNumber = random.nextInt(100);
 
-  Future<void> readJson() async {
-    final String response = await rootBundle.loadString('assets/wise.json');
-    final data = await json.decode(response);
-    setState(() {
-      _items = data;
-    });
-  }
   Widget build(BuildContext context) {
     //print(_items[0]['message']);
-    readJson();
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(25),
         child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: readJson,
-              child: const Text('Load Data'),
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
+            child: FloatingActionButton.extended(
+                backgroundColor: Color(0xff1ABC9C),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                elevation: 4.0,
+                icon: const Icon(
+                  Icons.save,
+                ),
+                heroTag: "Save",
+                label: Text("저장하기"),
+                onPressed: () async {
+                  //print(widget.filePath);
+                  //print(_commentController.text);
+                  //print(DateTime.now().toString());
+                  _onLoading();
+                }
             ),
-            Text(_items[0]['message']),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-          child: FloatingActionButton.extended(
-              backgroundColor: Color(0xff1ABC9C),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              elevation: 4.0,
-              icon: const Icon(
-                Icons.save,
-              ),
-              heroTag: "Save",
-              label: Text("저장하기"),
-              onPressed: () async {
-                //print(widget.filePath);
-                //print(_commentController.text);
-                //print(DateTime.now().toString());
-                _onLoading();
-              }
-          ),
-        )
+          )
+        ],
             // Display the data loaded from sample.json
             // _items.isNotEmpty
             //     ? Expanded(
             //   // child: Text("${_items}")
             // )
             //    : Container()
-          ],
         ),
       ),
     );
@@ -81,14 +68,23 @@ class _modalpageState extends State<modalpage> {
   void _onLoading() {
     showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: true,
+      barrierLabel: '',
+      // barrierColor: null,
       builder: (BuildContext context) {
         return Dialog(
-          child: new Row(
+          child: new Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              new CircularProgressIndicator(),
-              new Text("Loading"),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 30, 0, 10),
+                child: new CircularProgressIndicator(),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
+                child: new Text("면접 결과를 저장중입니다! 잠시만 기다려주세요!",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              ),
             ],
           ),
         );
@@ -96,7 +92,7 @@ class _modalpageState extends State<modalpage> {
     );
     new Future.delayed(new Duration(seconds: 3), () {
       Navigator.pop(context); //pop dialog
-
+      // _onLoading();
     });
   }
 }

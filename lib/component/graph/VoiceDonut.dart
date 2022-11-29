@@ -5,7 +5,10 @@ import 'package:coacheers/component/coachingDater.dart';
 class VoiceDonutchart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String percent = VoicechartData[TotalchartData.length - 2].score.toString();
+    String percent = VoicechartData[TotalchartData.length - 2]
+        .score
+        .toStringAsFixed(1)
+        .toString();
     final size = 100.0;
     return Container(
         width: size,

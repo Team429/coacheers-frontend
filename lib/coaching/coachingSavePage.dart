@@ -9,14 +9,20 @@ class coachingSave extends StatefulWidget {
   final String filePath;
   final String comment;
 
-  const coachingSave({Key? key, required this.id, required this.comment, required this.name, required this.profileURL, required this.filePath}) : super(key: key);
+  const coachingSave(
+      {Key? key,
+      required this.id,
+      required this.comment,
+      required this.name,
+      required this.profileURL,
+      required this.filePath})
+      : super(key: key);
 
   @override
   State<coachingSave> createState() => _coachingSaveState();
 }
 
 class _coachingSaveState extends State<coachingSave> {
-
   Widget build(BuildContext context) {
     bool shouldPop = false;
 
@@ -44,12 +50,13 @@ class _coachingSaveState extends State<coachingSave> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>
-                      MainFrame(
-                        id : widget.id,
-                        name: widget.name,
-                        profileURL: widget.profileURL,
-                        subindex: 2,)),
+                  MaterialPageRoute(
+                      builder: (context) => MainFrame(
+                            id: widget.id,
+                            name: widget.name,
+                            profileURL: widget.profileURL,
+                            subindex: 2,
+                          )),
                 );
               },
             ),
@@ -84,12 +91,13 @@ class _coachingSaveState extends State<coachingSave> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>
-                                  MainFrame(
-                                    id : widget.id,
-                                    name: widget.name,
-                                    profileURL: widget.profileURL,
-                                    subindex: 0,)),
+                              MaterialPageRoute(
+                                  builder: (context) => MainFrame(
+                                        id: widget.id,
+                                        name: widget.name,
+                                        profileURL: widget.profileURL,
+                                        subindex: 0,
+                                      )),
                             );
                           },
                           child: Icon(
@@ -134,12 +142,13 @@ class _coachingSaveState extends State<coachingSave> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>
-                                  MainFrame(
-                                    id : widget.id,
-                                    name: widget.name,
-                                    profileURL: widget.profileURL,
-                                    subindex: 1,)),
+                              MaterialPageRoute(
+                                  builder: (context) => MainFrame(
+                                        id: widget.id,
+                                        name: widget.name,
+                                        profileURL: widget.profileURL,
+                                        subindex: 1,
+                                      )),
                             );
                           },
                           child: Icon(
@@ -164,23 +173,22 @@ class _coachingSaveState extends State<coachingSave> {
     );
   }
 
-  Widget text(String comment){
+  Widget text(String comment) {
     return Center(
       child: Text(
         comment,
-        style: TextStyle(
-            fontSize: 20, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
   }
 
-  Widget BackHomeButton(){
+  Widget BackHomeButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
       child: FloatingActionButton.extended(
         backgroundColor: Color(0xff1ABC9C),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         elevation: 4.0,
         icon: const Icon(
           Icons.home,
@@ -194,7 +202,13 @@ class _coachingSaveState extends State<coachingSave> {
           Navigator.pop(context);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MainFrame(id : widget.id,name : widget.name, profileURL: widget.profileURL, subindex: 2,)),
+            MaterialPageRoute(
+                builder: (context) => MainFrame(
+                      id: widget.id,
+                      name: widget.name,
+                      profileURL: widget.profileURL,
+                      subindex: 2,
+                    )),
           );
           //CoachingButtonDialog(context);
         },
@@ -235,9 +249,12 @@ class _coachingSaveState extends State<coachingSave> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) =>
-                          CamerademoPage(
-                            id : widget.id, name: widget.name, profileURL: widget.profileURL,)),
+                      MaterialPageRoute(
+                          builder: (context) => CamerademoPage(
+                                id: widget.id,
+                                name: widget.name,
+                                profileURL: widget.profileURL,
+                              )),
                     );
                   },
                 ),
@@ -254,5 +271,4 @@ class _coachingSaveState extends State<coachingSave> {
           );
         });
   }
-
 }

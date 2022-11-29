@@ -29,13 +29,17 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
                 child: SizedBox(
                   width: 300,
-                  child: Column(
-                    children: [
-                      facebook(),
-                      kakao(),
-                      google(),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
+                    child: realkakao(),
                   ),
+                  // child: Column(
+                  //   children: [
+                  //     //facebook(),
+                  //     // kakao(),
+                  //     //google(),
+                  //   ],
+                  // ),
                 ),
               ),
             ],
@@ -46,23 +50,21 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget logo(){
-    return  SizedBox(
+  Widget logo() {
+    return SizedBox(
       child: Column(
         children: [
-          Image(
-              image: AssetImage('assets/images/Coacheers.png'), width: 300),
+          Image(image: AssetImage('assets/images/Coacheers.png'), width: 300),
           Text(
             "Coacheers",
-            style:
-            TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
           ),
         ],
       ),
     );
   }
 
-  Widget facebook(){
+  Widget facebook() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
       child: SizedBox(
@@ -72,7 +74,12 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MainFrame(name: "", profileURL: "", subindex: 2, id: 0,)),
+                  builder: (context) => MainFrame(
+                        name: "",
+                        profileURL: "",
+                        subindex: 2,
+                        id: 0,
+                      )),
             );
           },
           child: Padding(
@@ -97,31 +104,21 @@ class _LoginPageState extends State<LoginPage> {
               backgroundColor: MaterialStateProperty.all(
                 Color(0xff569BF5),
               ),
-              shape: MaterialStateProperty.all<
-                  RoundedRectangleBorder>(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(30.0),
-                      side: BorderSide(
-                          color: Color(0xff569BF5))))),
+                      borderRadius: BorderRadius.circular(30.0),
+                      side: BorderSide(color: Color(0xff569BF5))))),
         ),
       ),
     );
   }
 
-  Widget kakao(){
+  Widget kakao() {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
       child: SizedBox(
         height: 60,
         child: ElevatedButton(
-          // onPressed: () {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) => const MainFrame()),
-          //   );
-          // },
           onPressed: () {
             KakaoLogin(context);
           },
@@ -144,21 +141,24 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                  Color(0xffFEE500)),
-              shape: MaterialStateProperty.all<
-                  RoundedRectangleBorder>(
+              backgroundColor: MaterialStateProperty.all(Color(0xffFEE500)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(30.0),
-                      side: BorderSide(
-                          color: Color(0xffFEE500))))),
+                      borderRadius: BorderRadius.circular(30.0),
+                      side: BorderSide(color: Color(0xffFEE500))))),
         ),
       ),
     );
   }
 
-  Widget google(){
+  Widget realkakao(){
+    return GestureDetector(
+      onTap: () => KakaoLogin(context),
+      child: Image.asset('assets/images/kakao_login_large_narrow.png'),
+    );
+  }
+
+  Widget google() {
     return SizedBox(
       height: 60,
       child: ElevatedButton(
@@ -174,9 +174,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image(
-                  image: AssetImage('assets/images/Google.png'),
-                  width: 40),
+              Image(image: AssetImage('assets/images/Google.png'), width: 40),
               Text(
                 "Google 로그인",
                 style: TextStyle(
@@ -188,14 +186,11 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         style: ButtonStyle(
-            backgroundColor:
-            MaterialStateProperty.all(Color(0xffF7F7F7)),
-            shape: MaterialStateProperty.all<
-                RoundedRectangleBorder>(
+            backgroundColor: MaterialStateProperty.all(Color(0xffF7F7F7)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(
-                        color: Color(0xffF7F7F7))))),
+                    side: BorderSide(color: Color(0xffF7F7F7))))),
       ),
     );
   }
