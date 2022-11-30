@@ -42,6 +42,7 @@ dependencies:
   syncfusion_flutter_charts: ^20.3.52
   logger: ^1.1.0
   intl: ^0.17.0
+  flutter_naver_login: ^1.6.0
   kakao_flutter_sdk: ^1.2.2
   dio: ^4.0.6
   json_annotation: ^4.7.0

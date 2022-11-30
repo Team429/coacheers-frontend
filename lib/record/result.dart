@@ -41,6 +41,7 @@ class _recordResultPageState extends State<recordResultPage> {
   late double total_score = 0;
   late double face_score = 0;
   late double voice_score = 0;
+  late double joy_score = 0;
   late String Filepath = "";
 
   void initState() {
@@ -102,8 +103,8 @@ class _recordResultPageState extends State<recordResultPage> {
               underline(),
               item_evaluation(),
               underline(),
-              time_evaluation(),
-              underline(),
+              // time_evaluation(),
+              // underline(),
               feedback(),
             ],
           ),
@@ -301,7 +302,7 @@ class _recordResultPageState extends State<recordResultPage> {
   }
 
   Widget info() {
-    print(companyName);
+    // print(companyName);
     return Container(
       height: 100,
       margin: EdgeInsets.all(10),
@@ -608,21 +609,54 @@ class _recordResultPageState extends State<recordResultPage> {
   }
 
   Widget feedback() {
-    return Container(
-      width: 200,
-      height: 200,
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(5),
-      child: Text(
-        "피드백",
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-      ),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.blue,
-            width: 5,
-          )),
+    return FutureBuilder(
+          future: get_feedback_byrecordID(widget.recordIndex),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData == false) {
+              return Text(
+                "피드백 내용이 없습니다.",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              );
+            } else if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
+            } else {
+              return Container(
+                  width: 200,
+                  height: 150,
+                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+                        child: Row(
+                          children: [
+                            Image(
+                                image: AssetImage('assets/images/support.png'),
+                                width: 24),
+                            Container(
+                              child: Text(
+                                " 피드백",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+                        child: Text(
+                          "${snapshot.data}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                      )
+                    ],
+                  ));
+            }
+          },
     );
   }
 
@@ -630,7 +664,7 @@ class _recordResultPageState extends State<recordResultPage> {
     //print(id);
     String url = 'http://localhost:8000/records/${record_index}';
 
-    print(url);
+    //print(url);
     //print(start.millisecondsSinceEpoch);
     //print(end.millisecondsSinceEpoch);
 
@@ -670,12 +704,41 @@ class _recordResultPageState extends State<recordResultPage> {
     //print("responseHeader: ${responseHeaders}");
     //print("responseBody: ${responseBody}");
 
-    print(json.decode(responseBody));
+    //print(json.decode(responseBody));
 
     String filepath = json.decode(responseBody)['filepath'];
 
-    print(filepath);
+    //print(filepath);
 
     return filepath;
+  }
+
+  Future<String> get_feedback_byrecordID(int record_index) async {
+    //print(id);
+    String url = 'http://localhost:8000/records/${record_index}';
+
+    var response = await http.post(Uri.parse(url));
+    var statusCode = response.statusCode;
+    var responseHeaders = response.headers;
+    var responseBody = utf8.decode(response.bodyBytes);
+
+    print(json.decode(responseBody));
+
+    joy_score = json.decode(responseBody)['voice_score'];
+    String feedback = "";
+
+    if (joy_score >= 60 && joy_score < 80) {
+      feedback = "좀 더 밝은 표정을 지어볼까요?";
+    } else if (joy_score >= 80 && joy_score < 90) {
+      feedback = "좀 더 자신감을 가지세요!";
+    } else if (joy_score >= 90 && joy_score < 100) {
+      feedback = "지금 이대로가 좋습니다.";
+    } else if (joy_score >= 100 && joy_score < 110) {
+      feedback = "조금만 차분하게 하면 좋을 것 같아요!";
+    } else {
+      feedback = "너무 밝은 표정은 오히려 역효과에요!";
+    }
+
+    return feedback;
   }
 }

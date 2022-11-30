@@ -23,10 +23,13 @@ class _HomeState extends State<Home> {
   late List<CoachingData> coachitems = [];
   late List<MonthCoachingData> monthcoachitems = [];
   late int record_index = 0;
+  late double Facesum = 0.0;
 
   void initState() {
+
     get_records_threedays(widget.id);
     get_records_month(widget.id);
+    get_recodes_week(widget.id);
 
     super.initState();
   }
@@ -258,18 +261,54 @@ class _HomeState extends State<Home> {
   }
 
   Widget feedback() {
-    return Container(
-      width: 200,
-      height: 200,
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(5),
-      child: Text(' 주간 간단 피드백'),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.blue,
-            width: 5,
-          )),
+    return FutureBuilder(
+      future: get_recodes_week(widget.id),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData == false) {
+          return Text(
+            "피드백 내용이 없습니다.",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          );
+        } else if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+        } else {
+          return Container(
+              width: 200,
+              height: 150,
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+                    child: Row(
+                      children: [
+                        Image(
+                            image: AssetImage('assets/images/support.png'),
+                            width: 24),
+                        Container(
+                          child: Text(
+                            "주간 간단 피드백",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+                    child: Text(
+                      "${snapshot.data}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                  )
+                ],
+              ));
+        }
+      },
     );
   }
 
@@ -367,4 +406,60 @@ class _HomeState extends State<Home> {
       monthcoachitems.addAll(monthcoachings);
     });
   }
+
+  Future<String> get_recodes_week(int id) async {
+    String url = 'http://localhost:8000/records/searchweek';
+    var now = DateTime.now();
+
+    var jsonEncode2 = jsonEncode({
+      "user_id": id,
+      "start_date": DateTime(now.year, now.month, now.day - (now.weekday - 1))
+          .millisecondsSinceEpoch,
+      "end_date": DateTime(now.year, now.month, now.day + (7 - now.weekday))
+          .millisecondsSinceEpoch,
+    });
+
+    http.Response response = await http.post(Uri.parse(url),
+        headers: <String, String>{"content-type": "application/json"},
+        body: jsonEncode2);
+
+    var decode = utf8.decode(response.bodyBytes);
+
+    int list_cnt = json.decode(decode).length;
+    String feedback = "";
+
+    try {
+      Facesum = 0.0;
+
+      if (list_cnt != 0) {
+        for (int i = 0; i < list_cnt; i++) {
+          double face_point = json.decode(decode)[i]["face_score"];
+          Facesum = Facesum + face_point;
+
+        }
+        Facesum = Facesum / list_cnt;
+
+        if (Facesum >= 60 && Facesum < 80) {
+          feedback = "좀 더 밝은 표정을 지어볼까요?";
+        } else if (Facesum >= 80 && Facesum < 90) {
+          feedback = "좀 더 자신감을 가지세요!";
+        } else if (Facesum >= 90 && Facesum < 100) {
+          feedback = "지금 이대로가 좋습니다.";
+        } else if (Facesum >= 100 && Facesum < 110) {
+          feedback = "조금만 차분하게 하면 좋을 것 같아요!";
+        } else {
+          feedback = "너무 밝은 표정은 오히려 역효과에요!";
+        }
+
+      } else {
+        Facesum = 0;
+        feedback = "";
+      }
+    } catch (error) {
+      print("error");
+    }
+
+    return feedback;
+  }
+
 }
