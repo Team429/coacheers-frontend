@@ -139,5 +139,7 @@
           <key>NSAllowsArbitraryLoads</key>
           <true/>
         </dict>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Explain why your app uses photo library</string>
 </dict>
 </plist>

@@ -8,6 +8,8 @@ import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+String Server_URL = 'https://6edb-210-113-120-46.jp.ngrok.io';
+
 class recordResultPage extends StatefulWidget {
   final int id;
   final int video_id;
@@ -662,7 +664,7 @@ class _recordResultPageState extends State<recordResultPage> {
 
   void get_records_byrecordID(int record_index) async {
     //print(id);
-    String url = 'http://localhost:8000/records/${record_index}';
+    String url = '${Server_URL}/records/${record_index}';
 
     //print(url);
     //print(start.millisecondsSinceEpoch);
@@ -689,7 +691,7 @@ class _recordResultPageState extends State<recordResultPage> {
 
   Future<String> get_video_path(int record_index) async {
     //print(id);
-    String url = 'http://localhost:8000/records/${record_index}';
+    String url = '${Server_URL}/records/${record_index}';
 
     //print(url);
     //print(start.millisecondsSinceEpoch);
@@ -715,7 +717,7 @@ class _recordResultPageState extends State<recordResultPage> {
 
   Future<String> get_feedback_byrecordID(int record_index) async {
     //print(id);
-    String url = 'http://localhost:8000/records/${record_index}';
+    String url = '${Server_URL}/records/${record_index}';
 
     var response = await http.post(Uri.parse(url));
     var statusCode = response.statusCode;

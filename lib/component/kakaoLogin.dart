@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+String Server_URL = 'https://6edb-210-113-120-46.jp.ngrok.io';
+
 String user_code = "";
 String name = "";
 String profileURL = "";
@@ -30,7 +32,7 @@ int user_id = 0;
 // }
 
 // Future<int> get_user_me(String user_code) async {
-//   String url = 'http://localhost:8000/users';
+//   String url = '${Server_URL}/users';
 //   var response = await http.get(Uri.parse(url));
 //   //var statusCode = response.statusCode;
 //   //var responseHeaders = response.headers;
@@ -58,7 +60,7 @@ int user_id = 0;
 // }
 
 Future<void> _post_user_info(String string) async {
-  String url = 'http://localhost:8000/users/';
+  String url = '${Server_URL}/users/';
   var jsonEncode2 = jsonEncode({
     "email": string,
   });
@@ -75,7 +77,7 @@ Future<void> _post_user_info(String string) async {
 }
 
 Future<void> _post_attendance_info(int id) async {
-  String url = 'http://localhost:8000/attendances/';
+  String url = '${Server_URL}/attendances/';
   DateTime Date = DateTime.now();
   var jsonEncode2 = jsonEncode({
     "user_id": id,
@@ -93,7 +95,7 @@ Future<void> _post_attendance_info(int id) async {
 }
 
 Future<int> _get_user_info(String string) async {
-  String url = 'http://localhost:8000/users';
+  String url = '${Server_URL}/users';
   var response = await http.get(Uri.parse(url));
   var responseBody = utf8.decode(response.bodyBytes);
   final userinfo = jsonDecode(responseBody);
@@ -124,36 +126,23 @@ void KakaoLogin(context) async {
       name = (user.kakaoAccount?.profile?.nickname).toString();
       profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
       print(user_code);
-      _post_user_info(user_code);
 
-      // String url = 'http://localhost:8000/users';
-      // var response = await http.get(Uri.parse(url));
-      // var responseBody = utf8.decode(response.bodyBytes);
-      // final userinfo = jsonDecode(responseBody);
-      //
-      // //print(userinfo[0]['email']);
-      // for(int i = 0; i< userinfo.length; i++){
-      //   if(userinfo[i]['email'] == user_code){
-      //     //print("db유저 아이디값: ${userinfo[i]['id']}");
-      //     user_id = userinfo[i]['id'];
-      //   }
-      // }
-      // print("id : ${user_id}");
+      Future.delayed(Duration(milliseconds: 2000), () async {
+        _post_user_info(user_code);
+        user_id = await _get_user_info(user_code);
+        _post_attendance_info(user_id);
 
-      user_id = await _get_user_info(user_code);
-
-      _post_attendance_info(user_id);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => MainFrame(
-                  id: user_id,
-                  name: name,
-                  profileURL: profileURL,
-                  subindex: 2,
-                )),
-      );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => MainFrame(
+                    id: user_id,
+                    name: name,
+                    profileURL: profileURL,
+                    subindex: 2,
+                  )),
+        );
+      });
     } catch (error) {
       print('카카오톡으로 로그인 실패 $error');
 
@@ -175,36 +164,23 @@ void KakaoLogin(context) async {
         name = (user.kakaoAccount?.profile?.nickname).toString();
         profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
         print(user_code);
-        _post_user_info(user_code);
 
-        // String url = 'http://localhost:8000/users';
-        // var response = await http.get(Uri.parse(url));
-        // var responseBody = utf8.decode(response.bodyBytes);
-        // final userinfo = jsonDecode(responseBody);
-        //
-        // //print(userinfo[0]['email']);
-        // for(int i = 0; i< userinfo.length; i++){
-        //   if(userinfo[i]['email'] == user_code){
-        //     //print("db유저 아이디값: ${userinfo[i]['id']}");
-        //     user_id = userinfo[i]['id'];
-        //   }
-        // }
+        Future.delayed(Duration(milliseconds: 2000), () async {
+          _post_user_info(user_code);
+          user_id = await _get_user_info(user_code);
+          _post_attendance_info(user_id);
 
-        //print("id : ${id}");
-        user_id = await _get_user_info(user_code);
-
-        _post_attendance_info(user_id);
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => MainFrame(
-                    id: user_id,
-                    name: name,
-                    profileURL: profileURL,
-                    subindex: 2,
-                  )),
-        );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => MainFrame(
+                      id: user_id,
+                      name: name,
+                      profileURL: profileURL,
+                      subindex: 2,
+                    )),
+          );
+        });
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
       }
@@ -219,38 +195,23 @@ void KakaoLogin(context) async {
       name = (user.kakaoAccount?.profile?.nickname).toString();
       profileURL = (user.kakaoAccount?.profile?.thumbnailImageUrl).toString();
       print(user_code);
-      _post_user_info(user_code);
 
-      // String url = 'http://localhost:8000/users';
-      // var response = await http.get(Uri.parse(url));
-      // var responseBody = utf8.decode(response.bodyBytes);
-      // final userinfo = jsonDecode(responseBody);
-      //
-      // //print(userinfo[0]['email']);
-      // for(int i = 0; i< userinfo.length; i++){
-      //   if(userinfo[i]['email'] == user_code){
-      //     //print("db유저 아이디값: ${userinfo[i]['id']}");
-      //     id = userinfo[i]['id'];
-      //   }
-      // }
-      //print("id : ${id}");
+      Future.delayed(Duration(milliseconds: 2000), () async {
+        _post_user_info(user_code);
+        user_id = await _get_user_info(user_code);
+        _post_attendance_info(user_id);
 
-      //print(user_id);
-
-      user_id = await _get_user_info(user_code);
-
-      _post_attendance_info(user_id);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => MainFrame(
-                  id: user_id,
-                  name: name,
-                  profileURL: profileURL,
-                  subindex: 2,
-                )),
-      );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => MainFrame(
+                    id: user_id,
+                    name: name,
+                    profileURL: profileURL,
+                    subindex: 2,
+                  )),
+        );
+      });
     } catch (error) {
       print('카카오계정으로 로그인 실패 $error');
     }

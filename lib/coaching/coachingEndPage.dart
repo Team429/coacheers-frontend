@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
+String Server_URL = 'https://6edb-210-113-120-46.jp.ngrok.io';
+
 class CoachingEnd extends StatefulWidget {
   final int id;
   final String name;
@@ -495,7 +497,7 @@ class _CoachingEndState extends State<CoachingEnd> {
   }
 
   void uploadFileToServer(String filepath) async {
-    String url = 'http://localhost:8000/videos/';
+    String url = '${Server_URL}/videos/';
     DateTime now = DateTime.now();
     String isoDate = now.toIso8601String();
 
@@ -507,7 +509,7 @@ class _CoachingEndState extends State<CoachingEnd> {
   }
 
   Future<int> multipartProdecudre(String filepath) async {
-    String url = 'http://localhost:8000/videos/';
+    String url = '${Server_URL}/videos/';
     DateTime now = DateTime.now();
     String isoDate = now.toIso8601String();
 
@@ -548,7 +550,7 @@ class _CoachingEndState extends State<CoachingEnd> {
 
 void _post_record_info(
     int id, String companyName, String filepath, int video_id) async {
-  String url = 'http://localhost:8000/records/';
+  String url = '${Server_URL}/records/';
   DateTime Date = DateTime.now();
   var jsonEncode2 = jsonEncode({
     "user_id": id,

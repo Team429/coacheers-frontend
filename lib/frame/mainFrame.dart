@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/coaching/camera/coachingPage.dart';
 import 'package:coacheers/home/homePage.dart';
 import 'package:coacheers/profile/profilePage.dart';
 import 'package:coacheers/record/recordPage.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class MainFrame extends StatefulWidget {
@@ -216,6 +219,7 @@ class _MainFrameWidget extends State<MainFrame> {
                   child: new Text("앨범에서 영상 선택"),
                   onPressed: () {
                     Navigator.pop(context);
+                    _openmp4File();
                   },
                 ),
                 new TextButton(
@@ -247,8 +251,20 @@ class _MainFrameWidget extends State<MainFrame> {
         });
   }
 
+  void _openmp4File() async {
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['mp4']
+    );
+    if(result != null) {
+      File file = File(result.files.single.path.toString());
+      print(result.files.single.path.toString());
+    }
+  }
+
 // void get() async {
-//   String url = "http://localhost:8000/users";
+//   String url = "${Server_URL}/users";
 //   var response = await http.get(Uri.parse(url));
 //   var statusCode = response.statusCode;
 //   var responseHeaders = response.headers;

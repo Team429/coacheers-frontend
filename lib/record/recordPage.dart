@@ -8,6 +8,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+String Server_URL = 'https://6edb-210-113-120-46.jp.ngrok.io';
+
 class RecordPage extends StatefulWidget {
   final int id;
   final String nickname;
@@ -356,7 +358,7 @@ class _RecordPageState extends State<RecordPage> {
 
   void get_records(int id) async {
     //print(id);
-    String url = 'http://localhost:8000/records/${id}';
+    String url = '${Server_URL}/records/${id}';
     var response = await http.post(Uri.parse(url));
     var statusCode = response.statusCode;
     var responseHeaders = response.headers;
@@ -365,7 +367,7 @@ class _RecordPageState extends State<RecordPage> {
 
   // void get_videos(int video_id) async {
   //   // print(id);
-  //   String url = 'http://localhost:8000/videos/${video_id}';
+  //   String url = '${Server_URL}/videos/${video_id}';
   //   var response = await http.post(Uri.parse(url));
   //   var statusCode = response.statusCode;
   //   var responseHeaders = response.headers;
@@ -375,7 +377,7 @@ class _RecordPageState extends State<RecordPage> {
   void get_records_search(int id, DateTime start, DateTime end) async {
     //print(id);
 
-    String url = 'http://localhost:8000/records/search';
+    String url = '${Server_URL}/records/search';
     //print(id);
     //print(start.add(Duration(hours: 9)).millisecondsSinceEpoch);
     //print(end.add(Duration(hours: 9)).millisecondsSinceEpoch);

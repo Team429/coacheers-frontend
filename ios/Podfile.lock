@@ -39,6 +39,8 @@ PODS:
   - flutter_naver_login (0.0.1):
     - Flutter
     - naveridlogin-sdk-ios (~> 4.1.0)
+  - image_picker_ios (0.0.1):
+    - Flutter
   - kakao_flutter_sdk_common (1.2.2):
     - Flutter
   - naveridlogin-sdk-ios (4.1.5)
@@ -62,6 +64,7 @@ DEPENDENCIES:
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
   - flutter_naver_login (from `.symlinks/plugins/flutter_naver_login/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - kakao_flutter_sdk_common (from `.symlinks/plugins/kakao_flutter_sdk_common/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -86,6 +89,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_naver_login:
     :path: ".symlinks/plugins/flutter_naver_login/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   kakao_flutter_sdk_common:
     :path: ".symlinks/plugins/kakao_flutter_sdk_common/ios"
   package_info:
@@ -106,6 +111,7 @@ SPEC CHECKSUMS:
   file_picker: 817ab1d8cd2da9d2da412a417162deee3500fc95
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_naver_login: 1dbf6d21aae5235cdf76a28ac79cf6871899282f
+  image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   kakao_flutter_sdk_common: 2fcd2c17ef69300497b9369f390766dd9af0514c
   naveridlogin-sdk-ios: 4351fe7162cd6b8b6dbb37bd7cc205304fa1d889
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62

@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
+String Server_URL = 'https://6edb-210-113-120-46.jp.ngrok.io';
+
 class ProfilePage extends StatefulWidget {
   final int id;
   final String nickname;
@@ -171,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   }
                   return Text(
                     "${(snapshot.data / date * 100).toStringAsFixed(1).toString()}%",
-                    style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                   );
                 }),
           ),
@@ -227,7 +229,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   }
                   return Text(
                     '${snapshot.data.toStringAsFixed(1)}점',
-                    style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                   );
                 }),
           ),
@@ -316,7 +318,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<int> get_attendance_count_info(int id) async {
-    String url = 'http://localhost:8000/attendances/searchmonth';
+    String url = '${Server_URL}/attendances/searchmonth';
     var jsonEncode2 = jsonEncode({
       "user_id": id,
       "start_date": DateTime(DateTime.now().year, DateTime.now().month, 1)
@@ -370,7 +372,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<double> get_records_month(int id) async {
     //print(id);
-    String url = 'http://localhost:8000/records/searchmonth';
+    String url = '${Server_URL}/records/searchmonth';
     //print(start.millisecondsSinceEpoch);
     //print(end.millisecondsSinceEpoch);
     var jsonEncode2 = jsonEncode({

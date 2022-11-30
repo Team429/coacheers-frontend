@@ -313,7 +313,7 @@ class _HomeState extends State<Home> {
   }
 
   void get_user() async {
-    String url = 'http://localhost:8000/users';
+    String url = 'http://127.0.0.1:8000/users';
     var response = await http.get(Uri.parse(url));
     var statusCode = response.statusCode;
     var responseHeaders = response.headers;
@@ -333,7 +333,7 @@ class _HomeState extends State<Home> {
   }
 
   void get_records_threedays(int id) async {
-    String url = 'http://localhost:8000/records/searchTotal';
+    String url = 'http://127.0.0.1:8000/records/searchTotal';
     var jsonEncode2 = jsonEncode({
       "user_id": id,
     });
@@ -368,7 +368,7 @@ class _HomeState extends State<Home> {
   }
 
   void get_records_month(int id) async {
-    String url = 'http://localhost:8000/records/searchmonth';
+    String url = 'http://127.0.0.1:8000/records/searchmonth';
 
     var jsonEncode2 = jsonEncode({
       "user_id": id,
@@ -408,7 +408,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<String> get_recodes_week(int id) async {
-    String url = 'http://localhost:8000/records/searchweek';
+    String url = 'http://127.0.0.1:8000/records/searchweek';
     var now = DateTime.now();
 
     var jsonEncode2 = jsonEncode({
