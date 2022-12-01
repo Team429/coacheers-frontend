@@ -1,14 +1,8 @@
-import 'dart:io';
-
 import 'package:coacheers/coaching/camera/camerademo.dart';
-import 'package:coacheers/coaching/camera/coachingPage.dart';
 import 'package:coacheers/coaching/coachingEndPage.dart';
 import 'package:coacheers/home/homePage.dart';
 import 'package:coacheers/profile/profilePage.dart';
 import 'package:coacheers/record/recordPage.dart';
-
-// import 'package:file_picker/file_picker.dart';
-import 'package:video_uploader/video_uploader.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 

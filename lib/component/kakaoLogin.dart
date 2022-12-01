@@ -1,14 +1,12 @@
 import 'dart:convert';
-import 'package:coacheers/component/coachingDater.dart';
 import 'package:http/http.dart' as http;
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-String Server_URL =  'https://4e23-220-117-14-181.jp.ngrok.io';
+
+String Server_URL =  'https://42b8-220-117-14-181.jp.ngrok.io';
 
 String user_code = "";
 String name = "";

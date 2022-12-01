@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 
 const primaryColor = Color(0xFFFA5B30);
 const secondaryColor = Color(0xFFFFB39E);
-String Server_URL = 'https://4e23-220-117-14-181.jp.ngrok.io';
+String Server_URL = 'https://42b8-220-117-14-181.jp.ngrok.io';
 
 class upload extends StatefulWidget {
   @override

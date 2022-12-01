@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
-String Server_URL =  'https://4e23-220-117-14-181.jp.ngrok.io';
+String Server_URL =  'https://42b8-220-117-14-181.jp.ngrok.io';
 
 class CoachingEnd extends StatefulWidget {
   final int id;

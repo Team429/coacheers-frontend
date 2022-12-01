@@ -30,7 +30,7 @@ class _VideoPageState extends State<VideoPage> {
 
   loadVideoPlayer() {
     controller = VideoPlayerController.asset('${widget.filePath}');
-    //controller = VideoPlayerController.file(File(widget.filePath));
+    // controller = VideoPlayerController.file(File(widget.filePath));
     controller.addListener(() {
       setState(() {});
     });

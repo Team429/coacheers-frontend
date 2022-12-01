@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:radar_chart/radar_chart.dart';
-import 'dart:math';
 
 class RadarChartExample extends StatefulWidget {
   final double joy_score;
@@ -40,7 +39,7 @@ class _RadarChartExampleState extends State<RadarChartExample> {
   @override
   Widget build(BuildContext context) {
     values = [widget.joy_score/100, widget.surprised_score * 5/100, widget.high_score/100, widget.intensity_score/100];
-    print(values);
+    // print(values);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -3,9 +3,8 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
-String Server_URL =  'https://4e23-220-117-14-181.jp.ngrok.io';
+String Server_URL =  'https://42b8-220-117-14-181.jp.ngrok.io';
 
 class ProfilePage extends StatefulWidget {
   final int id;

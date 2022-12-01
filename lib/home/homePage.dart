@@ -8,6 +8,8 @@ import 'package:coacheers/component/graph/homebarchart.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+String Server_URL =  'https://42b8-220-117-14-181.jp.ngrok.io';
+
 class Home extends StatefulWidget {
   final int id;
 
@@ -23,7 +25,9 @@ class _HomeState extends State<Home> {
   late List<CoachingData> coachitems = [];
   late List<MonthCoachingData> monthcoachitems = [];
   late int record_index = 0;
-  late int Facesum = 0;
+  late int joysum = 0;
+  late int surprisedsum = 0;
+  late double highsum = 0.0;
 
   void initState() {
 
@@ -300,7 +304,7 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
                     child: Text(
-                      "${snapshot.data}",
+                      "${snapshot.data[0]}\n${snapshot.data[1]}\n${snapshot.data[2]}",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 15),
                     ),
@@ -313,7 +317,7 @@ class _HomeState extends State<Home> {
   }
 
   void get_user() async {
-    String url = 'http://127.0.0.1:8000/users';
+    String url = '${Server_URL}/users';
     var response = await http.get(Uri.parse(url));
     var statusCode = response.statusCode;
     var responseHeaders = response.headers;
@@ -333,7 +337,7 @@ class _HomeState extends State<Home> {
   }
 
   void get_records_threedays(int id) async {
-    String url = 'http://127.0.0.1:8000/records/searchTotal';
+    String url = '${Server_URL}/records/searchTotal';
     var jsonEncode2 = jsonEncode({
       "user_id": id,
     });
@@ -369,7 +373,7 @@ class _HomeState extends State<Home> {
   }
 
   void get_records_month(int id) async {
-    String url = 'http://127.0.0.1:8000/records/searchmonth';
+    String url = '${Server_URL}/records/searchmonth';
 
     var jsonEncode2 = jsonEncode({
       "user_id": id,
@@ -408,8 +412,8 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future<String> get_recodes_week(int id) async {
-    String url = 'http://127.0.0.1:8000/records/searchweek';
+  Future<List<String>> get_recodes_week(int id) async {
+    String url = '${Server_URL}/records/searchweek';
     var now = DateTime.now();
 
     var jsonEncode2 = jsonEncode({
@@ -427,44 +431,74 @@ class _HomeState extends State<Home> {
     var decode = utf8.decode(response.bodyBytes);
 
     int list_cnt = json.decode(decode).length;
-    String feedback = "";
 
 
-    try {
-      Facesum = 0;
+      joysum = 0;
+      surprisedsum = 0;
+      highsum = 0;
+      List<String> feedback = [];
 
       if (list_cnt != 0) {
         for (int i = 0; i < list_cnt; i++) {
           int joy_score = json.decode(decode)[i]["joy_score"];
-          // int surprised_score = json.decode(decode)['surprised_score'];
-          // double high_score = json.decode(decode)['high_score'];
+          //print(joy_score);
+          int surprised_score = json.decode(decode)[i]['surprised_score'];
+          //print(surprised_score);
+          double high_score = json.decode(decode)[i]['high_score'];
+          //print(high_score);
           // double intensity_score = json.decode(decode)['intensity_score'];
-          Facesum = Facesum + joy_score;
-
+          joysum = joysum + joy_score;
+          surprisedsum = surprisedsum + surprised_score;
+          highsum = highsum + high_score;
         }
 
-        Facesum = (Facesum / list_cnt).round();
+        joysum = (joysum / list_cnt).round();
+        surprisedsum = (surprisedsum / list_cnt).round();
+        highsum = (highsum / list_cnt);
 
+        print(joysum);
+        print(surprisedsum);
+        print(highsum);
 
-        if (Facesum >= 60 && Facesum < 80) {
-          feedback = "좀 더 밝은 표정을 지어볼까요?";
-        } else if (Facesum >= 80 && Facesum < 90) {
-          feedback = "좀 더 자신감을 가지세요!";
-        } else if (Facesum >= 90 && Facesum < 100) {
-          feedback = "지금 이대로가 좋습니다.";
-        } else if (Facesum >= 100 && Facesum < 110) {
-          feedback = "조금만 차분하게 하면 좋을 것 같아요!";
+        if (joysum >= 60 && joysum < 80) {
+          feedback.add("좀 더 밝은 표정을 지어볼까요?");
+        } else if (joysum >= 80 && joysum < 90) {
+          feedback.add("좀 더 자신감을 가지세요!");
+        } else if (joysum >= 90 && joysum < 100) {
+          feedback.add("지금 이대로가 좋습니다.");
+        } else if (joysum >= 100 && joysum < 110) {
+          feedback.add("조금만 차분하게 하면 좋을 것 같아요!");
         } else {
-          feedback = "너무 밝은 표정은 오히려 역효과에요!";
+          feedback.add("너무 밝은 표정은 오히려 역효과에요!");
         }
 
-      } else {
-        Facesum = 0;
-        feedback = "";
+        if (surprisedsum >= 0 && surprisedsum < 5) {
+          feedback.add("당황하지 않고 잘 수행했어요!");
+        } else if (surprisedsum >= 5 && surprisedsum < 10) {
+          feedback.add("적당한 긴장감은 면접에 도움이 될 수 있어요.");
+        } else if (surprisedsum >= 10 && surprisedsum < 15) {
+          feedback.add("조금만 흥분을 가라앉히고 얘기해봐요");
+        } else if (surprisedsum >= 15 && surprisedsum < 20) {
+          feedback.add("너무 당황했어요! 진정해요!");
+        }
+
+        if (highsum >= 0 && highsum < 20) {
+          feedback.add("조금 더 활기차게 말해볼까요?");
+        } else if (highsum >= 20 && highsum < 40) {
+          feedback.add("아직은 괜찮아요...");
+        } else if (highsum >= 40 && highsum < 60) {
+          feedback.add("목소리 높이는 적절하네요!");
+        } else if (highsum >= 60 && highsum < 80) {
+          feedback.add("차분한 목소리로 말해보아요!");
+        }
+
       }
-    } catch (error) {
-      print(error);
-    }
+      else {
+        joysum = 0;
+        surprisedsum = 0;
+        highsum = 0;
+        feedback.clear();
+      }
 
     return feedback;
   }

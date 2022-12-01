@@ -8,7 +8,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-String Server_URL =  'https://4e23-220-117-14-181.jp.ngrok.io';
+String Server_URL =  'https://42b8-220-117-14-181.jp.ngrok.io';
 
 class RecordPage extends StatefulWidget {
   final int id;

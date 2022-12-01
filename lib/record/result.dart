@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-String Server_URL =  'https://4e23-220-117-14-181.jp.ngrok.io';
+String Server_URL =  'https://42b8-220-117-14-181.jp.ngrok.io';
 
 class recordResultPage extends StatefulWidget {
   final int id;
@@ -688,7 +688,7 @@ class _recordResultPageState extends State<recordResultPage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
                     child: Text(
-                      "${snapshot.data[0]}",
+                      "${snapshot.data[0]}\n${snapshot.data[1]}\n${snapshot.data[2]}\n",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 15),
                     ),
@@ -763,13 +763,17 @@ class _recordResultPageState extends State<recordResultPage> {
     var responseHeaders = response.headers;
     var responseBody = utf8.decode(response.bodyBytes);
 
-    print(json.decode(responseBody));
+    // print(json.decode(responseBody));
 
     joy_score = json.decode(responseBody)['joy_score'];
     surprised_score = json.decode(responseBody)['surprised_score'];
     high_score = json.decode(responseBody)['high_score'];
     intensity_score = json.decode(responseBody)['intensity_score'];
     List<String> feedback = [];
+    print(joy_score);
+    print(surprised_score);
+    print(high_score);
+    print(intensity_score);
 
     if (joy_score >= 60 && joy_score < 80) {
       feedback.add("좀 더 밝은 표정을 지어볼까요?");
@@ -783,28 +787,26 @@ class _recordResultPageState extends State<recordResultPage> {
       feedback.add("너무 밝은 표정은 오히려 역효과에요!");
     }
 
-    if (surprised_score >= 60 && surprised_score < 80) {
-      feedback.add("좀 더 밝은 표정을 지어볼까요?");
-    } else if (joy_score >= 80 && surprised_score < 90) {
-      feedback.add("좀 더 자신감을 가지세요!");
-    } else if (surprised_score >= 90 && surprised_score < 100) {
-      feedback.add("지금 이대로가 좋습니다.");
-    } else if (surprised_score >= 100 && surprised_score < 110) {
-      feedback.add("조금만 차분하게 하면 좋을 것 같아요!");
+    if (surprised_score >= 0 && surprised_score < 5) {
+      feedback.add("당황하지 않고 잘 수행했어요!");
+    } else if (surprised_score >= 5 && surprised_score < 10) {
+      feedback.add("적당한 긴장감은 면접에 도움이 될 수 있어요.");
+    } else if (surprised_score >= 10 && surprised_score < 15) {
+      feedback.add("조금만 흥분을 가라앉히고 얘기해봐요");
     } else {
-      feedback.add("너무 밝은 표정은 오히려 역효과에요!");
+      feedback.add("너무 당황했어요! 진정해요!");
     }
 
-    if (joy_score >= 60 && joy_score < 80) {
-      feedback.add("좀 더 밝은 표정을 지어볼까요?");
-    } else if (joy_score >= 80 && joy_score < 90) {
-      feedback.add("좀 더 자신감을 가지세요!");
-    } else if (joy_score >= 90 && joy_score < 100) {
-      feedback.add("지금 이대로가 좋습니다.");
-    } else if (joy_score >= 100 && joy_score < 110) {
-      feedback.add("조금만 차분하게 하면 좋을 것 같아요!");
-    } else {
-      feedback.add("너무 밝은 표정은 오히려 역효과에요!");
+    if (high_score >= 0 && high_score < 20) {
+      feedback.add("조금 더 활기차게 말해볼까요?");
+    } else if (high_score >= 20 && high_score < 40) {
+      feedback.add("아직은 괜찮아요...");
+    } else if (high_score >= 40 && high_score < 60) {
+      feedback.add("목소리 높이는 적절하네요!");
+    } else if (high_score >= 60 && high_score < 80) {
+      feedback.add("차분한 목소리로 말해보아요!");
+    } else{
+      feedback.add("텐션이 높아요! 조금 진정해 봐요!");
     }
 
     return feedback;
