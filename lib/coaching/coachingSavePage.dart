@@ -1,6 +1,8 @@
 import 'package:coacheers/coaching/camera/camerademo.dart';
+import 'package:coacheers/coaching/coachingEndPage.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class coachingSave extends StatefulWidget {
   final int id;
@@ -23,6 +25,11 @@ class coachingSave extends StatefulWidget {
 }
 
 class _coachingSaveState extends State<coachingSave> {
+  var _imagePath;
+  final _tokenTextController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+  double _progressValue = 0;
+
   Widget build(BuildContext context) {
     bool shouldPop = false;
 
@@ -239,8 +246,29 @@ class _coachingSaveState extends State<coachingSave> {
               children: <Widget>[
                 new TextButton(
                   child: new Text("앨범에서 영상 선택"),
-                  onPressed: () {
-                    Navigator.pop(context);
+                  onPressed: () async {
+                    var source = ImageSource.gallery;
+                    XFile? image = await _picker.pickVideo(source: source);
+                    if (image != null) {
+                      print(image.path);
+                      setState(() {
+                        try {
+                          _imagePath = image.path;
+                        } catch (e) {
+                          print("Failed to get video: $e");
+                        }
+                      });
+                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CoachingEnd(
+                              id: widget.id,
+                              name: widget.name,
+                              profileURL: widget.profileURL,
+                              filePath: '/assets/videos/Test2.mp4')
+                      ),
+                    );
                   },
                 ),
                 new TextButton(

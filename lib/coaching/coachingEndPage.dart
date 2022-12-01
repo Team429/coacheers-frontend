@@ -5,10 +5,11 @@ import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/coaching/coachingSavePage.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
-String Server_URL = 'https://6edb-210-113-120-46.jp.ngrok.io';
+String Server_URL =  'https://4e23-220-117-14-181.jp.ngrok.io';
 
 class CoachingEnd extends StatefulWidget {
   final int id;
@@ -32,6 +33,10 @@ class _CoachingEndState extends State<CoachingEnd> {
   late VideoPlayerController _videoPlayerController;
   late TextEditingController _commentController;
   late int video_id = 0;
+  var _imagePath;
+  final _tokenTextController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+  double _progressValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -429,8 +434,29 @@ class _CoachingEndState extends State<CoachingEnd> {
               children: <Widget>[
                 new TextButton(
                   child: new Text("앨범에서 영상 선택"),
-                  onPressed: () {
-                    Navigator.pop(context);
+                  onPressed: () async {
+                    var source = ImageSource.gallery;
+                    XFile? image = await _picker.pickVideo(source: source);
+                    if (image != null) {
+                      print(image.path);
+                      setState(() {
+                        try {
+                          _imagePath = image.path;
+                        } catch (e) {
+                          print("Failed to get video: $e");
+                        }
+                      });
+                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CoachingEnd(
+                              id: widget.id,
+                              name: widget.name,
+                              profileURL: widget.profileURL,
+                              filePath: '/assets/videos/Test2.mp4')
+                      ),
+                    );
                   },
                 ),
                 new TextButton(
@@ -523,7 +549,7 @@ class _CoachingEndState extends State<CoachingEnd> {
     request.fields['file_path'] = filepath;
     request.fields['create_at'] = isoDate;
     request.files.add(await http.MultipartFile.fromPath(
-        'video', "/Users/seodongwon/coacheers/assets/videos/Test.mp4"));
+        'video', "/Users/seodongwon/coacheers${filepath}"));
 
     //for completeing the request
 
@@ -546,26 +572,25 @@ class _CoachingEndState extends State<CoachingEnd> {
     //   print("ERROR");
     // }
   }
-}
 
-void _post_record_info(
-    int id, String companyName, String filepath, int video_id) async {
-  String url = '${Server_URL}/records/';
-  DateTime Date = DateTime.now();
-  var jsonEncode2 = jsonEncode({
-    "user_id": id,
-    "created_at": Date.add(Duration(hours: 9)).millisecondsSinceEpoch,
-    "label": companyName,
-    "filepath": filepath,
-    "video_id": video_id,
-    "voice_score": 0
-  });
-  http.Response response = await http.post(Uri.parse(url),
-      headers: <String, String>{"content-type": "application/json"},
-      body: jsonEncode2);
-  var decode = utf8.decode(response.bodyBytes);
-  print("Response : ${response.statusCode} ${decode}");
-  print(response.headers);
+  void _post_record_info(int id, String companyName, String filepath, int video_id) async {
+    String url = '${Server_URL}/records/';
+    DateTime Date = DateTime.now();
+    var jsonEncode2 = jsonEncode({
+      "user_id": id,
+      "created_at": Date.add(Duration(hours: 9)).millisecondsSinceEpoch,
+      "label": companyName,
+      "filepath": filepath,
+      "video_id": video_id,
+      "voice_score": 0
+    });
+    http.Response response = await http.post(Uri.parse(url),
+        headers: <String, String>{"content-type": "application/json"},
+        body: jsonEncode2);
+    var decode = utf8.decode(response.bodyBytes);
+    print("Response : ${response.statusCode} ${decode}");
+    print(response.headers);
 
-  //print(filepath);
+    //print(filepath);
+  }
 }

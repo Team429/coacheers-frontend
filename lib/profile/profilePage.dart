@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
-String Server_URL = 'https://6edb-210-113-120-46.jp.ngrok.io';
+String Server_URL =  'https://4e23-220-117-14-181.jp.ngrok.io';
 
 class ProfilePage extends StatefulWidget {
   final int id;
@@ -27,13 +27,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     print("메인 페이지 - 프로필 페이지\n");
-    //_get_user_info();
-    // Future<int> count = get_attendance_count_info(widget.id);
-    // count.then((value) =>
-    //     //print(value)
-    // );
-    //print(count);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -419,4 +412,5 @@ class _ProfilePageState extends State<ProfilePage> {
 
     //print(monthcoachings);
   }
+
 }

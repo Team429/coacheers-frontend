@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
   late List<CoachingData> coachitems = [];
   late List<MonthCoachingData> monthcoachitems = [];
   late int record_index = 0;
-  late double Facesum = 0.0;
+  late int Facesum = 0;
 
   void initState() {
 
@@ -354,6 +354,7 @@ class _HomeState extends State<Home> {
         String companyName = json.decode(decode)[i]["label"];
         double face_point = json.decode(decode)[i]["face_score"];
         double voice_point = json.decode(decode)[i]["voice_score"];
+
         coachings.add(CoachingData(companyName, Date, CoachingData.GREEN, false,
             face_point, voice_point));
       }
@@ -428,16 +429,22 @@ class _HomeState extends State<Home> {
     int list_cnt = json.decode(decode).length;
     String feedback = "";
 
+
     try {
-      Facesum = 0.0;
+      Facesum = 0;
 
       if (list_cnt != 0) {
         for (int i = 0; i < list_cnt; i++) {
-          double face_point = json.decode(decode)[i]["face_score"];
-          Facesum = Facesum + face_point;
+          int joy_score = json.decode(decode)[i]["joy_score"];
+          // int surprised_score = json.decode(decode)['surprised_score'];
+          // double high_score = json.decode(decode)['high_score'];
+          // double intensity_score = json.decode(decode)['intensity_score'];
+          Facesum = Facesum + joy_score;
 
         }
-        Facesum = Facesum / list_cnt;
+
+        Facesum = (Facesum / list_cnt).round();
+
 
         if (Facesum >= 60 && Facesum < 80) {
           feedback = "좀 더 밝은 표정을 지어볼까요?";
@@ -456,7 +463,7 @@ class _HomeState extends State<Home> {
         feedback = "";
       }
     } catch (error) {
-      print("error");
+      print(error);
     }
 
     return feedback;

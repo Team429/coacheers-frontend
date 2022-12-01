@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-String Server_URL = 'https://6edb-210-113-120-46.jp.ngrok.io';
+String Server_URL =  'https://4e23-220-117-14-181.jp.ngrok.io';
 
 String user_code = "";
 String name = "";

@@ -8,7 +8,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-String Server_URL = 'https://6edb-210-113-120-46.jp.ngrok.io';
+String Server_URL =  'https://4e23-220-117-14-181.jp.ngrok.io';
 
 class RecordPage extends StatefulWidget {
   final int id;
@@ -421,6 +421,7 @@ class _RecordPageState extends State<RecordPage> {
           double total_point = json.decode(decode)[i]["total_score"];
           double face_point = json.decode(decode)[i]["face_score"];
           double voice_point = json.decode(decode)[i]["voice_score"];
+          //
 
           searchData.add(SearchData(
             record_index,

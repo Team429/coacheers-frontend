@@ -3,17 +3,22 @@ import 'package:radar_chart/radar_chart.dart';
 import 'dart:math';
 
 class RadarChartExample extends StatefulWidget {
-  const RadarChartExample({Key? key}) : super(key: key);
+  final double joy_score;
+  final double surprised_score;
+  final double high_score;
+  final double intensity_score;
+
+  RadarChartExample({Key? key, required this.joy_score,required this.high_score, required this.surprised_score, required this.intensity_score}) : super(key: key);
 
   @override
   _RadarChartExampleState createState() => _RadarChartExampleState();
 }
 
 class _RadarChartExampleState extends State<RadarChartExample> {
-  int _counter = 5;
+  int _counter = 4;
 
-  List<double> values = [0.5, 0.3, 0.85, 0.7, 0.3];
-  List<String> name = ["표정", "크기", "높낮이", "발음", "빠르기"];
+  List<double> values = [0.0,0.0,0.0,0.0];
+  List<String> name = ["긍정", "당황", "높이", "크기"];
   late List<PreferredSizeWidget> vertices2;
   late PreferredSizeWidget _vertex;
 
@@ -29,11 +34,13 @@ class _RadarChartExampleState extends State<RadarChartExample> {
       ),
     );
 
-    vertices2 = [_vertex, _vertex, _vertex, _vertex, _vertex];
+    vertices2 = [_vertex, _vertex, _vertex, _vertex];
   }
 
   @override
   Widget build(BuildContext context) {
+    values = [widget.joy_score/100, widget.surprised_score * 5/100, widget.high_score/100, widget.intensity_score/100];
+    print(values);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -44,7 +51,7 @@ class _RadarChartExampleState extends State<RadarChartExample> {
           RadarChart(
             length: _counter,
             radius: 120,
-            initialAngle: 60,
+            initialAngle: 0,
             backgroundColor: Colors.white,
             borderStroke: 2,
             borderColor: Colors.grey.shade300,

@@ -72,7 +72,8 @@ class _CamerademoPageState extends State<CamerademoPage> {
                             id: widget.id,
                             name: widget.name,
                             profileURL: widget.profileURL,
-                            filePath: '/assets/videos/Test.mp4')),
+                            filePath: '/assets/videos/Test.mp4')
+                    ),
                   );
                 });
               } else {

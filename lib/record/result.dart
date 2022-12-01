@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'package:coacheers/coaching/camera/video.dart';
+import 'package:coacheers/coaching/coachingEndPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/component/graph/raderchart.dart';
 import 'package:coacheers/component/graph/recordbarchart.dart';
 import 'package:coacheers/frame/mainFrame.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-String Server_URL = 'https://6edb-210-113-120-46.jp.ngrok.io';
+String Server_URL =  'https://4e23-220-117-14-181.jp.ngrok.io';
 
 class recordResultPage extends StatefulWidget {
   final int id;
@@ -43,8 +45,15 @@ class _recordResultPageState extends State<recordResultPage> {
   late double total_score = 0;
   late double face_score = 0;
   late double voice_score = 0;
-  late double joy_score = 0;
+  late int joy_score = 0;
+  late int surprised_score = 0;
+  late double high_score = 0.0;
+  late double intensity_score = 0.0;
   late String Filepath = "";
+  var _imagePath;
+  final _tokenTextController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+  double _progressValue = 0;
 
   void initState() {
     get_records_byrecordID(widget.recordIndex);
@@ -204,6 +213,7 @@ class _recordResultPageState extends State<recordResultPage> {
             ),
           ),
         ));
+
   }
 
   CoachingButtonDialog(context) {
@@ -220,6 +230,7 @@ class _recordResultPageState extends State<recordResultPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Text("코칭 영상 선택"),
+
               ],
             ),
             //
@@ -229,9 +240,30 @@ class _recordResultPageState extends State<recordResultPage> {
               children: <Widget>[
                 new TextButton(
                   child: new Text("앨범에서 영상 선택"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                    onPressed: () async {
+                      var source = ImageSource.gallery;
+                      XFile? image = await _picker.pickVideo(source: source);
+                      if (image != null) {
+                        //print(image.path);
+                        setState(() {
+                          try {
+                            _imagePath = image.path;
+                          } catch (e) {
+                            print("Failed to get video: $e");
+                          }
+                        });
+                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CoachingEnd(
+                                id: widget.id,
+                                name: widget.name,
+                                profileURL: widget.profileURL,
+                                filePath: '/assets/videos/Test2.mp4')
+                        ),
+                      );
+                    },
                 ),
                 new TextButton(
                   child: new Text("영상 녹화 시작"),
@@ -275,18 +307,15 @@ class _recordResultPageState extends State<recordResultPage> {
   Widget video() {
     //print(Filepath);
     return Container(
-      width: 320,
-      height: 715,
+      // width: 320,
+      // height: 715,
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
       child: FutureBuilder(
           future: get_video_path(widget.recordIndex),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData == false) {
-              return Text(
-                "0%",
-                style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
-              );
+              return Center(child: new CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text(snapshot.error.toString()));
             }
@@ -331,7 +360,7 @@ class _recordResultPageState extends State<recordResultPage> {
                     child: Text(
                       ' ${companyName}',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
                     ),
                   ),
                 ],
@@ -575,7 +604,16 @@ class _recordResultPageState extends State<recordResultPage> {
               ],
             ),
           ),
-          RadarChartExample(),
+          FutureBuilder(
+              future: get_feedback_byrecordID(widget.recordIndex),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData == false) {
+                  return Center(child: new CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                }
+                return RadarChartExample(joy_score: joy_score.toDouble(), surprised_score: surprised_score.toDouble(), high_score: high_score,intensity_score: intensity_score,);
+              }),
         ],
       ),
     );
@@ -612,53 +650,53 @@ class _recordResultPageState extends State<recordResultPage> {
 
   Widget feedback() {
     return FutureBuilder(
-          future: get_feedback_byrecordID(widget.recordIndex),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData == false) {
-              return Text(
-                "피드백 내용이 없습니다.",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              );
-            } else if (snapshot.hasError) {
-              return Center(child: Text(snapshot.error.toString()));
-            } else {
-              return Container(
-                  width: 200,
-                  height: 150,
-                  margin: EdgeInsets.all(10),
-                  padding: EdgeInsets.all(5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
-                        child: Row(
-                          children: [
-                            Image(
-                                image: AssetImage('assets/images/support.png'),
-                                width: 24),
-                            Container(
-                              child: Text(
-                                " 피드백",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                            ),
-                          ],
+      future: get_feedback_byrecordID(widget.recordIndex),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData == false) {
+          return Text(
+            "피드백 내용이 없습니다.",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          );
+        } else if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+        } else {
+          return Container(
+              width: 200,
+              height: 150,
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+                    child: Row(
+                      children: [
+                        Image(
+                            image: AssetImage('assets/images/support.png'),
+                            width: 24),
+                        Container(
+                          child: Text(
+                            " 피드백",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
-                        child: Text(
-                          "${snapshot.data}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                      )
-                    ],
-                  ));
-            }
-          },
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+                    child: Text(
+                      "${snapshot.data[0]}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                  )
+                ],
+              ));
+        }
+      },
     );
   }
 
@@ -683,9 +721,10 @@ class _recordResultPageState extends State<recordResultPage> {
 
     setState(() {
       companyName = json.decode(responseBody)["label"];
-      total_score = (json.decode(responseBody)['total_score']) / 2;
+      total_score = (json.decode(responseBody)['total_score']);
       face_score = json.decode(responseBody)['face_score'];
       voice_score = json.decode(responseBody)['voice_score'];
+      // voice_score = 34.5;
     });
   }
 
@@ -715,7 +754,7 @@ class _recordResultPageState extends State<recordResultPage> {
     return filepath;
   }
 
-  Future<String> get_feedback_byrecordID(int record_index) async {
+  Future<List<String>> get_feedback_byrecordID(int record_index) async {
     //print(id);
     String url = '${Server_URL}/records/${record_index}';
 
@@ -726,21 +765,49 @@ class _recordResultPageState extends State<recordResultPage> {
 
     print(json.decode(responseBody));
 
-    joy_score = json.decode(responseBody)['voice_score'];
-    String feedback = "";
+    joy_score = json.decode(responseBody)['joy_score'];
+    surprised_score = json.decode(responseBody)['surprised_score'];
+    high_score = json.decode(responseBody)['high_score'];
+    intensity_score = json.decode(responseBody)['intensity_score'];
+    List<String> feedback = [];
 
     if (joy_score >= 60 && joy_score < 80) {
-      feedback = "좀 더 밝은 표정을 지어볼까요?";
+      feedback.add("좀 더 밝은 표정을 지어볼까요?");
     } else if (joy_score >= 80 && joy_score < 90) {
-      feedback = "좀 더 자신감을 가지세요!";
+      feedback.add("좀 더 자신감을 가지세요!");
     } else if (joy_score >= 90 && joy_score < 100) {
-      feedback = "지금 이대로가 좋습니다.";
+      feedback.add("지금 이대로가 좋습니다.");
     } else if (joy_score >= 100 && joy_score < 110) {
-      feedback = "조금만 차분하게 하면 좋을 것 같아요!";
+      feedback.add("조금만 차분하게 하면 좋을 것 같아요!");
     } else {
-      feedback = "너무 밝은 표정은 오히려 역효과에요!";
+      feedback.add("너무 밝은 표정은 오히려 역효과에요!");
+    }
+
+    if (surprised_score >= 60 && surprised_score < 80) {
+      feedback.add("좀 더 밝은 표정을 지어볼까요?");
+    } else if (joy_score >= 80 && surprised_score < 90) {
+      feedback.add("좀 더 자신감을 가지세요!");
+    } else if (surprised_score >= 90 && surprised_score < 100) {
+      feedback.add("지금 이대로가 좋습니다.");
+    } else if (surprised_score >= 100 && surprised_score < 110) {
+      feedback.add("조금만 차분하게 하면 좋을 것 같아요!");
+    } else {
+      feedback.add("너무 밝은 표정은 오히려 역효과에요!");
+    }
+
+    if (joy_score >= 60 && joy_score < 80) {
+      feedback.add("좀 더 밝은 표정을 지어볼까요?");
+    } else if (joy_score >= 80 && joy_score < 90) {
+      feedback.add("좀 더 자신감을 가지세요!");
+    } else if (joy_score >= 90 && joy_score < 100) {
+      feedback.add("지금 이대로가 좋습니다.");
+    } else if (joy_score >= 100 && joy_score < 110) {
+      feedback.add("조금만 차분하게 하면 좋을 것 같아요!");
+    } else {
+      feedback.add("너무 밝은 표정은 오히려 역효과에요!");
     }
 
     return feedback;
   }
+
 }

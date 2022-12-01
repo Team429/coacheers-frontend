@@ -1,6 +1,7 @@
 import 'package:coacheers/component/web_kakaoLogin.dart';
 import 'package:coacheers/login/loginPage.dart';
 import 'package:coacheers/onwillpop.dart';
+import 'package:coacheers/compress.dart';
 import 'package:coacheers/record/result.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';

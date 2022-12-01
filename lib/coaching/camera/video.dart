@@ -30,6 +30,7 @@ class _VideoPageState extends State<VideoPage> {
 
   loadVideoPlayer() {
     controller = VideoPlayerController.asset('${widget.filePath}');
+    //controller = VideoPlayerController.file(File(widget.filePath));
     controller.addListener(() {
       setState(() {});
     });
@@ -40,6 +41,7 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   Widget build(BuildContext context) {
+    //print(widget.filePath);
     return Container(
       child: Column(children: [
         AspectRatio(

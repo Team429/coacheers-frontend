@@ -2,10 +2,14 @@ import 'dart:io';
 
 import 'package:coacheers/coaching/camera/camerademo.dart';
 import 'package:coacheers/coaching/camera/coachingPage.dart';
+import 'package:coacheers/coaching/coachingEndPage.dart';
 import 'package:coacheers/home/homePage.dart';
 import 'package:coacheers/profile/profilePage.dart';
 import 'package:coacheers/record/recordPage.dart';
-import 'package:file_picker/file_picker.dart';
+
+// import 'package:file_picker/file_picker.dart';
+import 'package:video_uploader/video_uploader.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
 class MainFrame extends StatefulWidget {
@@ -33,6 +37,10 @@ class _MainFrameWidget extends State<MainFrame> {
   bool shouldPop = false;
   int _selectedIndex = 2;
   double memberCode = 2489925368;
+  var _imagePath;
+  final _tokenTextController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+  double _progressValue = 0;
 
   List<Widget> _widgetOptions() => [
         RecordPage(
@@ -187,6 +195,11 @@ class _MainFrameWidget extends State<MainFrame> {
   //   }
   // }
 
+  void dispose() {
+    _tokenTextController.dispose();
+    super.dispose();
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -216,12 +229,31 @@ class _MainFrameWidget extends State<MainFrame> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new TextButton(
-                  child: new Text("앨범에서 영상 선택"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _openmp4File();
-                  },
-                ),
+                    child: new Text("앨범에서 영상 선택"),
+                  onPressed: () async {
+                    var source = ImageSource.gallery;
+                    XFile? image = await _picker.pickVideo(source: source);
+                    if (image != null) {
+                      print(image.path);
+                      setState(() {
+                        try {
+                          _imagePath = image.path;
+                        } catch (e) {
+                          print("Failed to get video: $e");
+                        }
+                      });
+                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CoachingEnd(
+                              id: widget.id,
+                              name: widget.name,
+                              profileURL: widget.profileURL,
+                              filePath: '/assets/videos/Test2.mp4')
+                      ),
+                    );
+                  },),
                 new TextButton(
                   child: new Text("영상 녹화 시작"),
                   onPressed: () {
@@ -251,31 +283,18 @@ class _MainFrameWidget extends State<MainFrame> {
         });
   }
 
-  void _openmp4File() async {
-
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['mp4']
-    );
-    if(result != null) {
-      File file = File(result.files.single.path.toString());
-      print(result.files.single.path.toString());
+  Future<void> get_video() async {
+    var source = ImageSource.gallery;
+    XFile? image = await _picker.pickVideo(source: source);
+    if (image != null) {
+      print(image.path);
+      setState(() {
+        try {
+          _imagePath = image.path;
+        } catch (e) {
+          print("Failed to get video: $e");
+        }
+      });
     }
   }
-
-// void get() async {
-//   String url = "${Server_URL}/users";
-//   var response = await http.get(Uri.parse(url));
-//   var statusCode = response.statusCode;
-//   var responseHeaders = response.headers;
-//   var responseBody = utf8.decode(response.bodyBytes);
-//
-//   Map<String, dynamic> user = jsonDecode(responseBody);
-//
-//   print(user);
-//
-//   print("statusCode: ${statusCode}");
-//   print("responseHeader: ${responseHeaders}");
-//   print("responseBody: ${responseBody}");
-// }
 }
